@@ -1,0 +1,52 @@
+.slider_image_box {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+}
+.slider_overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #4262FF;
+  background-color: rgb(96, 99, 173, 0.6);
+}
+.slider_image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-indicators [data-bs-target]{
+  height: 15px !important;
+  width: 15px !important;
+  border-radius: 50% !important;
+}
+.carousel-indicators .active{
+  width: 35px !important;
+}
+.carousel-control-next-icon, .carousel-control-prev-icon{
+  height: 4rem !important;
+    width: 4rem !important;
+}
+/* .slider_container .carousel-inner {
+  border-bottom-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+} */
+
+.carousel-caption {
+  top: 40% !important;
+  bottom: 0;
+}
+.carousel-indicators{
+  justify-content: end !important;
+}
+
+/* ////SPINNER  */
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
