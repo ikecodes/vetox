@@ -1,18 +1,11 @@
 import React from "react";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaLinkedinIn,
-  FaTwitter,
-  FaTwitterSquare,
-} from "react-icons/fa";
-import { Form } from "react-bootstrap";
-import styled from "styled-components";
-import Link from "next/link";
-import colors from "@/constants/colors";
-import Image from "next/image";
-import PrimaryBtn from "@/components/PrimaryBtn";
+import { FaLinkedinIn, FaTwitterSquare } from "react-icons/fa"
+import { Form } from "react-bootstrap"
+import styled from "styled-components"
+import Link from "next/link"
+import colors from "@/constants/colors"
+import Image from "next/image"
+import PrimaryBtn from "@/components/PrimaryBtn"
 const Footer = () => {
   return (
     <Container>
@@ -25,8 +18,8 @@ const Footer = () => {
                   <Image
                     src='/logo2.svg'
                     alt='Vetox medical logo'
-                    height='100'
-                    width='100'
+                    height='150'
+                    width='150'
                   />
                   <LogoWrite className='ms-1'>
                     <h5 className='fw-bold'>Vetox Global</h5>
@@ -108,8 +101,8 @@ const Footer = () => {
                 aria-describedby='Input your email'
               />
             </div>
-            <div className='text-center mt-3'>
-              <PrimaryBtn title='subscribe' primary />
+            <div className='text-end mt-1'>
+              <PrimaryBtn title='subscribe' primary semirounded />
             </div>
           </div>
         </div>
@@ -120,8 +113,8 @@ const Footer = () => {
         </p>
       </div>
     </Container>
-  );
-};
+  )
+}
 
 const Container = styled.footer`
   margin-top: 4rem;

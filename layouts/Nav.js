@@ -1,7 +1,7 @@
 import React from "react";
 import NavbarLg from "./NavLg";
 import NavSm from "./NavSm";
-const Header = ({ headerText }) => {
+const Nav = () => {
   return (
     <div>
       <NavSm />
@@ -10,4 +10,4 @@ const Header = ({ headerText }) => {
   );
 };
 
-export default Header;
+export default Nav;

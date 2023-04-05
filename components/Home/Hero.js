@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Carousel } from "react-bootstrap";
+import Image from "next/image";
 const Hero = () => {
   const articles = [
     {
@@ -33,10 +34,11 @@ const Hero = () => {
             <Carousel.Item interval={2000} key={article?.id}>
               <div className='slider_image_box'>
                 <div className='slider_overlay'></div>
-                <img
+                <Image
                   className='slider_image'
                   src={article?.imageUrl}
                   alt='Second slide'
+                  fill
                 />
               </div>
               <Caption>
@@ -55,8 +57,11 @@ const Hero = () => {
 const Caption = styled.div`
   & h1 {
     font-size: 3rem;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: capitalize;
+    @media (max-width: 576px) {
+      font-size: 1.5rem;
+    }
   }
 `;
 

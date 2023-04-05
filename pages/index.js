@@ -1,10 +1,18 @@
-import Hero from "@/components/Hero";
-import Head from "next/head";
-import styled from "styled-components";
+import BrandsSlider from "@/components/Home/BrandsSlider"
+import Customers from "@/components/Home/Customers"
+import EquipmentBanner from "@/components/Home/EquipmentBanner"
+import Featured from "@/components/Home/Featured"
+import Hero from "@/components/Home/Hero"
+import HomeBlog from "@/components/Home/HomeBlog"
+import HomeProductAnimation from "@/components/Home/HomeProductAnimation"
+import ProductSlider from "@/components/Home/ProductSlider"
+import Services from "@/components/Home/Services"
+import Solutions from "@/components/Home/Solutions"
+import Head from "next/head"
 
 export default function Home() {
   return (
-    <Container>
+    <div>
       <Head>
         <title>Vetox Global Medical Services</title>
         <meta
@@ -14,13 +22,15 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Hero />
-      {/* <h1 className='text-primary text-center'>
-        Welcome to Vetox Global Medical
-      </h1> */}
-    </Container>
-  );
+      <Customers />
+      <ProductSlider />
+      <Services />
+      <Solutions />
+      <EquipmentBanner />
+      <Featured />
+      <HomeProductAnimation />
+      <BrandsSlider />
+      <HomeBlog />
+    </div>
+  )
 }
-
-const Container = styled.div`
-  height: 100vh;
-`;

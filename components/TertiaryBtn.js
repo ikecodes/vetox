@@ -1,9 +1,9 @@
-import colors from "@/constants/colors";
-import React from "react";
-import styled from "styled-components";
-const PrimaryBtn = ({
+import colors from "@/constants/colors"
+import React from "react"
+import styled from "styled-components"
+
+const TertiaryBtn = ({
   title,
-  primary,
   handleClick,
   norounded,
   semirounded,
@@ -20,7 +20,6 @@ const PrimaryBtn = ({
   )
   return (
     <B
-      primary={primary}
       norounded={norounded}
       semirounded={semirounded}
       disabled={disabled}
@@ -33,16 +32,17 @@ const PrimaryBtn = ({
 }
 
 const B = styled.button`
-  background-color: ${(props) =>
-    props.primary ? colors.primary : colors.white};
+  background-color: ${colors.secondary};
+  color: ${colors.primary};
   text-transform: capitalize;
-  color: ${(props) => (props.primary ? colors.white : colors.primary)};
-  padding: 5px 20px;
+  padding: 7px 35px;
   border-radius: ${({ norounded, semirounded }) =>
     norounded ? "0" : semirounded ? "5px" : "20px"};
   transition: all 0.2s linear;
   &:hover {
-    transform: scale(1.05);
+    background-color: ${colors.primary};
+    color: ${colors.white};
+    transform: scale(1.1);
   }
 `
-export default PrimaryBtn;
+export default TertiaryBtn
