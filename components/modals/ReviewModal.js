@@ -67,7 +67,9 @@ const ReviewModal = (props) => {
           ))}
         </div>
 
-        <Header.h6>Add a review</Header.h6>
+        <div className='text-end'>
+          <Header.h4>Add a review</Header.h4>
+        </div>
         <div className='row'>
           <div className='col-lg-6'>
             <Form.Group className='mb-3 col-lg-6"'>

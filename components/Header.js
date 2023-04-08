@@ -9,12 +9,20 @@ const Header = ({ children, color }) => {
 const h1 = ({ children, color }) => <Header1 color={color}>{children}</Header1>
 Header.h1 = h1
 
+const h3 = ({ children, color, light, normal }) => (
+  <Header3 light={light} normal={normal} color={color}>
+    {children}
+  </Header3>
+)
+Header.h3 = h3
+
 const h4 = ({ children, color, light, normal }) => (
   <Header4 light={light} normal={normal} color={color}>
     {children}
   </Header4>
 )
 Header.h4 = h4
+
 const h5 = ({ children, color, light, normal }) => (
   <Header5 color={color} light={light} normal={normal}>
     {children}
@@ -34,6 +42,13 @@ const Header1 = styled.h1`
   font-weight: 700;
   margin: 0;
 `
+const Header3 = styled.h3`
+  color: ${({ color }) => (color ? color : colors.grey3)};
+  font-weight: ${({ light, normal }) =>
+    light ? "lighter" : normal ? "normal" : "bold"};
+  margin: 0;
+`
+
 const Header4 = styled.h4`
   color: ${({ color }) => (color ? color : colors.grey3)};
   font-weight: ${({ light, normal }) =>
