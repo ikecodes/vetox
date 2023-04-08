@@ -27,6 +27,7 @@ const HomeBlog = () => {
       <div className='container'>
         <div className='text-center'>
           <Header.h4 color={colors.black}>From our blog</Header.h4>
+          <div className='mb-3' />
         </div>
         <div className='row'>
           {articles.map((article, i) => (

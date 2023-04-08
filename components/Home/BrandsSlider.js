@@ -76,6 +76,7 @@ const BrandsSlider = () => {
     <Container className='p-5 my-5'>
       <div className='text-center mb-3'>
         <Header.h4 color={colors.black}>Shop by Brands</Header.h4>
+        <div className='mb-3' />
       </div>
       <Slider {...settings}>
         {brands.map((brand, i) => {

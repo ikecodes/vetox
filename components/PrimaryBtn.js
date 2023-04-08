@@ -26,13 +26,16 @@ const PrimaryBtn = ({
       disabled={disabled}
       onClick={handleClick}
     >
-      {loading ? Loader : title}
+      <h6 className='m-0'> {loading ? Loader : title}</h6>
+
       {!loading && icon}
     </B>
   )
 }
 
 const B = styled.button`
+  display: flex;
+  align-items: center;
   background-color: ${(props) =>
     props.primary ? colors.primary : colors.white};
   text-transform: capitalize;

@@ -59,6 +59,7 @@ const Solutions = () => {
     <Container className='p-5'>
       <div className='container'>
         <Header>More intensive care solutions</Header>
+        <div className='mb-3' />
         <div className='row'>
           {products.map((product, i) => (
             <div key={i} className='col-lg-3 col-md-6 mb-3'>

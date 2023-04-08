@@ -28,6 +28,7 @@ const Services = () => {
       <div className='row'>
         <div className='col-lg-6 mb-3'>
           <Header.h1>Our Services</Header.h1>
+          <div className='mb-3' />
 
           {/* <h1>Our Services</h1> */}
           <p>
@@ -58,7 +59,7 @@ const Services = () => {
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 const ServiceWrapper = styled.div`
