@@ -15,7 +15,7 @@ const Cart = () => {
     <div className='container mt-5'>
       <div>
         {cart.length > 0 && (
-          <div className='text-center'>
+          <div className='text-center my-5'>
             <Header.h4 color={colors.black}>Your Cart</Header.h4>
           </div>
         )}

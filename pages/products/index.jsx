@@ -70,7 +70,7 @@ const ProductCard = ({ title, image, price }) => (
               {title}
             </Header.h6>
           </TextBox>
-          <Link href={`/`}>
+          <Link href={`/products/1`}>
             <Header.h6 color={colors.primary} normal>
               {currencyFormatter(price)}
             </Header.h6>

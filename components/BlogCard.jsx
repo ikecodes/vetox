@@ -28,7 +28,7 @@ const BlogCard = ({ title, image }) => {
               the readable content of a page from when looking at it layout. The
               point of using Lorem Ipsum
             </Text>
-            <Link href={`/`}>
+            <Link href={`/blog/1`}>
               <SecondaryBtn title={"Read more"} primary semirounded underline />
             </Link>
           </div>
