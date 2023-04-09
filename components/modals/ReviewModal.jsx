@@ -10,7 +10,7 @@ const reviews = [
   {
     title: "Great product",
     review: 3,
-    message: "  Lorem ipsum dolor sit, amet consectetur adipisicing elit.",
+    message: "Lorem ipsum dolor sit, amet consectetur adipisicing elit.",
     created_at: "12-12-2020",
     name: "Ike",
   },
@@ -67,7 +67,7 @@ const ReviewModal = (props) => {
           ))}
         </div>
 
-        <div className='text-end'>
+        <div className='mb-2'>
           <Header.h4>Add a review</Header.h4>
         </div>
         <div className='row'>

@@ -30,7 +30,6 @@ const Services = () => {
           <Header.h1>Our Services</Header.h1>
           <div className='mb-3' />
 
-          {/* <h1>Our Services</h1> */}
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste
             officia pariatur impedit itaque nulla placeat laborum, omnis in,

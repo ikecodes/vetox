@@ -43,28 +43,32 @@ const NavbarLg = () => {
           <div className='col-lg-4'>
             <NavMenu>
               <ul className='d-flex justify-content-end gap-5 align-items-center'>
-                <SecondaryBtn
-                  primary
-                  title={"Login"}
-                  icon={
-                    <FiShoppingCart
-                      color={colors.headerColor}
-                      size={20}
-                      className='me-1'
-                    />
-                  }
-                />
-                <PrimaryBtn
-                  primary
-                  title={"Signup free"}
-                  icon={
-                    <MdOutlineArrowRightAlt
-                      color={colors.white}
-                      size={20}
-                      className='ms-1'
-                    />
-                  }
-                />
+                <Link href={"/login"}>
+                  <SecondaryBtn
+                    primary
+                    title={"sign-in"}
+                    icon={
+                      <FiShoppingCart
+                        color={colors.headerColor}
+                        size={20}
+                        className='me-1'
+                      />
+                    }
+                  />
+                </Link>
+                <Link href={"/sign-up"}>
+                  <PrimaryBtn
+                    primary
+                    title={"Signup free"}
+                    icon={
+                      <MdOutlineArrowRightAlt
+                        color={colors.white}
+                        size={20}
+                        className='ms-1'
+                      />
+                    }
+                  />
+                </Link>
               </ul>
             </NavMenu>
           </div>
@@ -72,7 +76,7 @@ const NavbarLg = () => {
       </div>
       <div className='border-bottom mx-5'></div>
     </NavContainer>
-  );
+  )
 };
 
 const NavContainer = styled.nav`

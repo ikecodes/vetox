@@ -19,17 +19,12 @@ const menus = [
   {
     id: "2",
     name: "about us",
-    path: "/about",
+    path: "/about-us",
     sub: [
       {
         id: "1",
         name: "company overview",
-        path: "/about",
-      },
-      {
-        id: "2",
-        name: "vision",
-        path: "/vision",
+        path: "/about-us",
       },
       {
         id: "3",
@@ -45,7 +40,7 @@ const menus = [
     path: "/blog",
     sub: [],
   },
-];
+]
 
 export const adminMenu = [
   {
