@@ -43,10 +43,10 @@ const NavbarLg = () => {
           <div className='col-lg-4'>
             <NavMenu>
               <ul className='d-flex justify-content-end gap-5 align-items-center'>
-                <Link href={"/login"}>
+                <Link href={"/sign-in"}>
                   <SecondaryBtn
                     primary
-                    title={"sign-in"}
+                    title={"Login"}
                     icon={
                       <FiShoppingCart
                         color={colors.headerColor}
