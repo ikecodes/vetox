@@ -1,0 +1,220 @@
+import React, { useState } from "react"
+import { Editor } from "@tinymce/tinymce-react"
+import { Form, Modal } from "react-bootstrap"
+import PrimaryBtn from "../PrimaryBtn"
+import Image from "next/image"
+import { toast } from "react-toastify"
+import { useCreateProduct } from "@/hooks/products.hook"
+import styled from "styled-components"
+import colors from "@/constants/colors"
+import { FiUploadCloud } from "react-icons/fi"
+
+const ProductModal = (props) => {
+  const { mutate, isLoading } = useCreateProduct()
+  const [title, setTitle] = useState("")
+  const [author, setAuthor] = useState("")
+  const [preview, setPreview] = useState("")
+  const [description, setDescription] = useState("")
+  const [image, setImage] = useState("")
+  const [previewSource, setPreviewSource] = useState(null)
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    setImage(file)
+    previewFile(file)
+  }
+
+  const previewFile = (file) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onloadend = () => {
+      setPreviewSource(reader.result)
+    }
+  }
+
+  // useEffect(() => {
+  //   if (props?.data) {
+  //     setCode(props?.data.code)
+  //     setDiscount(props?.data.discount)
+  //     setMaxUsage(props?.data.max_usage)
+  //     setExpiry(props?.data.expiry)
+  //   } else {
+  //     setCode("")
+  //     setDiscount("")
+  //     setMaxUsage("")
+  //     setExpiry("")
+  //   }
+  // }, [props?.data])
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // if (
+    //   name === "" ||
+    //   category === "" ||
+    //   description === "" ||
+    //   price === "" ||
+    //   previewSource === ""
+    // )
+    //   return toast.error("Please input all fields")
+
+    const formdata = new FormData()
+    formdata.append("title", title)
+    formdata.append("author", author)
+    formdata.append("preview", preview)
+    formdata.append("description", description)
+    formdata.append("image", image)
+    // for (let i = 0; i < images.length; i++) {
+    //   formdata.append("images", images[i])
+    // }
+    // const formdata = {
+    //   name,
+    //   category,
+    //   photo,
+    //   description,
+    //   price,
+    // }
+
+    // return console.log(formdata)
+    mutate(formdata, {
+      onSuccess: () => {
+        toast.success("Product uploaded successfully")
+      },
+      onError: (e) => {
+        toast.error(e?.response?.data?.message ?? "Something went wrong")
+      },
+    })
+    // if (props?.data) {
+    //   const id = props.data?.id
+    //   dispatch(updateCoupon({ formdata, id }))
+    // } else {
+    //   dispatch(createCoupon(formdata))
+    // }
+
+    // props.onHide()
+  }
+  return (
+    <Modal
+      {...props}
+      size='lg'
+      aria-labelledby='contained-modal-title-vcenter'
+      centered
+    >
+      <Modal.Header closeButton></Modal.Header>
+      <Modal.Body>
+        <form className='text-secondary'>
+          {props?.data ? (
+            <h4 className='text-capitalize mb-4 text-secondary'>
+              update article
+            </h4>
+          ) : (
+            <h4 className='text-capitalize mb-4 text-secondary'>new article</h4>
+          )}
+
+          <Form.Group className='mb-3'>
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              type='text'
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder='Name'
+              className='bg-light'
+            />
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label>Author</Form.Label>
+            <Form.Control
+              type='text'
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              placeholder='Author'
+              className='bg-light'
+            />
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label>Preview</Form.Label>
+            <Form.Control
+              as='textarea'
+              rows={5}
+              value={preview}
+              onChange={(e) => setPreview(e.target.value)}
+              className='bg-light'
+              placeholder='Preview'
+            />
+          </Form.Group>
+
+          <Form.Group className='mb-3'>
+            <Form.Label>Description</Form.Label>
+            <Editor
+              apiKey='635vw7fla4lvr9tzuknnjxfngq61h86fjr4dntt7e3ai956i'
+              textareaName='content'
+              value={description}
+              init={{
+                height: 300,
+                toolbar:
+                  "undo redo | formatselect | " +
+                  "bold italic backcolor | alignleft aligncenter " +
+                  "alignright alignjustify | bullist numlist outdent indent | " +
+                  "removeformat | help",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
+              onEditorChange={(text) => setDescription(text)}
+            />
+          </Form.Group>
+
+          <Form.Group className='mb-3'>
+            <Form.Label>Image</Form.Label>
+            <Upload className='bg-light border'>
+              <div>
+                <FiUploadCloud size={30} color={colors.grey5} />
+              </div>
+              <input type='file' onChange={(e) => handleFileChange(e)} />
+            </Upload>
+          </Form.Group>
+
+          {previewSource && (
+            <Image
+              src={previewSource}
+              alt='product img'
+              height={200}
+              width={200}
+            />
+          )}
+
+          <div className='text-center mt-5 mb-2'>
+            <PrimaryBtn
+              title='submit'
+              className='btn-trade'
+              primary
+              loading={isLoading}
+              handleClick={handleSubmit}
+            />
+          </div>
+        </form>
+      </Modal.Body>
+    </Modal>
+  )
+}
+
+const Upload = styled.div`
+  position: relative;
+  border-radius: 20px;
+  height: 100px;
+  width: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.secondary};
+  & input {
+    opacity: 0;
+  }
+  & div {
+    border-radius: 20px;
+    border: 1px dashed ${colors.grey5};
+    padding: 1.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`
+export default ProductModal

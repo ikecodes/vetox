@@ -52,11 +52,12 @@ q:after {
   content: none;
 }
 
+
+/* BUTTON SPINNER //////////////*/
 .spinner {
   width: 70px;
   text-align: center;
 }
-
 .spinner > div {
   width: 18px;
   height: 18px;
@@ -66,7 +67,6 @@ q:after {
   -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
   animation: sk-bouncedelay 1.4s infinite ease-in-out both;
 }
-
 @-webkit-keyframes sk-bouncedelay {
   0%,
   80%,
@@ -77,7 +77,6 @@ q:after {
     -webkit-transform: scale(1);
   }
 }
-
 @keyframes sk-bouncedelay {
   0%,
   80%,
@@ -90,7 +89,7 @@ q:after {
     transform: scale(1);
   }
 }
-
+/* //////////////////////// */
 
 .modal-header{
   border-bottom: none !important;

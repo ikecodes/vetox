@@ -10,19 +10,21 @@ import {
   REGISTER,
 } from "redux-persist";
 import userReducer from "./userSlice";
-import storage from "redux-persist/lib/storage";
-import hardSet from "redux-persist/lib/stateReconciler/hardSet";
+import navReducer from "./navSlice"
+import storage from "redux-persist/lib/storage"
+import hardSet from "redux-persist/lib/stateReconciler/hardSet"
 
 const rootPersistConfig = {
   key: "root",
   storage: storage,
   stateReconciler: hardSet,
   // blacklist: ["user"],
-};
+}
 
 const rootReducer = combineReducers({
   user: userReducer,
-});
+  nav: navReducer,
+})
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 

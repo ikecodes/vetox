@@ -1,3 +1,7 @@
+import { BiMessageRoundedDetail } from "react-icons/bi"
+import { FaBlogger, FaStore } from "react-icons/fa"
+import { RiDashboardFill } from "react-icons/ri"
+
 const menus = [
   {
     id: "1",
@@ -44,50 +48,33 @@ const menus = [
 
 export const adminMenu = [
   {
-    id: "1",
-    name: "grants",
-    path: "/admin-grants",
+    id: 1,
+    name: "dashboard",
+    path: "/admin/dashboard",
+    icon: <RiDashboardFill size={20} />,
+    sub: [],
   },
   {
-    id: "2",
-    name: "portfolio",
-    path: "/admin-portfolio",
+    id: 2,
+    name: "products",
+    path: "/admin/products",
+    icon: <FaStore size={20} />,
+    sub: [],
   },
   {
-    id: "3",
+    id: 3,
     name: "blog",
-    path: "/admin-blog",
+    path: "/admin/blog",
+    icon: <FaBlogger size={20} />,
+    sub: [],
   },
   {
-    id: "4",
-    name: "press",
-    path: "/admin-press",
-  },
-  {
-    id: "5",
+    id: 4,
     name: "messages",
-    path: "/admin-messages",
+    path: "/admin/messages",
+    icon: <BiMessageRoundedDetail size={20} />,
+    sub: [],
   },
-  {
-    id: "6",
-    name: "applications",
-    path: "/admin-applications",
-  },
-  {
-    id: "7",
-    name: "gallery",
-    path: "/admin-gallery",
-  },
-  {
-    id: "8",
-    name: "staff/trustees",
-    path: "/admin-staff-trustees",
-  },
-  {
-    id: "9",
-    name: "awardees",
-    path: "/admin-awardees",
-  },
-];
+]
 
-export default menus;
+export default menus

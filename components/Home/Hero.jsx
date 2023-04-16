@@ -30,8 +30,8 @@ const Hero = () => {
     <div className='position-relative slider_container'>
       <Carousel>
         {articles.length > 0 &&
-          articles.map((article) => (
-            <Carousel.Item interval={2000} key={article?.id}>
+          articles.map((article, i) => (
+            <Carousel.Item interval={2000} key={i}>
               <div className='slider_image_box'>
                 <div className='slider_overlay'></div>
                 <Image
@@ -51,7 +51,7 @@ const Hero = () => {
           ))}
       </Carousel>
     </div>
-  );
+  )
 };
 
 const Caption = styled.div`

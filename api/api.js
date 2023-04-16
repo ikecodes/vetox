@@ -1,11 +1,22 @@
 import axios from "axios";
 
-let url = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:5000/api/v1";
+let url = "/api"
 
 const API = axios.create({
   baseURL: url,
-});
+  headers: {
+    "Content-type": "multipart/form-data",
+    Accept: "Application/json",
+  },
+})
 
+export const API2 = axios.create({
+  baseURL: url,
+  headers: {
+    "Content-type": "application/json",
+    Accept: "Application/json",
+  },
+})
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("token")) {
     req.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
