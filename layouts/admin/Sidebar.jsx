@@ -8,10 +8,21 @@ import { useDispatch } from "react-redux"
 import { adminMenu } from "@/constants/menus"
 import Link from "next/link"
 import colors from "@/constants/colors"
+import { useRouter } from "next/router"
 
 const Sidebar = () => {
   const dispatch = useDispatch()
+  const { asPath } = useRouter()
   const { active, showSub } = useSelector((state) => state.nav)
+
+  useEffect(() => {
+    setActive(asPath)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [asPath])
+
+  function setActive(path) {
+    dispatch(handleMenu(path.split("/")[2]))
+  }
 
   return (
     <Container>
@@ -27,7 +38,7 @@ const Sidebar = () => {
               {item.sub.length > 0 ? (
                 <DropLink
                   className={`${active === item.name ? "active" : ""}`}
-                  onClick={() => dispatch(handleMenu(item.name))}
+                  // onClick={() => dispatch(handleMenu(item.name))}
                   role='button'
                 >
                   <div className='d-flex justify-content-between align-items-center'>
@@ -46,7 +57,7 @@ const Sidebar = () => {
                 <Link
                   href={item.path}
                   className={`${active === item.name ? "active" : ""}`}
-                  onClick={() => dispatch(handleMenu(item.name))}
+                  // onClick={() => dispatch(handleMenu(item.name))}
                 >
                   <div className='d-flex justify-content-start align-items-center'>
                     <span>{item.icon}</span>
