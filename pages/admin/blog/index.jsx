@@ -8,24 +8,22 @@ import ToolkitProvider, {
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit"
 import BootstrapTable from "react-bootstrap-table-next"
 import { Row, Col } from "react-bootstrap"
-import { useDispatch } from "react-redux"
 import DeleteModal from "@/components/modals/DeleteModal"
 import PrimaryBtn from "@/components/PrimaryBtn"
 import SecondaryBtn from "@/components/SecondaryBtn"
 import ArticleModal from "@/components/modals/ArticleModal"
-import { useGetProducts } from "@/hooks/products.hook"
-import API from "@/api/api"
-// import colors from "@/constants/colors"
+import { useGetArticles, useUpdateArticle } from "@/hooks/articles.hook"
+import convertHtmlToPlainText from "@/utils/converHTMLToText"
+import Image from "next/image"
 
 const Index = () => {
-  const { data: allProducts } = useGetProducts()
+  const { data: allArticles } = useGetArticles()
+  const { mutate } = useUpdateArticle()
   const [deleteModalShow, setDeleteModalShow] = useState(false)
   const [showArticleModal, setShowArticleModal] = useState(false)
   const [deletetype, setDeleteType] = useState("")
   const [deleteid, setDeleteId] = useState(null)
   const [editdata, setEditData] = useState(null)
-
-  console.log("//ALL", allProducts)
 
   // useEffect(() => {
   //   async function getProd() {
@@ -35,8 +33,7 @@ const Index = () => {
   //   getProd()
   // }, [])
 
-  const data = []
-  const dispatch = useDispatch()
+  const data = allArticles?.data?.data ?? []
   const { SearchBar } = Search
   const sizePerPage = 10
   const pageOptions = {
@@ -73,16 +70,18 @@ const Index = () => {
       text: "Author",
     },
     {
-      dataField: "preview",
-      text: "Preview",
-    },
-    {
       dataField: "description",
       text: "Description",
+      formatter: (cellContent, data) => (
+        <div>{convertHtmlToPlainText(data.description).slice(0, 100)}...</div>
+      ),
     },
     {
       dataField: "image",
       text: "Image",
+      formatter: (cellContent, data) => (
+        <Image src={data.image} width={70} height={70} alt='Image' />
+      ),
     },
     {
       dataField: "isFeatured",
@@ -90,12 +89,28 @@ const Index = () => {
       sort: true,
       formatter: (cellContent, data) => (
         <div
-          onClick={() => {
-            const newStatus = data.status === true ? 0 : 1
-            const formdata = { coupon_id: data.id, status: newStatus }
+          onClick={async () => {
+            const formdata = {
+              articleId: data._id,
+              isFeatured: !data.isFeatured,
+            }
+            const successMsg = data.isFeatured
+              ? "Article is no longer featured"
+              : "Article is now featured on your website"
+
+            mutate(formdata, {
+              onSuccess: () => {
+                toast.success(successMsg)
+              },
+              onError: (e) => {
+                toast.error(
+                  e?.response?.data?.message ?? "Something went wrong"
+                )
+              },
+            })
           }}
         >
-          {data.status === true ? (
+          {data.isFeatured ? (
             <span className='badge bg-success' role='button'>
               featured
             </span>
@@ -116,8 +131,8 @@ const Index = () => {
             color='#ABA0F3'
             title='remove'
             handleClick={() => {
-              setDeleteId(data.id)
-              setDeleteType("coupon")
+              setDeleteId(data._id)
+              setDeleteType("article")
               setDeleteModalShow(true)
             }}
           />

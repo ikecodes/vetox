@@ -1,3 +1,5 @@
+import { useDeleteArticle } from "@/hooks/articles.hook"
+import { useDeleteMessage } from "@/hooks/messages.hook"
 import { useDeleteProduct } from "@/hooks/products.hook"
 import React from "react"
 import { Modal } from "react-bootstrap"
@@ -7,7 +9,10 @@ import { toast } from "react-toastify"
 
 const DeleteModal = (props) => {
   const { mutate: deleteProduct } = useDeleteProduct()
+  const { mutate: deleteArticle } = useDeleteArticle()
+  const { mutate: deleteMessage } = useDeleteMessage()
 
+  console.log("PROPS", props)
   return (
     <Modal
       {...props}
@@ -40,7 +45,34 @@ const DeleteModal = (props) => {
                     })
                   }
                   if (props.deletetype === "article") {
-                    console.log("Delete Article")
+                    deleteArticle(props.deleteid, {
+                      onSuccess: () => {
+                        toast.success("Delete successful")
+                        props.onHide()
+                      },
+                      onError: (e) => {
+                        toast.error(
+                          e?.response?.data?.message ??
+                            "Something went wrong deleting article"
+                        )
+                        props.onHide()
+                      },
+                    })
+                  }
+                  if (props.deletetype === "message") {
+                    deleteMessage(props.deleteid, {
+                      onSuccess: () => {
+                        toast.success("Delete successful")
+                        props.onHide()
+                      },
+                      onError: (e) => {
+                        toast.error(
+                          e?.response?.data?.message ??
+                            "Something went wrong deleting message"
+                        )
+                        props.onHide()
+                      },
+                    })
                   }
                 }}
               >

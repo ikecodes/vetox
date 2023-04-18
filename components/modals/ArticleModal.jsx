@@ -8,12 +8,12 @@ import { useCreateProduct } from "@/hooks/products.hook"
 import styled from "styled-components"
 import colors from "@/constants/colors"
 import { FiUploadCloud } from "react-icons/fi"
+import { useCreateArticle } from "@/hooks/articles.hook"
 
 const ProductModal = (props) => {
-  const { mutate, isLoading } = useCreateProduct()
+  const { mutate, isLoading } = useCreateArticle()
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
-  const [preview, setPreview] = useState("")
   const [description, setDescription] = useState("")
   const [image, setImage] = useState("")
   const [previewSource, setPreviewSource] = useState(null)
@@ -47,36 +47,19 @@ const ProductModal = (props) => {
   // }, [props?.data])
   const handleSubmit = (e) => {
     e.preventDefault()
-    // if (
-    //   name === "" ||
-    //   category === "" ||
-    //   description === "" ||
-    //   price === "" ||
-    //   previewSource === ""
-    // )
-    //   return toast.error("Please input all fields")
+    if (title === "" || author === "" || description === "" || image === "")
+      return toast.error("Please input all fields")
 
     const formdata = new FormData()
     formdata.append("title", title)
     formdata.append("author", author)
-    formdata.append("preview", preview)
     formdata.append("description", description)
     formdata.append("image", image)
-    // for (let i = 0; i < images.length; i++) {
-    //   formdata.append("images", images[i])
-    // }
-    // const formdata = {
-    //   name,
-    //   category,
-    //   photo,
-    //   description,
-    //   price,
-    // }
 
-    // return console.log(formdata)
     mutate(formdata, {
       onSuccess: () => {
-        toast.success("Product uploaded successfully")
+        toast.success("Article uploaded successfully")
+        props.onHide()
       },
       onError: (e) => {
         toast.error(e?.response?.data?.message ?? "Something went wrong")
@@ -88,8 +71,6 @@ const ProductModal = (props) => {
     // } else {
     //   dispatch(createCoupon(formdata))
     // }
-
-    // props.onHide()
   }
   return (
     <Modal
@@ -129,17 +110,6 @@ const ProductModal = (props) => {
               className='bg-light'
             />
           </Form.Group>
-          <Form.Group className='mb-3'>
-            <Form.Label>Preview</Form.Label>
-            <Form.Control
-              as='textarea'
-              rows={5}
-              value={preview}
-              onChange={(e) => setPreview(e.target.value)}
-              className='bg-light'
-              placeholder='Preview'
-            />
-          </Form.Group>
 
           <Form.Group className='mb-3'>
             <Form.Label>Description</Form.Label>
@@ -148,7 +118,7 @@ const ProductModal = (props) => {
               textareaName='content'
               value={description}
               init={{
-                height: 300,
+                height: 350,
                 toolbar:
                   "undo redo | formatselect | " +
                   "bold italic backcolor | alignleft aligncenter " +
@@ -174,7 +144,7 @@ const ProductModal = (props) => {
           {previewSource && (
             <Image
               src={previewSource}
-              alt='product img'
+              alt='article img'
               height={200}
               width={200}
             />

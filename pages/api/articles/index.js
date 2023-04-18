@@ -1,4 +1,4 @@
-import Product from "@/models/ProductModel"
+import Article from "@/models/ArticleModel"
 import cloudinary from "@/utils/cloudinary"
 import connectMongo from "@/utils/connectMongo"
 import uploader from "@/utils/multer"
@@ -13,17 +13,17 @@ const handler = nc({
     res.status(404).end("Page is not found")
   },
 })
-  .use(uploader.array("images"))
+  .use(uploader.single("image"))
   .use(async (req, res, next) => {
     await connectMongo()
     next()
   })
   .get(async (req, res) => {
     try {
-      const products = await Product.find()
+      const articles = await Article.find()
       res.status(200).json({
         status: "successful",
-        data: products,
+        data: articles,
       })
     } catch (error) {
       res.status(400).json({ success: false })
@@ -31,30 +31,22 @@ const handler = nc({
   })
   .post(async (req, res) => {
     try {
-      const imagesPromises = req.files.map(async (file) => {
-        const { secure_url, public_id } = await cloudinary.uploader.upload(
-          file.path,
-          null,
-          { folder: "Products" }
-        )
-        return {
-          original: secure_url,
-          thumbnail: secure_url,
-          publicId: public_id,
-        }
-      })
-      const images = await Promise.all(imagesPromises)
-      const newProduct = await Product.create({
-        name: req.body.name,
-        category: req.body.category,
-        images: images,
-        price: req.body.price,
+      const { secure_url, public_id } = await cloudinary.uploader.upload(
+        req.file.path,
+        null,
+        { folder: "Articles" }
+      )
+      const newArticle = await Article.create({
+        title: req.body.title,
+        author: req.body.author,
+        image: secure_url,
+        public_id: public_id,
         description: req.body.description,
       })
       res.status(200).json({
         status: "successful",
-        message: "Product successfully create",
-        data: newProduct,
+        message: "Article successfully created",
+        data: newArticle,
       })
     } catch (error) {
       console.log(error)
@@ -63,22 +55,21 @@ const handler = nc({
   })
   .patch(async (req, res) => {
     try {
-      const { productId } = req.body
-      const updatedProduct = await Product.findByIdAndUpdate(
-        productId,
+      const { articleId } = req.body
+      const updatedArticle = await Article.findByIdAndUpdate(
+        articleId,
         req.body,
         { new: true }
       )
       res.status(200).json({
         status: "successful",
-        message: "Product update",
-        data: updatedProduct,
+        message: "Article update",
+        data: updatedArticle,
       })
     } catch (error) {
       console.log(error)
       res.status(400).json({ success: false, error })
     }
-
   })
 
 export default handler

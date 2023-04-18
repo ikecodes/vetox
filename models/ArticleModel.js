@@ -3,19 +3,14 @@ import slugify from "slugify"
 
 const articleSchema = new Schema(
   {
-    slug: String,
     title: {
       type: String,
       required: [true, "An article must have a title"],
-      unique: true,
     },
+    titleSlug: String,
     author: {
       type: String,
       required: [true, "An article must have a author"],
-    },
-    preview: {
-      type: "String",
-      required: [true, "An article must have a preview"],
     },
     image: {
       type: "String",
@@ -39,7 +34,7 @@ const articleSchema = new Schema(
 )
 
 articleSchema.pre("save", function (next) {
-  this.slug = slugify(this.title, { lower: true })
+  this.titleSlug = slugify(this.title, { lower: true })
   next()
 })
 const Article = models.Article || model("Article", articleSchema)

@@ -33,7 +33,7 @@ const menus = [
       {
         id: "3",
         name: "contact us",
-        path: "/contact",
+        path: "/contact-us",
       },
     ],
   },
