@@ -1,7 +1,9 @@
 import { Schema, model, models } from "mongoose"
+import slugify from "slugify"
 
 const articleSchema = new Schema(
   {
+    slug: String,
     title: {
       type: String,
       required: [true, "An article must have a title"],
@@ -36,6 +38,10 @@ const articleSchema = new Schema(
   { timestamps: true }
 )
 
+articleSchema.pre("save", function (next) {
+  this.slug = slugify(this.title, { lower: true })
+  next()
+})
 const Article = models.Article || model("Article", articleSchema)
 
 export default Article

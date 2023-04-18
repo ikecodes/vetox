@@ -8,6 +8,9 @@ import Image from "next/image"
 import { toast } from "react-toastify"
 import { useCreateProduct } from "@/hooks/products.hook"
 import { Editor } from "@tinymce/tinymce-react"
+import { FiUploadCloud } from "react-icons/fi"
+import styled from "styled-components"
+import colors from "@/constants/colors"
 
 const ProductModal = (props) => {
   const dispatch = useDispatch()
@@ -18,11 +21,11 @@ const ProductModal = (props) => {
   const [price, setPrice] = useState("")
   const [photo, setPhoto] = useState(null)
   const [previewSource, setPreviewSource] = useState(null)
-  const [images, setImages] = useState("")
+  const [images, setImages] = useState(null)
 
   const handleFileChange = (e) => {
+    setImages(e.target.files)
     const file = e.target.files[0]
-    setPhoto(file)
     previewFile(file)
   }
 
@@ -49,14 +52,14 @@ const ProductModal = (props) => {
   // }, [props?.data])
   const handleSubmit = (e) => {
     e.preventDefault()
-    // if (
-    //   name === "" ||
-    //   category === "" ||
-    //   description === "" ||
-    //   price === "" ||
-    //   previewSource === ""
-    // )
-    //   return toast.error("Please input all fields")
+    if (
+      name === "" ||
+      category === "" ||
+      description === "" ||
+      price === "" ||
+      !images
+    )
+      return toast.error("Please input all fields")
 
     const formdata = new FormData()
     formdata.append("name", name)
@@ -64,34 +67,27 @@ const ProductModal = (props) => {
     formdata.append("photo", photo)
     formdata.append("description", description)
     formdata.append("price", price)
-    // for (let i = 0; i < images.length; i++) {
-    //   formdata.append("images", images[i])
-    // }
+    for (let i = 0; i < images.length; i++) {
+      formdata.append("images", images[i])
+    }
+
     // const formdata = {
     //   name,
     //   category,
-    //   photo,
+    //   images,
     //   description,
     //   price,
     // }
-
-    // return console.log(formdata)
+    console.log(formdata)
     mutate(formdata, {
       onSuccess: () => {
         toast.success("Product uploaded successfully")
+        props.onHide()
       },
       onError: (e) => {
         toast.error(e?.response?.data?.message ?? "Something went wrong")
       },
     })
-    // if (props?.data) {
-    //   const id = props.data?.id
-    //   dispatch(updateCoupon({ formdata, id }))
-    // } else {
-    //   dispatch(createCoupon(formdata))
-    // }
-
-    // props.onHide()
   }
   return (
     <Modal
@@ -163,19 +159,18 @@ const ProductModal = (props) => {
           </Form.Group>
           <Form.Group className='mb-3'>
             <Form.Label>Photo</Form.Label>
-            <input
-              type='file'
-              name=''
-              id=''
-              onChange={(e) => handleFileChange(e)}
-            />
-            {/* <Form.Control
-              type='file'
-              // value={photo}
-              onChange={(e) => handleFileChange(e)}
-              placeholder='Photo'
-              className='bg-light'
-            /> */}
+            <Upload className='bg-light border'>
+              <div>
+                <FiUploadCloud size={30} color={colors.grey5} />
+              </div>
+              <input
+                type='file'
+                multiple
+                name='images'
+                accept='image/*'
+                onChange={(e) => handleFileChange(e)}
+              />
+            </Upload>
           </Form.Group>
 
           {previewSource && (
@@ -202,4 +197,26 @@ const ProductModal = (props) => {
   )
 }
 
+const Upload = styled.div`
+  position: relative;
+  border-radius: 20px;
+  height: 100px;
+  width: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.secondary};
+  & input {
+    opacity: 0;
+  }
+  & div {
+    border-radius: 20px;
+    border: 1px dashed ${colors.grey5};
+    padding: 1.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`
 export default ProductModal

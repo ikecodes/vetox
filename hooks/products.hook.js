@@ -1,5 +1,5 @@
 import API, { API2 } from "@/api/api"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export function useGetProducts() {
   return useQuery(["getAdminProducts"], () => API.get(`/products`), {
@@ -10,7 +10,23 @@ export function useGetProducts() {
 }
 export const useCreateProduct = () => {
   const queryClient = useQueryClient()
-  return useMutation((data) => API2.post("/products", data), {
+  return useMutation((data) => API.post("/products", data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getAdminProducts"])
+    },
+  })
+}
+export const useDeleteProduct = () => {
+  const queryClient = useQueryClient()
+  return useMutation((id) => API.delete(`/products/${id}`), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getAdminProducts"])
+    },
+  })
+}
+export const useUpdateProduct = () => {
+  const queryClient = useQueryClient()
+  return useMutation((data) => API.patch(`/products`, data), {
     onSuccess: () => {
       queryClient.invalidateQueries(["getAdminProducts"])
     },

@@ -13,16 +13,23 @@ import ProductModal from "@/components/modals/ProductModal"
 import DeleteModal from "@/components/modals/DeleteModal"
 import PrimaryBtn from "@/components/PrimaryBtn"
 import SecondaryBtn from "@/components/SecondaryBtn"
+import { useGetProducts, useUpdateProduct } from "@/hooks/products.hook"
+import convertHtmlToPlainText from "@/utils/converHTMLToText"
+import Image from "next/image"
+import { currencyFormatter } from "@/utils/helpers"
+import { toast } from "react-toastify"
 // import colors from "@/constants/colors"
 
 const Index = () => {
+  const { data: allProducts } = useGetProducts()
+  const { mutate } = useUpdateProduct()
   const [deleteModalShow, setDeleteModalShow] = useState(false)
   const [productModalShow, setProductModalShow] = useState(false)
   const [deletetype, setDeleteType] = useState("")
   const [deleteid, setDeleteId] = useState(null)
   const [editdata, setEditData] = useState(null)
 
-  const data = []
+  const data = allProducts?.data?.data ?? []
   const dispatch = useDispatch()
   const { SearchBar } = Search
   const sizePerPage = 10
@@ -33,14 +40,14 @@ const Index = () => {
   }
   const defaultSorted = [
     {
-      dataField: "id", // if dataField is not match to any column you defined, it will be ignored.
+      dataField: "_id", // if dataField is not match to any column you defined, it will be ignored.
       order: "desc", // desc or asc
     },
   ]
   const dataListColumns = [
     {
-      text: "id",
-      dataField: "id",
+      text: "_id",
+      dataField: "_id",
       hidden: true,
       formatter: (data) => <>{data._id}</>,
     },
@@ -58,18 +65,30 @@ const Index = () => {
     {
       dataField: "description",
       text: "Description",
+      formatter: (cellContent, data) => (
+        <div>{convertHtmlToPlainText(data.description).slice(0, 100)}...</div>
+      ),
     },
     {
       dataField: "category",
       text: "Category",
     },
     {
-      dataField: "photo",
-      text: "Photo",
+      dataField: "image",
+      text: "Images",
+      formatter: (cellContent, data) => (
+        <Image
+          src={data.images[0].original}
+          width={70}
+          height={70}
+          alt='Image'
+        />
+      ),
     },
     {
       dataField: "price",
       text: "Price",
+      formatter: (cellContent, data) => <>{currencyFormatter(data.price)}</>,
     },
     {
       dataField: "isFeatured",
@@ -77,12 +96,28 @@ const Index = () => {
       sort: true,
       formatter: (cellContent, data) => (
         <div
-          onClick={() => {
-            const newStatus = data.status === true ? 0 : 1
-            const formdata = { coupon_id: data.id, status: newStatus }
+          onClick={async () => {
+            const formdata = {
+              productId: data._id,
+              isFeatured: !data.isFeatured,
+            }
+            const successMsg = data.isFeatured
+              ? "Product is no longer featured"
+              : "Product is now featured on your website"
+
+            mutate(formdata, {
+              onSuccess: () => {
+                toast.success(successMsg)
+              },
+              onError: (e) => {
+                toast.error(
+                  e?.response?.data?.message ?? "Something went wrong"
+                )
+              },
+            })
           }}
         >
-          {data.status === true ? (
+          {data.isFeatured ? (
             <span className='badge bg-success' role='button'>
               featured
             </span>
@@ -99,14 +134,14 @@ const Index = () => {
       text: "Action",
       formatter: (cellContent, data) => (
         <div className='d-flex gap-2'>
-          <SecondaryBtn
-            color='#ABA0F3'
+          <PrimaryBtn
             title='remove'
             handleClick={() => {
-              setDeleteId(data.id)
-              setDeleteType("coupon")
+              setDeleteId(data._id)
+              setDeleteType("product")
               setDeleteModalShow(true)
             }}
+            semirounded
           />
           {/* <SecondaryBtn
             color={colors.darkBlue}

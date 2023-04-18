@@ -1,32 +1,29 @@
 import { Schema, model, models } from "mongoose"
+import slugify from "slugify"
 
 const productSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "A product must have a name"],
-      unique: true,
     },
+    nameSlug: String,
     category: {
       type: String,
-      required: [true, "A product must have a category"],
     },
-    photo: {
-      type: "String",
-      required: [true, "A product must have a photo"],
-    },
-    public_id: {
-      type: "String",
-      required: [true, "A product must have a public id"],
-    },
+    categorySlug: String,
+    images: [
+      {
+        publicId: String,
+        original: String,
+        thumbnail: String,
+      },
+    ],
     price: {
       type: Number,
-      required: [true, "A product must have a price"],
     },
     description: {
       type: String,
       trim: true,
-      required: [true, "A tour must have a description"],
     },
     isFeatured: {
       type: Boolean,
@@ -36,6 +33,11 @@ const productSchema = new Schema(
   { timestamps: true }
 )
 
+productSchema.pre("save", function (next) {
+  this.nameSlug = slugify(this.name, { lower: true })
+  this.categorySlug = slugify(this.category, { lower: true })
+  next()
+})
 const Product = models.Product || model("Product", productSchema)
 
 export default Product

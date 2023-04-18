@@ -13,14 +13,27 @@ import DeleteModal from "@/components/modals/DeleteModal"
 import PrimaryBtn from "@/components/PrimaryBtn"
 import SecondaryBtn from "@/components/SecondaryBtn"
 import ArticleModal from "@/components/modals/ArticleModal"
+import { useGetProducts } from "@/hooks/products.hook"
+import API from "@/api/api"
 // import colors from "@/constants/colors"
 
 const Index = () => {
+  const { data: allProducts } = useGetProducts()
   const [deleteModalShow, setDeleteModalShow] = useState(false)
   const [showArticleModal, setShowArticleModal] = useState(false)
   const [deletetype, setDeleteType] = useState("")
   const [deleteid, setDeleteId] = useState(null)
   const [editdata, setEditData] = useState(null)
+
+  console.log("//ALL", allProducts)
+
+  // useEffect(() => {
+  //   async function getProd() {
+  //     const { data } = await API.get("/products")
+  //     console.log(data)
+  //   }
+  //   getProd()
+  // }, [])
 
   const data = []
   const dispatch = useDispatch()

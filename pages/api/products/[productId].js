@@ -1,46 +1,57 @@
 import Product from "@/models/ProductModel"
+import cloudinary from "@/utils/cloudinary"
 import connectMongo from "@/utils/connectMongo"
+import nc from "next-connect"
 
-export default async function products(req, res) {
-  const { method } = req
-  const { productId } = req.query
-
-  console.log("///PRODUCT", productId)
-  res.send("SUCCESS")
-  await connectMongo()
-
-  switch (method) {
-    case "GET":
-      try {
-        const product = await Product.findOne({ _id: req.params.id })
-        if (!product) {
-          return next(new AppError("No product found with that ID", 404))
-        }
-        res.status(200).json({
-          status: "successfull",
-          message: "Product successfully create",
-          data: product,
-        })
-      } catch (error) {
-        res.status(400).json({ success: false })
-      }
-      break
-    case "DELETE":
-      try {
-        const product = await Product.deleteOne({ _id: req.params.id })
-        if (!product) {
-          return next(new AppError("No document found with that ID", 404))
-        }
-        res.status(204).json({
-          status: "successfull",
-          message: "Product successfully deleted",
-        })
-      } catch (error) {
-        res.status(400).json({ success: false })
-      }
-      break
-    default:
+const handler = nc({
+  onError: (err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).end("Something broke!")
+  },
+  onNoMatch: (req, res) => {
+    res.status(404).end("Page is not found")
+  },
+})
+  .use(async (req, res, next) => {
+    await connectMongo()
+    next()
+  })
+  .get(async (req, res) => {
+    const { productId } = req.query
+    try {
+      const product = await Product.findById(productId)
+      res.status(200).json({
+        status: "successful",
+        data: product,
+      })
+    } catch (error) {
       res.status(400).json({ success: false })
-      break
-  }
+    }
+  })
+  .delete(async (req, res) => {
+    const { productId } = req.query
+    try {
+      const product = await Product.findById(productId)
+      const deletePromises = product.images.map(async (image) => {
+        await cloudinary.uploader.destroy(image.publicId, null, {
+          folder: "Products",
+        })
+      })
+      await Promise.all(deletePromises)
+      await Product.findByIdAndDelete(productId)
+      res.status(204).json({
+        status: "success",
+      })
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ success: false, error })
+    }
+  })
+
+export default handler
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
 }

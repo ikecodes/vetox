@@ -1,10 +1,12 @@
+import { useDeleteProduct } from "@/hooks/products.hook"
 import React from "react"
 import { Modal } from "react-bootstrap"
 import { useDispatch } from "react-redux"
+import { toast } from "react-toastify"
 // import { deleteUser } from "../store/actions/admin";
 
 const DeleteModal = (props) => {
-  const dispatch = useDispatch()
+  const { mutate: deleteProduct } = useDeleteProduct()
 
   return (
     <Modal
@@ -23,12 +25,23 @@ const DeleteModal = (props) => {
                 className='btn btn-danger'
                 onClick={async () => {
                   if (props.deletetype === "product") {
-                    console.log("Delete Product")
+                    deleteProduct(props.deleteid, {
+                      onSuccess: () => {
+                        toast.success("Delete successful")
+                        props.onHide()
+                      },
+                      onError: (e) => {
+                        toast.error(
+                          e?.response?.data?.message ??
+                            "Something went wrong deleting product"
+                        )
+                        props.onHide()
+                      },
+                    })
                   }
                   if (props.deletetype === "article") {
                     console.log("Delete Article")
                   }
-                  props.onHide()
                 }}
               >
                 Yes remove
