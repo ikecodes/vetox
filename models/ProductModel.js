@@ -29,9 +29,22 @@ const productSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    ratingsQuantity: Number,
+    ratingsAverage: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 )
+
+//  virtural populate
+productSchema.virtual("reviews", {
+  ref: "Review",
+  foreignField: "product",
+  localField: "_id",
+})
+
 
 productSchema.pre("save", function (next) {
   this.nameSlug = slugify(this.name, { lower: true })

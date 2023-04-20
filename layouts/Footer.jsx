@@ -78,20 +78,14 @@ const Footer = () => {
             <List className='text-capitalize'>
               <li className='mb-3 fw-bold'>Company</li>
               <li className='mb-2'>
-                <Link href='/about'>About us</Link>
+                <Link href='/about-us'>About Vetox Medical Global</Link>
               </li>
               <li className='mb-2'>
-                <Link href='/contact-us'>Careers 🚀</Link>
-              </li>
-              <li className='mb-2'>
-                <Link href='/about'>Company Overview</Link>
-              </li>
-              <li className='mb-2'>
-                <Link href='/contact-us'>Our Vision</Link>
+                <Link href='/contact-us'>Contact Us 👋</Link>
               </li>
             </List>
           </div>
-          <div className='col-lg-3'>
+          <div className='col-lg-3 mb-5'>
             <h5 className='p-0 m-0 mb-1'>Subscribe to our newsletter</h5>
             <div className='d-flex'>
               <Form.Control

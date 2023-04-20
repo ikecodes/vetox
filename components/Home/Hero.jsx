@@ -2,32 +2,34 @@ import React from "react";
 import styled from "styled-components";
 import { Carousel } from "react-bootstrap";
 import Image from "next/image";
+import colors from "@/constants/colors"
 const Hero = () => {
   const articles = [
     {
       title: "Header One",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo deleniti neque, iure, tenetur alias commodi placeat deserunt fugit autem corrupti aliquam officiis? Rem officia necessitatibus accusantium voluptate molestias temporibus nostrum.",
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo deleniti neque, iure",
       imageUrl: "https://arbiterz.com/wp-content/uploads/2020/10/medical.jpg",
     },
     {
       title: "Header Two",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo deleniti neque, iure, tenetur alias commodi placeat deserunt fugit autem corrupti aliquam officiis? Rem officia necessitatibus accusantium voluptate molestias temporibus nostrum.",
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo deleniti neque, iure",
       imageUrl:
         "https://www.heartlandmedical.com/wp-content/uploads/equipment-1200x900.jpg",
     },
     {
       title: "Header Three",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo deleniti neque, iure, tenetur alias commodi placeat deserunt fugit autem corrupti aliquam officiis? Rem officia necessitatibus accusantium voluptate molestias temporibus nostrum.",
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo deleniti neque, iure",
       imageUrl:
         "https://lh5.googleusercontent.com/HiTeuxeQeI7RN1eerliZKTa1ZOZXwgprEtu-5XvgMxN5r9qiYTG-pyRsofN-qS_H_ZkEZkGbOvRq56J4wPjGT_LGzDPdgQYTZlfxWRQmr0LBIPa7b5bzS1CcsWQ8RKAcrtgOgn5I",
     },
-  ];
+  ]
 
   return (
     <div className='position-relative slider_container'>
+      <Overlay />
       <Carousel>
         {articles.length > 0 &&
           articles.map((article, i) => (
@@ -52,7 +54,7 @@ const Hero = () => {
       </Carousel>
     </div>
   )
-};
+}
 
 const Caption = styled.div`
   & h1 {
@@ -60,9 +62,24 @@ const Caption = styled.div`
     font-weight: 700;
     text-transform: capitalize;
     @media (max-width: 576px) {
-      font-size: 1.5rem;
+      font-size: 2rem;
     }
   }
-`;
+  & p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    @media (max-width: 576px) {
+      font-size: 1.2rem;
+    }
+  }
+`
+const Overlay = styled.div`
+  opacity: 0.2;
+  background-color: ${colors.tertiary};
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+`
 
 export default Hero;

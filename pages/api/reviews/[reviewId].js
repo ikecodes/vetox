@@ -1,4 +1,4 @@
-import Message from "@/models/MessageModel"
+import Review from "@/models/ReviewModel"
 import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
 
@@ -16,41 +16,39 @@ const handler = nc({
     next()
   })
   .get(async (req, res) => {
+    const { productId } = req.query
     try {
-      const messages = await Message.find()
+      const reviews = await Review.find({
+        product: productId,
+      })
       res.status(200).json({
-        status: "successful",
-        data: messages,
+        status: "success",
+        data: reviews,
       })
     } catch (error) {
       res.status(400).json({ success: false })
     }
   })
-  .post(async (req, res) => {
+  .delete(async (req, res) => {
+    const { productId } = req.query
     try {
-      const newMessage = await Message.create({
-        fullName: req.body.fullName,
-        email: req.body.email,
-        message: req.body.message,
+      await Review.findOneAndDelete({
+        user: req.user.id,
+        product: productId,
       })
       res.status(200).json({
-        status: "successful",
-        message: "Message successfully sent",
-        data: newMessage,
+        status: "success",
       })
     } catch (error) {
       console.log(error)
       res.status(400).json({ success: false, error })
     }
   })
-  .patch(async (req, res) => {
-    // No patch for messages
-  })
 
 export default handler
 
 export const config = {
   api: {
-    bodyParser: true,
+    bodyParser: false,
   },
 }

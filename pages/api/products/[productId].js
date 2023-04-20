@@ -1,6 +1,6 @@
 import Product from "@/models/ProductModel"
 import cloudinary from "@/utils/cloudinary"
-import connectMongo from "@/utils/connectMongo"
+import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
 
 const handler = nc({

@@ -5,21 +5,24 @@ import bcrypt from "bcryptjs"
 
 const userSchema = new Schema(
   {
-    firstname: {
+    firstName: {
       type: String,
-      required: [true, "Please tell us your first name!"],
     },
-    lastname: {
+    lastName: {
       type: String,
-      required: [true, "Please tell us your last name!"],
     },
     email: {
       type: String,
-      required: [true, "Please provide your email"],
       unique: true,
       lowercase: true,
       validate: [validator.isEmail, "Please provide a valid email"],
     },
+
+    isVerified: {
+      type: Boolean,
+      default: true,
+    },
+    emailConfirmToken: Number,
     role: {
       type: String,
       enum: ["user", "admin"],
@@ -27,7 +30,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Please provide a password"],
       minlength: 5,
       select: false,
     },
@@ -88,6 +90,12 @@ userSchema.methods.createPasswordResetToken = function () {
     .digest("hex")
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000
   return resetToken
+}
+
+userSchema.methods.createEmailConfirmToken = function () {
+  const confirmToken = Math.floor(100000 + Math.random() * 900000)
+  this.emailConfirmToken = confirmToken
+  return confirmToken
 }
 
 const User = models.User || model("User", userSchema)

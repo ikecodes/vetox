@@ -1,5 +1,5 @@
 import Message from "@/models/MessageModel"
-import connectMongo from "@/utils/connectMongo"
+import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
 
 const handler = nc({

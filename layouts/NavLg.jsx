@@ -5,13 +5,28 @@ import styled from "styled-components";
 import NavItemLg from "./NavItemLg";
 import menus from "@/constants/menus";
 import colors from "@/constants/colors";
-import { MdOutlineArrowRightAlt } from "react-icons/md";
-import { FiShoppingCart, FiLogOut } from "react-icons/fi";
-import PrimaryBtn from "@/components/PrimaryBtn";
-import SecondaryBtn from "@/components/SecondaryBtn";
-import { FaShoppingCart } from "react-icons/fa";
+import { MdOutlineArrowRightAlt } from "react-icons/md"
+import PrimaryBtn from "@/components/PrimaryBtn"
+import SecondaryBtn from "@/components/SecondaryBtn"
+import {
+  RiLoginCircleFill,
+  RiLogoutCircleRFill,
+  RiShoppingCartFill,
+} from "react-icons/ri"
+import { useDispatch, useSelector } from "react-redux"
+import { setUser } from "@/slices/userSlice"
+import { toast } from "react-toastify"
+import { useRouter } from "next/router"
 
 const NavbarLg = () => {
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const { value } = useSelector((state) => state.user)
+  function logout() {
+    dispatch(setUser(null))
+    toast.success("Signout successful")
+    router.push("/")
+  }
   return (
     <NavContainer className='py-2'>
       <div className='container'>
@@ -43,32 +58,63 @@ const NavbarLg = () => {
           <div className='col-lg-4'>
             <NavMenu>
               <ul className='d-flex justify-content-end gap-5 align-items-center'>
-                <Link href={"/sign-in"}>
+                {value ? (
                   <SecondaryBtn
                     primary
-                    title={"Login"}
+                    title={"Signout"}
+                    handleClick={logout}
                     icon={
-                      <FiShoppingCart
-                        color={colors.headerColor}
-                        size={20}
+                      <RiLogoutCircleRFill
+                        color={colors.primary}
+                        size={25}
                         className='me-1'
                       />
                     }
                   />
-                </Link>
-                <Link href={"/sign-up"}>
-                  <PrimaryBtn
-                    primary
-                    title={"Signup free"}
-                    icon={
-                      <MdOutlineArrowRightAlt
-                        color={colors.white}
-                        size={20}
-                        className='ms-1'
-                      />
-                    }
-                  />
-                </Link>
+                ) : (
+                  <Link href={"/sign-in"}>
+                    <SecondaryBtn
+                      primary
+                      title={"Login"}
+                      icon={
+                        <RiLoginCircleFill
+                          color={colors.primary}
+                          size={25}
+                          className='me-1'
+                        />
+                      }
+                    />
+                  </Link>
+                )}
+                {value ? (
+                  <Link href={"/cart"}>
+                    <PrimaryBtn
+                      primary
+                      title={"Your Cart"}
+                      icon={
+                        <RiShoppingCartFill
+                          color={colors.white}
+                          size={20}
+                          className='ms-1'
+                        />
+                      }
+                    />
+                  </Link>
+                ) : (
+                  <Link href={"/sign-up"}>
+                    <PrimaryBtn
+                      primary
+                      title={"Signup free"}
+                      icon={
+                        <MdOutlineArrowRightAlt
+                          color={colors.white}
+                          size={20}
+                          className='ms-1'
+                        />
+                      }
+                    />
+                  </Link>
+                )}
               </ul>
             </NavMenu>
           </div>
@@ -77,7 +123,7 @@ const NavbarLg = () => {
       <div className='border-bottom mx-5'></div>
     </NavContainer>
   )
-};
+}
 
 const NavContainer = styled.nav`
   width: 100%;

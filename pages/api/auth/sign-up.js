@@ -1,4 +1,4 @@
-import Message from "@/models/MessageModel"
+import User from "@/models/UserModel"
 import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
 
@@ -15,36 +15,32 @@ const handler = nc({
     await connectMongo()
     next()
   })
-  .get(async (req, res) => {
-    try {
-      const messages = await Message.find()
-      res.status(200).json({
-        status: "successful",
-        data: messages,
-      })
-    } catch (error) {
-      res.status(400).json({ success: false })
-    }
-  })
   .post(async (req, res) => {
     try {
-      const newMessage = await Message.create({
-        fullName: req.body.fullName,
+      const existingUserWithEmail = await User.findOne({
         email: req.body.email,
-        message: req.body.message,
+      })
+
+      if (existingUserWithEmail)
+        return res.status(400).json({
+          status: false,
+          message: "User with this email already exists",
+        })
+
+      const newUser = await User.create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
       })
       res.status(200).json({
-        status: "successful",
-        message: "Message successfully sent",
-        data: newMessage,
+        status: "success",
+        data: newUser,
       })
     } catch (error) {
       console.log(error)
       res.status(400).json({ success: false, error })
     }
-  })
-  .patch(async (req, res) => {
-    // No patch for messages
   })
 
 export default handler

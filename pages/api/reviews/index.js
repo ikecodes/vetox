@@ -1,4 +1,4 @@
-import Message from "@/models/MessageModel"
+import Review from "@/models/ReviewModel"
 import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
 
@@ -15,36 +15,32 @@ const handler = nc({
     await connectMongo()
     next()
   })
-  .get(async (req, res) => {
-    try {
-      const messages = await Message.find()
-      res.status(200).json({
-        status: "successful",
-        data: messages,
-      })
-    } catch (error) {
-      res.status(400).json({ success: false })
-    }
-  })
   .post(async (req, res) => {
     try {
-      const newMessage = await Message.create({
-        fullName: req.body.fullName,
-        email: req.body.email,
-        message: req.body.message,
+      const alreadyReviewed = await Review.findOne({
+        user: req.user.id,
+        product: req.body.productId,
       })
+      if (alreadyReviewed)
+        return res.status(400).json({
+          success: false,
+          message: "You already review this product",
+        })
+      const newReview = await Review.create({
+        review: req.body.review,
+        rating: req.body.rating,
+        user: req.user.id,
+        product: req.body.productId,
+      })
+
       res.status(200).json({
-        status: "successful",
-        message: "Message successfully sent",
-        data: newMessage,
+        status: "success",
+        data: newReview,
       })
     } catch (error) {
       console.log(error)
       res.status(400).json({ success: false, error })
     }
-  })
-  .patch(async (req, res) => {
-    // No patch for messages
   })
 
 export default handler
