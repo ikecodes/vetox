@@ -5,12 +5,17 @@ import styled from "styled-components"
 import { Rating } from "react-simple-star-rating"
 import SecondaryBtn from "../SecondaryBtn"
 import PrimaryBtn from "../PrimaryBtn"
-import { useCreateReview, useGetReviews } from "@/hooks/reviews.hook"
+import {
+  useCreateReview,
+  useDeleteReview,
+  useGetReviews,
+} from "@/hooks/reviews.hook"
 import Loader from "../Loader"
 import { toast } from "react-toastify"
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/router"
 import { setPrevRoute } from "@/slices/navSlice"
+import { FaTrash } from "react-icons/fa"
 
 const ReviewModal = (props) => {
   const dispatch = useDispatch()
@@ -18,6 +23,7 @@ const ReviewModal = (props) => {
   const { value } = useSelector((state) => state.user)
   const { data, isLoading } = useGetReviews(props?.product?._id)
   const { mutate, isLoading: loading } = useCreateReview()
+  const { mutate: remove } = useDeleteReview()
   const [title, setTitle] = useState("")
   const [message, setMessage] = useState("")
   const [rating, setRating] = useState(0)
@@ -52,7 +58,19 @@ const ReviewModal = (props) => {
         )
       },
     })
-    return console.log(data)
+  }
+  async function removeReview() {
+    remove(props.product._id, {
+      onSuccess: () => {
+        toast.success("Successfully removed your review")
+      },
+      onError: (e) => {
+        toast.error(
+          e?.response?.data?.message ??
+            "There was an issue removing your review, try again later."
+        )
+      },
+    })
   }
   return (
     <Modal
@@ -101,6 +119,14 @@ const ReviewModal = (props) => {
                     29-12-2021 by{" "}
                     {`${review.user.firstName} ${review.user.lastName}`}
                   </Text>
+                  {value._id === review.user._id && (
+                    <FaTrash
+                      size={15}
+                      className='text-danger'
+                      role='button'
+                      onClick={removeReview}
+                    />
+                  )}
                 </div>
               ))}
             </div>

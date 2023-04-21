@@ -21,7 +21,7 @@ export const useDeleteReview = () => {
   const queryClient = useQueryClient()
   return useMutation((id) => API2.delete(`/reviews/${id}`), {
     onSuccess: () => {
-      queryClient.invalidateQueries(["getReviews", "getProduct"])
+      queryClient.invalidateQueries(["getReviews"])
     },
   })
 }
