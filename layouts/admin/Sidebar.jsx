@@ -26,9 +26,18 @@ const Sidebar = () => {
 
   return (
     <Container>
-      <Link href='/admin/dashboard' className='text-decoration-none'>
-        <div className='mb-3 mt-1 d-flex align-items-center'>
-          <Image src={"/logo2.svg"} height={70} width={70} alt='Vetox logo' />
+      <Link href='/' className='text-decoration-none'>
+        <div className='mt-2 mb-5 d-flex align-items-center'>
+          <Image
+            src='/logo2.svg'
+            alt='Vetox medical logo'
+            height='50'
+            width='50'
+          />
+          <LogoWrite className='ms-1'>
+            <h5 className='fw-bold'>Vetox Global</h5>
+            <h6 className='fw-light'>Medical Services </h6>
+          </LogoWrite>
         </div>
       </Link>
       <Menu>
@@ -178,5 +187,14 @@ const Menu = styled.ul`
     margin-bottom: 0.5rem;
   }
 `
+const LogoWrite = styled.div`
+  h5,
+  h6 {
+    color: ${colors.white};
+    margin: 0;
+    padding: 0;
+  }
+`
+
 
 export default Sidebar

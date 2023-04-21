@@ -85,6 +85,46 @@ const Index = () => {
         />
       ),
     },
+
+    {
+      dataField: "inStock",
+      text: "In stock",
+      sort: true,
+      formatter: (cellContent, data) => (
+        <div
+          onClick={async () => {
+            const formdata = {
+              productId: data._id,
+              inStock: !data.inStock,
+            }
+            const successMsg = data.inStock
+              ? "Product is now out of stock"
+              : "Product is now in stock"
+
+            mutate(formdata, {
+              onSuccess: () => {
+                toast.success(successMsg)
+              },
+              onError: (e) => {
+                toast.error(
+                  e?.response?.data?.message ?? "Something went wrong"
+                )
+              },
+            })
+          }}
+        >
+          {data.inStock ? (
+            <span className='badge bg-info' role='button'>
+              In stock
+            </span>
+          ) : (
+            <span className='badge bg-secondary' role='button'>
+              Out of stock
+            </span>
+          )}
+        </div>
+      ),
+    },
     {
       dataField: "price",
       text: "Price",

@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 const PrimaryBtn = ({
   title,
+  color,
   primary,
   handleClick,
   norounded,
@@ -25,9 +26,9 @@ const PrimaryBtn = ({
       semirounded={semirounded}
       disabled={disabled}
       onClick={handleClick}
+      color={color}
     >
       <span className='m-0'> {loading ? Loader : title}</span>
-
       {!loading && icon}
     </B>
   )
@@ -38,7 +39,7 @@ const B = styled.button`
   align-items: center;
   justify-content: center; */
   background-color: ${(props) =>
-    props.primary ? colors.primary : colors.white};
+    props.primary ? colors.primary : props.color ? props.color : colors.white};
   text-transform: capitalize;
   color: ${(props) => (props.primary ? colors.white : colors.primary)};
   padding: 5px 20px;

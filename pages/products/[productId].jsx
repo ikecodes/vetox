@@ -6,14 +6,13 @@ import colors from "@/constants/colors"
 import { useGetProduct } from "@/hooks/products.hook"
 import convertHtmlToPlainText from "@/utils/converHTMLToText"
 import { currencyFormatter } from "@/utils/helpers"
-import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
-import { BsCart } from "react-icons/bs"
+import { BsCart, BsWhatsapp } from "react-icons/bs"
 import { Rating } from "react-simple-star-rating"
 import styled from "styled-components"
 import ImageGallery from "react-image-gallery"
-import { logStore } from "@/api/api"
+
 const ProductDetails = () => {
   const { query } = useRouter()
   const { data, isLoading } = useGetProduct(query.productId)
@@ -88,6 +87,28 @@ const ProductDetails = () => {
                   <BsCart color={colors.white} size={20} className='ms-1' />
                 }
               />
+
+              <div className='my-2'>
+                <a
+                  target='_blank'
+                  href={`https://wa.me/+2349167186719?text=${encodeURIComponent(
+                    `I would like to make enquiry about ${
+                      product.name
+                    } selling for ${currencyFormatter(product.price)}`
+                  )}`}
+                >
+                  <EnquiryBtn>
+                    <span>Make Enquiry</span>
+                    <span>|</span>
+                    <BsWhatsapp
+                      color={colors.white}
+                      size={20}
+                      className='ms-1'
+                    />
+                  </EnquiryBtn>
+                </a>
+              </div>
+
               <div className='mt-3'>
                 <Header.h6 color={colors.black}>Description</Header.h6>
                 <div className='border-bottom my-2' />
@@ -110,13 +131,13 @@ const ProductDetails = () => {
 }
 
 const Container = styled.div`
-  /* background-color: ${colors.grey3}; */
+  & a {
+    text-decoration: none;
+  }
 `
-
 const StockOut = styled.span`
   background-color: ${colors.grey3};
 `
-
 const ImageContainer = styled.div`
   display: block;
   min-height: 1px;
@@ -124,13 +145,30 @@ const ImageContainer = styled.div`
   background: ${colors.grey1};
   margin-bottom: 1rem;
 `
-
 const Verified = styled.p`
   cursor: pointer;
   color: ${colors.primary};
   transition: all 0.3s ease-out;
   &:hover {
     text-decoration: underline;
+    transform: scale(1.02);
+  }
+`
+const EnquiryBtn = styled.div`
+  cursor: pointer;
+  background-color: ${colors.secondary};
+  font-weight: 500;
+  height: 50px;
+  width: 170px;
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  color: ${colors.white};
+  justify-content: space-around;
+  transition: all 0.3s ease-in;
+  text-decoration: none;
+  &:hover {
     transform: scale(1.02);
   }
 `

@@ -4,10 +4,20 @@ import styled from "styled-components"
 import Sidebar from "./Sidebar"
 import colors from "@/constants/colors"
 import Image from "next/image"
+import { useDispatch, useSelector } from "react-redux"
+import { setUser } from "@/slices/userSlice"
+import { toast } from "react-toastify"
+import { useRouter } from "next/router"
 
 const AdminLayout = ({ children }) => {
-  const user = {
-    email: "ikecodes@gmail.com",
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const { value } = useSelector((state) => state.user)
+
+  function logout() {
+    dispatch(setUser(null))
+    toast.success("Signout successful")
+    router.push("/admin/login")
   }
   return (
     <div className='overflow-hidden'>
@@ -31,10 +41,10 @@ const AdminLayout = ({ children }) => {
                 }}
               />
               <div>
-                <span className='m-0'>{user?.email}</span>
+                <span className='m-0'>{value?.email}</span>
                 <Logout className='d-flex align-items-center'>
                   <BiLogOutCircle size={20} />
-                  <span className='m-0' onClick={() => {}} role='button'>
+                  <span className='m-0' onClick={logout} role='button'>
                     Signout
                   </span>
                 </Logout>
