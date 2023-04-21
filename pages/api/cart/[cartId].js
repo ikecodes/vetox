@@ -1,7 +1,7 @@
-import Review from "@/models/ReviewModel"
 import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
 import auth from "@/middlewares/auth"
+import Cart from "@/models/CartModel"
 
 const handler = nc({
   onError: (err, req, res, next) => {
@@ -16,28 +16,11 @@ const handler = nc({
     await connectMongo()
     next()
   })
-  .get(async (req, res) => {
-    const { productId } = req.query
-    try {
-      const reviews = await Review.find({
-        product: productId,
-      })
-      res.status(200).json({
-        status: "success",
-        data: reviews,
-      })
-    } catch (error) {
-      res.status(400).json({ success: false })
-    }
-  })
   .use(auth)
   .delete(async (req, res) => {
-    const { productId } = req.query
+    const { cartId } = req.query
     try {
-      await Review.findOneAndDelete({
-        user: req.user._id,
-        product: productId,
-      })
+      await Cart.findByIdAndDelete(cartId)
       res.status(200).json({
         status: "success",
       })

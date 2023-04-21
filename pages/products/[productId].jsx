@@ -12,13 +12,41 @@ import { BsCart, BsWhatsapp } from "react-icons/bs"
 import { Rating } from "react-simple-star-rating"
 import styled from "styled-components"
 import ImageGallery from "react-image-gallery"
+import { useDispatch, useSelector } from "react-redux"
+import { setPrevRoute } from "@/slices/navSlice"
+import { toast } from "react-toastify"
+import { useCreateCart } from "@/hooks/cart.hook"
 
 const ProductDetails = () => {
-  const { query } = useRouter()
+  const { query, asPath, push } = useRouter()
+  const { mutate, isLoading: loading } = useCreateCart()
+  const dispatch = useDispatch()
+  const { value } = useSelector((state) => state.user)
   const { data, isLoading } = useGetProduct(query.productId)
   const [showReviewModal, setShowReviewModal] = useState(false)
-
   const product = data?.data?.data ?? []
+
+  function addToCart() {
+    if (!value) {
+      dispatch(setPrevRoute(asPath))
+      return push("/sign-in")
+    }
+    const data = {
+      productId: product._id,
+    }
+    mutate(data, {
+      onSuccess: () => {
+        toast.success("Successfully added to cart")
+        return push("/cart")
+      },
+      onError: (e) => {
+        toast.error(
+          e?.response?.data?.message ??
+            "There was an issue adding item to cart, try again later."
+        )
+      },
+    })
+  }
   return (
     <Container className='container mt-5'>
       {isLoading ? (
@@ -83,6 +111,8 @@ const ProductDetails = () => {
                 primary
                 title={"Add To Cart"}
                 semirounded
+                loading={loading}
+                handleClick={addToCart}
                 icon={
                   <BsCart color={colors.white} size={20} className='ms-1' />
                 }

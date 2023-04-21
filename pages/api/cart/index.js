@@ -1,7 +1,7 @@
-import Review from "@/models/ReviewModel"
 import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
 import auth from "@/middlewares/auth"
+import Cart from "@/models/CartModel"
 
 const handler = nc({
   onError: (err, req, res, next) => {
@@ -17,28 +17,38 @@ const handler = nc({
     next()
   })
   .use(auth)
+  .get(async (req, res) => {
+    try {
+      const carts = await Cart.find({
+        user: req.user._id,
+      })
+      res.status(200).json({
+        status: "success",
+        data: carts,
+      })
+    } catch (error) {
+      res.status(400).json({ success: false })
+    }
+  })
   .post(async (req, res) => {
     try {
-      const alreadyReviewed = await Review.findOne({
+      const alreadyInCart = await Cart.findOne({
         user: req.user._id,
         product: req.body.productId,
       })
-      if (alreadyReviewed)
+      if (alreadyInCart)
         return res.status(400).json({
           success: false,
-          message: "You already review this product",
+          message: "You already this this product in your cart",
         })
-      const newReview = await Review.create({
-        title: req.body.title,
-        message: req.body.message,
-        rating: req.body.rating,
+      const newCart = await Cart.create({
         user: req.user._id,
         product: req.body.productId,
       })
 
       res.status(200).json({
         status: "success",
-        data: newReview,
+        data: newCart,
       })
     } catch (error) {
       console.log(error)
