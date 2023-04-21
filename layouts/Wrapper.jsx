@@ -1,10 +1,18 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Layout from "./Layout"
 import { useRouter } from "next/router"
 import AdminLayout from "./admin/AdminLayout"
+import { useSelector } from "react-redux"
+import protectRoutes from "@/constants/protectedRoutes"
 
 const Wrapper = ({ children }) => {
-  const { asPath } = useRouter()
+  const { value } = useSelector((state) => state.user)
+  const { asPath, push } = useRouter()
+
+  useEffect(() => {
+    if (!value && protectRoutes.includes(asPath)) return () => push("/")
+  }, [asPath, push, value])
+
   if (asPath === "/admin/login") return <div>{children}</div>
   if (asPath.startsWith("/admin")) return <AdminLayout>{children}</AdminLayout>
   return <Layout>{children}</Layout>
