@@ -16,6 +16,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 const initialState = {
   active: "",
   showSub: false,
+  prevRoute: null,
 }
 
 export const navSlice = createSlice({
@@ -30,6 +31,9 @@ export const navSlice = createSlice({
       state.showSub = false
       state.active = ""
     },
+    setPrevRoute: (state, { payload }) => {
+      state.prevRoute = payload
+    },
   },
   extraReducers: {
     // [getStats.pending]: (state, { payload }) => {
@@ -43,6 +47,6 @@ export const navSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { handleMenu, resetMenu } = navSlice.actions
+export const { handleMenu, resetMenu, setPrevRoute } = navSlice.actions
 
 export default navSlice.reducer

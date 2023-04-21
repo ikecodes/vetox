@@ -5,35 +5,55 @@ import styled from "styled-components"
 import { Rating } from "react-simple-star-rating"
 import SecondaryBtn from "../SecondaryBtn"
 import PrimaryBtn from "../PrimaryBtn"
+import { useCreateReview, useGetReviews } from "@/hooks/reviews.hook"
+import Loader from "../Loader"
+import { toast } from "react-toastify"
+import { useDispatch, useSelector } from "react-redux"
+import { useRouter } from "next/router"
+import { setPrevRoute } from "@/slices/navSlice"
 
-const reviews = [
-  {
-    title: "Great product",
-    review: 3,
-    message: "Lorem ipsum dolor sit, amet consectetur adipisicing elit.",
-    created_at: "12-12-2020",
-    name: "Ike",
-  },
-  {
-    title: "Great product",
-    review: 3,
-    message: "  Lorem ipsum dolor sit, amet consectetur adipisicing elit.",
-    created_at: "12-12-2020",
-    name: "Ike",
-  },
-  {
-    title: "Great product",
-    review: 3,
-    message: "  Lorem ipsum dolor sit, amet consectetur adipisicing elit.",
-    created_at: "12-12-2020",
-    name: "Ike",
-  },
-]
 const ReviewModal = (props) => {
+  const dispatch = useDispatch()
+  const { asPath, push } = useRouter()
+  const { value } = useSelector((state) => state.user)
+  const { data, isLoading } = useGetReviews(props?.product?._id)
+  const { mutate, isLoading: loading } = useCreateReview()
   const [title, setTitle] = useState("")
   const [message, setMessage] = useState("")
   const [rating, setRating] = useState(0)
+  const reviews = data?.data?.data ?? []
 
+  async function addReview() {
+    if (!value) {
+      toast.error("You have to login to rate products")
+      dispatch(setPrevRoute(asPath))
+      return push("/sign-in")
+    }
+    if (rating === 0) return toast.info("Please rate the product")
+    if (!message) return toast.info("Please add a review message")
+    if (!title) return toast.info("Please add a title to your review")
+    const data = {
+      title,
+      message,
+      rating,
+      productId: props.product._id,
+    }
+    mutate(data, {
+      onSuccess: () => {
+        toast.success("Successfully added review")
+        setRating(0)
+        setMessage("")
+        setTitle("")
+      },
+      onError: (e) => {
+        toast.error(
+          e?.response?.data?.message ??
+            "There was an issue adding your review, try again later."
+        )
+      },
+    })
+    return console.log(data)
+  }
   return (
     <Modal
       {...props}
@@ -43,45 +63,70 @@ const ReviewModal = (props) => {
     >
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body>
-        <div className='d-flex align-items-end'>
-          <Header.h1 color='#f6b01e'>4.5/5</Header.h1>
-          <p className='m-0 ms-1 text-secondary'>
-            (Ratings from verified customers)
-          </p>
-        </div>
-        <div className='my-4'>
-          {reviews.map((review, i) => (
-            <div key={i} className='my-1 border-top py-2'>
-              <Rating
-                onClick={() => {}}
-                readonly
-                initialValue={3.5}
-                size={15}
-              />
-              <p className='m-0 fw-bold'>{review.title}</p>
-              <Text className='m-0'>{review.message}</Text>
-              <Text className='m-0 mt-1 text-secondary'>
-                29-12-2021 by {review.name}
-              </Text>
+        {props?.product.ratingsAverage > 0 && (
+          <div className='d-flex align-items-end'>
+            <Header.h1 color='#f6b01e'>
+              {props?.product.ratingsAverage}/5
+            </Header.h1>
+            <p className='m-0 ms-1 text-secondary'>
+              (Ratings from verified customers)
+            </p>
+          </div>
+        )}
+
+        {reviews.length === 0 && (
+          <div>
+            <p className='text-secondary'>
+              This product currently has no reviews, be the first!
+            </p>
+          </div>
+        )}
+
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <div className='my-4'>
+              {reviews.map((review, i) => (
+                <div key={i} className='my-1 border-top py-2'>
+                  <Rating
+                    onClick={() => {}}
+                    readonly
+                    initialValue={3.5}
+                    size={20}
+                  />
+                  <p className='m-0 fw-bold'>{review.title}</p>
+                  <Text className='m-0'>{review.message}</Text>
+                  <Text className='m-0 mt-1 text-secondary'>
+                    29-12-2021 by{" "}
+                    {`${review.user.firstName} ${review.user.lastName}`}
+                  </Text>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
 
         <div className='mb-2'>
           <Header.h4>Add a review</Header.h4>
         </div>
         <div className='row'>
-          <div className='col-lg-6'>
-            <Form.Group className='mb-3 col-lg-6"'>
-              <Form.Control
-                type='text'
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder='Title'
-                className=''
-              />
-            </Form.Group>
+          <div className='mb-3'>
+            <Rating
+              onClick={(val) => setRating(val)}
+              initialValue={rating}
+              size={50}
+            />
           </div>
+
+          <Form.Group className='mb-3 col-lg-6"'>
+            <Form.Control
+              type='text'
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder='Title'
+            />
+          </Form.Group>
 
           <Form.Group className='mb-3 col-lg-6"'>
             <Form.Control
@@ -92,11 +137,14 @@ const ReviewModal = (props) => {
               placeholder='Message'
             />
           </Form.Group>
-          <div className='mb-3'>
-            <Rating onClick={() => {}} initialValue={3.5} size={30} />
-          </div>
         </div>
-        <PrimaryBtn primary semirounded title={"Submit"} />
+        <PrimaryBtn
+          primary
+          semirounded
+          title={"Submit"}
+          handleClick={addReview}
+          loading={loading}
+        />
       </Modal.Body>
     </Modal>
   )

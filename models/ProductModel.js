@@ -29,6 +29,10 @@ const productSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    inStock: {
+      type: Boolean,
+      default: true,
+    },
     ratingsQuantity: Number,
     ratingsAverage: {
       type: Number,

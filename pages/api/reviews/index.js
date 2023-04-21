@@ -1,6 +1,7 @@
 import Review from "@/models/ReviewModel"
 import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
+import auth from "@/middlewares/auth"
 
 const handler = nc({
   onError: (err, req, res, next) => {
@@ -15,10 +16,11 @@ const handler = nc({
     await connectMongo()
     next()
   })
+  .use(auth)
   .post(async (req, res) => {
     try {
       const alreadyReviewed = await Review.findOne({
-        user: req.user.id,
+        user: req.user._id,
         product: req.body.productId,
       })
       if (alreadyReviewed)
@@ -27,9 +29,10 @@ const handler = nc({
           message: "You already review this product",
         })
       const newReview = await Review.create({
-        review: req.body.review,
+        title: req.body.title,
+        message: req.body.message,
         rating: req.body.rating,
-        user: req.user.id,
+        user: req.user._id,
         product: req.body.productId,
       })
 

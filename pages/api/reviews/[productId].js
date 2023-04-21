@@ -1,6 +1,7 @@
 import Review from "@/models/ReviewModel"
 import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
+import auth from "@/middlewares/auth"
 
 const handler = nc({
   onError: (err, req, res, next) => {
@@ -29,11 +30,12 @@ const handler = nc({
       res.status(400).json({ success: false })
     }
   })
+  .use(auth)
   .delete(async (req, res) => {
     const { productId } = req.query
     try {
       await Review.findOneAndDelete({
-        user: req.user.id,
+        user: req.user._id,
         product: productId,
       })
       res.status(200).json({

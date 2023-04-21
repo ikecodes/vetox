@@ -1,18 +1,20 @@
 import PrimaryBtn from "@/components/PrimaryBtn"
 import colors from "@/constants/colors"
 import { useSignIn } from "@/hooks/auth.hook"
+import { setPrevRoute } from "@/slices/navSlice"
 import { setUser } from "@/slices/userSlice"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import styled from "styled-components"
 
 const SignIn = () => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const { prevRoute } = useSelector((state) => state.nav)
   const { mutate, isLoading } = useSignIn()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -32,7 +34,13 @@ const SignIn = () => {
         dispatch(setUser(data))
         setPassword("")
         setEmail("")
-        router.push("/cart")
+        if (!prevRoute) {
+          router.push("/")
+        } else {
+          router.push(prevRoute)
+          dispatch(setPrevRoute(null))
+        }
+        
       },
       onError: (e) => {
         toast.error(

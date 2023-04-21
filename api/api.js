@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { store } from "@/slices"
 let url = "/api"
 
 const API = axios.create({
@@ -17,11 +17,22 @@ export const API2 = axios.create({
     Accept: "Application/json",
   },
 })
+
+export const logStore = () => {
+  console.log("STORE", store.getState().user?.value?.token)
+}
+
 API.interceptors.request.use((req) => {
-  if (localStorage.getItem("token")) {
-    req.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+  if (store.getState().user) {
+    req.headers.Authorization = `Bearer ${store.getState().user?.value?.token}`
   }
-  return req;
-});
+  return req
+})
+API2.interceptors.request.use((req) => {
+  if (store.getState().user) {
+    req.headers.Authorization = `Bearer ${store.getState().user?.value?.token}`
+  }
+  return req
+})
 
 export default API;

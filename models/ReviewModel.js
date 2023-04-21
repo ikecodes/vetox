@@ -3,9 +3,11 @@ import Product from "./ProductModel"
 
 const reviewSchema = new Schema(
   {
-    review: {
+    title: {
       type: String,
-      ref: "User",
+    },
+    message: {
+      type: String,
     },
     rating: {
       type: Number,
