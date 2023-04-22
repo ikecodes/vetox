@@ -1,6 +1,29 @@
 import API, { API2 } from "@/api/api"
+import { productsPagination } from "@/jotai/products.state"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useAtomValue } from "jotai"
 
+export function useGetAllProducts() {
+  const { page, pageSize, ...filter } = useAtomValue(productsPagination)
+  let filters = new URLSearchParams(filter)
+  return useQuery({
+    queryKey: [
+      "getAllProducts",
+      page,
+      pageSize,
+      filter.categorySlug,
+      filter.subCategorySlug,
+    ],
+    queryFn: () =>
+      API.get(
+        `/products/all-products?page=${page}&pageSize=${pageSize}&${filters.toString()}`
+      ),
+    keepPreviousData: true,
+    refetchOnWindowFocus: true,
+    staleTime: Infinity,
+    cacheTime: 1000 * 60 * 20,
+  })
+}
 
 export function useGetProduct(id) {
   return useQuery(["getProduct", id], () => API.get(`/products/${id}`), {
@@ -11,13 +34,6 @@ export function useGetProduct(id) {
   })
 }
 
-export function useGetAllProducts() {
-  return useQuery(["getProducts"], () => API.get(`/products`), {
-    refetchOnWindowFocus: false,
-    staleTime: Infinity,
-    cacheTime: 1000 * 60 * 20,
-  })
-}
 
 
 

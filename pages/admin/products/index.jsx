@@ -74,6 +74,10 @@ const Index = () => {
       text: "Category",
     },
     {
+      dataField: "subCategory",
+      text: "Sub-Category",
+    },
+    {
       dataField: "image",
       text: "Images",
       formatter: (cellContent, data) => (

@@ -43,10 +43,12 @@ const handler = nc({
           publicId: public_id,
         }
       })
+
       const images = await Promise.all(imagesPromises)
       const newProduct = await Product.create({
         name: req.body.name,
         category: req.body.category,
+        subCategory: req.body.subCategory,
         images: images,
         price: req.body.price,
         description: req.body.description,

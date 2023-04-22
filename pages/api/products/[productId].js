@@ -39,7 +39,7 @@ const handler = nc({
       })
       await Promise.all(deletePromises)
       await Product.findByIdAndDelete(productId)
-      res.status(204).json({
+      res.status(200).json({
         status: "success",
       })
     } catch (error) {

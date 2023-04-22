@@ -34,7 +34,7 @@ const articleSchema = new Schema(
 )
 
 articleSchema.pre("save", function (next) {
-  this.titleSlug = slugify(this.title, { lower: true })
+  this.titleSlug = slugify(this.title)
   next()
 })
 const Article = models.Article || model("Article", articleSchema)

@@ -6,11 +6,15 @@ const productSchema = new Schema(
     name: {
       type: String,
     },
-    nameSlug: String,
     category: {
       type: String,
     },
+    subCategory: {
+      type: String,
+    },
+    nameSlug: String,
     categorySlug: String,
+    subCategorySlug: String,
     images: [
       {
         publicId: String,
@@ -49,10 +53,12 @@ productSchema.virtual("reviews", {
   localField: "_id",
 })
 
-
 productSchema.pre("save", function (next) {
-  this.nameSlug = slugify(this.name, { lower: true })
-  this.categorySlug = slugify(this.category, { lower: true })
+  this.nameSlug = slugify(this.name)
+  this.categorySlug = slugify(this.category)
+  if (this.subCategory) {
+    this.subCategorySlug = slugify(this.subCategory)
+  }
   next()
 })
 const Product = models.Product || model("Product", productSchema)

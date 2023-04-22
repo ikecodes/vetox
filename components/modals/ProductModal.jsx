@@ -11,12 +11,15 @@ import { Editor } from "@tinymce/tinymce-react"
 import { FiUploadCloud } from "react-icons/fi"
 import styled from "styled-components"
 import colors from "@/constants/colors"
+import { categories } from "@/constants/categories"
 
 const ProductModal = (props) => {
   const dispatch = useDispatch()
   const { mutate, isLoading } = useCreateProduct()
+  const [subCategories, setSubCategories] = useState([])
   const [name, setName] = useState("")
   const [category, setCategory] = useState("")
+  const [subCategory, setSubCategory] = useState("")
   const [description, setDescription] = useState("")
   const [price, setPrice] = useState("")
   const [photo, setPhoto] = useState(null)
@@ -50,6 +53,23 @@ const ProductModal = (props) => {
   //     setExpiry("")
   //   }
   // }, [props?.data])
+
+  useEffect(() => {
+    checkForSubCategory()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category])
+
+  function checkForSubCategory() {
+    const foundSubCategory = categories.find(
+      (value) => value.category === category
+    )
+    if (foundSubCategory && foundSubCategory.subCategory.length > 0) {
+      setSubCategories(foundSubCategory.subCategory)
+    } else {
+      setSubCategories([])
+      setSubCategory("")
+    }
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
     if (
@@ -61,12 +81,25 @@ const ProductModal = (props) => {
     )
       return toast.error("Please input all fields")
 
+    const foundSubCategory = categories.find(
+      (value) => value.category === category
+    )
+    if (
+      !subCategory &&
+      foundSubCategory &&
+      foundSubCategory.subCategory.length > 0
+    )
+      return toast.error(`Please select a sub category for ${category}`)
+
     const formdata = new FormData()
     formdata.append("name", name)
     formdata.append("category", category)
     formdata.append("photo", photo)
     formdata.append("description", description)
     formdata.append("price", price)
+    if (subCategory) {
+      formdata.append("subCategory", subCategory)
+    }
     for (let i = 0; i < images.length; i++) {
       formdata.append("images", images[i])
     }
@@ -78,7 +111,7 @@ const ProductModal = (props) => {
     //   description,
     //   price,
     // }
-    console.log(formdata)
+    // console.log(formdata)
     mutate(formdata, {
       onSuccess: () => {
         toast.success("Product uploaded successfully")
@@ -130,14 +163,39 @@ const ProductModal = (props) => {
           </Form.Group>
           <Form.Group className='mb-3'>
             <Form.Label>Category</Form.Label>
-            <Form.Control
-              type='text'
+            <Form.Select
+              aria-label='Select category'
+              className='bg-light'
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              placeholder='Category'
-              className='bg-light'
-            />
+            >
+              <option value=''> Select category</option>
+              {categories.map((value, i) => (
+                <option key={i} value={value.category}>
+                  {value.category}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
+
+          {subCategories && subCategories.length > 0 && (
+            <Form.Group className='mb-3'>
+              <Form.Label>Sub Category</Form.Label>
+              <Form.Select
+                aria-label='Select sub category'
+                className='bg-light'
+                value={subCategory}
+                onChange={(e) => setSubCategory(e.target.value)}
+              >
+                <option value=''>Select sub category</option>
+                {subCategories.map((value, i) => (
+                  <option key={i} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+          )}
           <Form.Group className='mb-3'>
             <Form.Label>Description</Form.Label>
             <Editor

@@ -81,7 +81,6 @@ const ProductDetails = () => {
               <div className='mb-3' />
               <div className='my-2 d-flex align-items-center'>
                 <Rating
-                  onClick={() => {}}
                   readonly
                   initialValue={product.ratingsAverage}
                   size={30}

@@ -12,7 +12,7 @@ const DeleteModal = (props) => {
   const { mutate: deleteArticle } = useDeleteArticle()
   const { mutate: deleteMessage } = useDeleteMessage()
 
-  console.log("PROPS", props)
+  // console.log("PROPS", props)
   return (
     <Modal
       {...props}
