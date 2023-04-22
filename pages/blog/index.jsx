@@ -1,4 +1,5 @@
 import BlogCard from "@/components/BlogCard"
+import EmptyState from "@/components/EmptyState"
 import Header from "@/components/Header"
 import Loader from "@/components/Loader"
 import PaginationDefault from "@/components/PaginationDefault"
@@ -6,6 +7,7 @@ import colors from "@/constants/colors"
 import { useGetAllArticles } from "@/hooks/articles.hook"
 import { articlesPagination } from "@/jotai/articles.state"
 import { useAtom } from "jotai"
+import Image from "next/image"
 import React from "react"
 
 const Index = () => {
@@ -26,13 +28,31 @@ const Index = () => {
           <Loader />
         </div>
       ) : (
-        <div className='row'>
-          {articles.map((article, i) => (
-            <div key={i} className='col-lg-4 col-md-6 mb-3'>
-              <BlogCard article={article} />
+        <>
+          {articles.length === 0 ? (
+            <EmptyState
+              image={
+                <Image
+                  src={"/emptyCart.svg"}
+                  width={200}
+                  height={200}
+                  alt='Empty state'
+                />
+              }
+              title={"No products found!"}
+              body={"No products found on this category"}
+              route={"/products"}
+            />
+          ) : (
+            <div className='row'>
+              {articles.map((article, i) => (
+                <div key={i} className='col-lg-4 col-md-6 mb-3'>
+                  <BlogCard article={article} />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
       <div className='d-flex justify-content-center'>
         {articles.length > 0 && (
