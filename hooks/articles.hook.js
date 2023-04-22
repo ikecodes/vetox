@@ -1,5 +1,37 @@
 import API, { API2 } from "@/api/api"
+import { articlesPagination } from "@/jotai/articles.state"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useAtomValue } from "jotai"
+
+export function useGetAllArticles() {
+  const { page, pageSize } = useAtomValue(articlesPagination)
+  // let filters = new URLSearchParams(filter)
+  return useQuery({
+    queryKey: [
+      "getAllArticles",
+      page,
+      pageSize,
+      // filter.categorySlug,
+      // filter.subCategorySlug,
+    ],
+    queryFn: () =>
+      API.get(`/articles/all-articles?page=${page}&pageSize=${pageSize}`),
+    keepPreviousData: true,
+    refetchOnWindowFocus: true,
+    staleTime: Infinity,
+    cacheTime: 1000 * 60 * 20,
+  })
+}
+
+export function useGetArticle(id) {
+  return useQuery(["getArticle", id], () => API.get(`/articles/${id}`), {
+    refetchOnWindowFocus: false,
+    enabled: !!id,
+    staleTime: Infinity,
+    cacheTime: 1000 * 60 * 20,
+  })
+}
+
 
 export function useGetArticles() {
   return useQuery(["getAdminArticles"], () => API.get(`/articles`), {

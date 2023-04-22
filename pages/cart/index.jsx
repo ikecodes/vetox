@@ -42,6 +42,7 @@ const Cart = () => {
           )}
           {cartItems.length === 0 ? (
             <EmptyState
+              btn
               image={
                 <Image
                   src={"/emptyCart.svg"}

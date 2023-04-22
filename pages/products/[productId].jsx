@@ -24,7 +24,7 @@ const ProductDetails = () => {
   const { value } = useSelector((state) => state.user)
   const { data, isLoading } = useGetProduct(query.productId)
   const [showReviewModal, setShowReviewModal] = useState(false)
-  const product = data?.data?.data ?? []
+  const product = data?.data?.data ?? {}
 
   function addToCart() {
     if (!value) {
@@ -94,7 +94,7 @@ const ProductDetails = () => {
                 </Verified>
               </div>
               <h2 className='fw-bold' color={colors.black}>
-                {currencyFormatter(product.price)}
+                {currencyFormatter(product?.price)}
               </h2>
               {product?.inStock ? (
                 <p className='m-0 my-3 text-secondary'>In stock</p>
@@ -123,7 +123,7 @@ const ProductDetails = () => {
                   href={`https://wa.me/+2349167186719?text=${encodeURIComponent(
                     `I would like to make enquiry about ${
                       product.name
-                    } selling for ${currencyFormatter(product.price)}`
+                    } selling for ${currencyFormatter(product?.price)}`
                   )}`}
                 >
                   <EnquiryBtn>
@@ -141,9 +141,13 @@ const ProductDetails = () => {
               <div className='mt-3'>
                 <Header.h6 color={colors.black}>Description</Header.h6>
                 <div className='border-bottom my-2' />
-                <div className='text-secondary'>
+                <div
+                  className='text-secondary'
+                  dangerouslySetInnerHTML={{ __html: product?.description }}
+                />
+                {/* <div className='text-secondary'>
                   {convertHtmlToPlainText(product.description)}
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

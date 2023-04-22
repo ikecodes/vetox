@@ -1,6 +1,6 @@
-import Product from "@/models/ProductModel"
 import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
+import Article from "@/models/ArticleModel"
 
 const handler = nc({
   onError: (err, req, res, next) => {
@@ -20,23 +20,16 @@ const handler = nc({
     let filter = {}
     let sort = { createdAt: 1 }
 
-    if (rest.categorySlug) {
-      filter = { ...filter, categorySlug: rest.categorySlug }
-    }
-    if (rest.subCategorySlug) {
-      filter = { ...filter, subCategorySlug: rest.subCategorySlug }
-    }
-
     const pageNumber = page || 1
     const limit = parseInt(pageSize)
     const skip = (pageNumber - 1) * limit
     try {
-      const products = await Product.find(filter)
+      const articles = await Article.find(filter)
         .skip(skip)
         .limit(limit)
         .sort(sort)
 
-      const count = await Product.countDocuments()
+      const count = await Article.countDocuments()
       const totalPage = Math.ceil(count / pageSize || 1)
       const hasNextPage = pageNumber < totalPage
       const hasPrevPage = pageNumber > 1
@@ -44,7 +37,7 @@ const handler = nc({
       res.status(200).json({
         status: "successful",
         data: {
-          products,
+          articles,
           totalPage,
           hasNextPage,
           hasPrevPage,

@@ -6,7 +6,7 @@ import styled from "styled-components"
 import colors from "@/constants/colors"
 import { useRouter } from "next/router"
 
-const EmptyState = ({ image, title, body, route }) => {
+const EmptyState = ({ image, title, body, route, btn }) => {
   const router = useRouter()
   return (
     <Container>
@@ -19,13 +19,15 @@ const EmptyState = ({ image, title, body, route }) => {
           {body}
         </Header.h6>
 
-        <div className='my-3 text-center'></div>
-        <PrimaryBtn
-          primary
-          title={"Products"}
-          semirounded
-          handleClick={() => router.push(route)}
-        />
+        <div className='my-3 text-center' />
+        {btn && (
+          <PrimaryBtn
+            primary
+            title={"Products"}
+            semirounded
+            handleClick={() => router.push(route)}
+          />
+        )}
       </div>
     </Container>
   )

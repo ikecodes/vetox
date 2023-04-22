@@ -12,6 +12,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Card } from "react-bootstrap"
 import styled from "styled-components"
+import EmptyState from "@/components/EmptyState"
 
 const ProductCard = ({ id, title, category, image, price }) => (
   <CardContainer className='mb-3'>
@@ -67,7 +68,6 @@ const Products = () => {
     }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categorySlug, subCategorySlug])
-  console.log(isLoading, isFetching)
   return (
     <div className='d-flex'>
       <CategoryWrapper>
@@ -86,20 +86,40 @@ const Products = () => {
             <Loader />
           </LoadingBox>
         ) : (
-          <GridWrapper>
-            {products.map((product) => (
-              <ProductCard
-                key={product._id}
-                id={product._id}
-                image={product.images[0].original}
-                title={product.name}
-                price={product.price}
-                category={
-                  product.subCategory ? product.subCategory : product.category
+          <>
+            {products.length === 0 ? (
+              <EmptyState
+                image={
+                  <Image
+                    src={"/emptyProduct.svg"}
+                    width={200}
+                    height={200}
+                    alt='Empty state'
+                  />
                 }
+                title={"No products found!"}
+                body={"No products found on this category"}
+                route={"/products"}
               />
-            ))}
-          </GridWrapper>
+            ) : (
+              <GridWrapper>
+                {products.map((product) => (
+                  <ProductCard
+                    key={product._id}
+                    id={product._id}
+                    image={product.images[0].original}
+                    title={product.name}
+                    price={product.price}
+                    category={
+                      product.subCategory
+                        ? product.subCategory
+                        : product.category
+                    }
+                  />
+                ))}
+              </GridWrapper>
+            )}
+          </>
         )}
         <div className='d-flex justify-content-center'>
           {products.length > 0 && (

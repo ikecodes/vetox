@@ -3,32 +3,34 @@ import Image from "next/image"
 import Link from "next/link"
 import { Card } from "react-bootstrap"
 import styled from "styled-components"
-import PrimaryBtn from "./PrimaryBtn"
 import colors from "@/constants/colors"
 import SecondaryBtn from "./SecondaryBtn"
+import convertHtmlToPlainText from "@/utils/converHTMLToText"
+import moment from "moment"
 
-const BlogCard = ({ title, image }) => {
+const BlogCard = ({ article }) => {
   return (
     <CardContainer>
       <Card className='border-0 bg-light'>
         <ImageContainer>
           <Image
-            src={image}
+            src={article?.image}
             fill
             style={{ objectFit: "cover" }}
             alt='Solutions Image'
           />
         </ImageContainer>
         <Card.Body>
-          <Text>November 15, 2022</Text>
+          <Text>{moment(article?.createdAt).format("LL")}</Text>
           <div>
-            <Title className='text-capitalize text-secondary'>{title}</Title>
+            <Title className='text-capitalize text-secondary'>
+              {article?.title}
+            </Title>
+
             <Text>
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page from when looking at it layout. The
-              point of using Lorem Ipsum
+              {convertHtmlToPlainText(article?.description.slice(0, 120))}...
             </Text>
-            <Link href={`/blog/1`}>
+            <Link href={`/blog/${article?._id}`}>
               <SecondaryBtn title={"Read more"} primary semirounded underline />
             </Link>
           </div>

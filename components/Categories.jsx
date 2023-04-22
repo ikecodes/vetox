@@ -1,23 +1,63 @@
 import colors from "@/constants/colors"
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import Header from "./Header"
 import { categories } from "@/constants/categories"
+import slugify from "slugify"
 
-const Categories = () => {
+const Categories = ({ setCategorySlug, setSubCategorySlug }) => {
+  const [active, setActive] = useState("")
+  function reset(value) {
+    setActive(value)
+    setCategorySlug("")
+    setSubCategorySlug("")
+  }
+  function onCategoryClick(value) {
+    setActive(value)
+    setCategorySlug(slugify(value, "-"))
+    setSubCategorySlug("")
+  }
+  function onSubCategoryClick(value) {
+    setActive(value)
+    setSubCategorySlug(slugify(value, "-"))
+    setCategorySlug("")
+  }
   return (
     <Container>
       <Header.h5 color={colors.black} normal>
         Categories
       </Header.h5>
       <div className='mb-3' />
-
+      <h6
+        onClick={() => reset("All")}
+        style={{
+          color: active === "All" ? colors.primary : colors.black,
+          cursor: "pointer",
+        }}
+      >
+        All
+      </h6>
       {categories.map((value, i) => (
         <Category key={i} className='my-1'>
-          <h6>{value.category}</h6>
+          <h6
+            onClick={() => onCategoryClick(value.category)}
+            style={{
+              color: active === value.category ? colors.primary : colors.black,
+            }}
+          >
+            {value.category}
+          </h6>
           <ul>
             {value.subCategory.map((value, i) => (
-              <li key={i}>{value}</li>
+              <li
+                style={{
+                  color: active === value ? colors.primary : colors.black,
+                }}
+                onClick={() => onSubCategoryClick(value)}
+                key={i}
+              >
+                {value}
+              </li>
             ))}
           </ul>
         </Category>

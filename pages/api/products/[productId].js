@@ -2,6 +2,7 @@ import Product from "@/models/ProductModel"
 import cloudinary from "@/utils/cloudinary"
 import connectMongo from "@/middlewares/connectMongo"
 import nc from "next-connect"
+import Cart from "@/models/CartModel"
 
 const handler = nc({
   onError: (err, req, res, next) => {
@@ -39,6 +40,9 @@ const handler = nc({
       })
       await Promise.all(deletePromises)
       await Product.findByIdAndDelete(productId)
+      await Cart.deleteMany({
+        product: productId,
+      })
       res.status(200).json({
         status: "success",
       })
