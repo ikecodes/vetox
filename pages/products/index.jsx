@@ -13,6 +13,7 @@ import Link from "next/link"
 import { Card } from "react-bootstrap"
 import styled from "styled-components"
 import EmptyState from "@/components/EmptyState"
+import { useRouter } from "next/router"
 
 const ProductCard = ({ id, title, category, image, price }) => (
   <CardContainer className='mb-3'>
@@ -50,12 +51,16 @@ const ProductCard = ({ id, title, category, image, price }) => (
 )
 
 const Products = () => {
+  const { query } = useRouter()
   const [productFilter, setproductFilter] = useAtom(productsPagination)
   const { data, isLoading, isFetching } = useGetAllProducts()
   const products = data?.data?.data?.products ?? []
-  const [categorySlug, setCategorySlug] = useState("")
-  const [subCategorySlug, setSubCategorySlug] = useState("")
+  const [categorySlug, setCategorySlug] = useState(query.category ?? "")
+  const [subCategorySlug, setSubCategorySlug] = useState(
+    query.subCategory ?? ""
+  )
 
+  // console.log(productFilter)
   const handlePageClick = (event) => {
     setproductFilter((prev) => ({ ...prev, page: event.selected + 1 }))
   }

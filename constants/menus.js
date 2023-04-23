@@ -7,18 +7,7 @@ const menus = [
     id: "1",
     name: "products",
     path: "/products",
-    sub: [
-      {
-        id: "1",
-        name: "apply for grants",
-        path: "/grants",
-      },
-      {
-        id: "2",
-        name: "awardees",
-        path: "/awardees",
-      },
-    ],
+    sub: [],
   },
   {
     id: "2",

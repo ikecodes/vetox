@@ -39,9 +39,9 @@ const Index = () => {
                   alt='Empty state'
                 />
               }
-              title={"No products found!"}
-              body={"No products found on this category"}
-              route={"/products"}
+              title={"No articles found!"}
+              body={"No articles found on this page"}
+              btn
             />
           ) : (
             <div className='row'>
