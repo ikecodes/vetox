@@ -6,12 +6,24 @@ import styled from "styled-components";
 import Header from "../Header";
 import PrimaryBtn from "../PrimaryBtn";
 
-const Service = ({ text }) => (
+const services = [
+  {
+    name: "Fast Delivery",
+    image: "/services/fastDelivery.png",
+  },
+  {
+    name: "Staff Training",
+    image: "/services/staffTraining.png",
+  },
+  {
+    name: "Affordable Prices",
+    image: "/services/affordablePrices.png",
+  },
+]
+const Service = ({ name, image }) => (
   <ServiceWrapper>
     <Image
-      src={
-        "https://www.healthcareers.nhs.uk/sites/default/files/styles/hero_image/public/hero_images/healthcare-scientist-in-x-ray-room.JPG?itok=cE5MnTaY"
-      }
+      src={image}
       fill
       style={{
         objectFit: "cover",
@@ -19,12 +31,12 @@ const Service = ({ text }) => (
       alt={"Services"}
     />
     <ServiceOverlay />
-    <ServiceText>{text}</ServiceText>
+    <ServiceText>{name}</ServiceText>
   </ServiceWrapper>
-);
+)
 const Services = () => {
   return (
-    <div className='container p-5'>
+    <div className='container p-5 mt-5'>
       <div className='row'>
         <div className='col-lg-6 mb-3'>
           <Header.h1>Our Services</Header.h1>
@@ -52,14 +64,14 @@ const Services = () => {
           />
         </div>
         <div className='col-lg-6 d-flex gap-2 justify-content-center align-items-center flex-wrap'>
-          <Service text={"fast delivery"} />
-          <Service text={"staff delivery"} />
-          <Service text={"affordable prices"} />
+          {services.map((services, i) => (
+            <Service key={i} name={services.name} image={services.image} />
+          ))}
         </div>
       </div>
     </div>
   )
-};
+}
 
 const ServiceWrapper = styled.div`
   position: relative;
@@ -70,13 +82,19 @@ const ServiceWrapper = styled.div`
   @media (max-width: 567px) {
     width: 80%;
   }
+  /* & div {
+    transform: translateY(50px);
+    @media (max-width: 567px) {
+      transform: translateY(0);
+    }
+  } */
   &:nth-child(2) {
-    transform: translateY(-40px);
+    transform: translateY(-50px);
     @media (max-width: 567px) {
       transform: translateY(0);
     }
   }
-`;
+`
 const ServiceOverlay = styled.div`
   position: relative;
   height: 100%;

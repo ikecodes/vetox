@@ -98,8 +98,8 @@ const BrandWrapper = styled.div`
   border-radius: 20px;
   overflow: hidden;
   @media (max-width: 576px) {
-    height: 10rem;
-    width: 10rem;
+    height: 7rem;
+    width: 7rem;
   }
 `
 export default BrandsSlider

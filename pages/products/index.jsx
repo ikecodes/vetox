@@ -77,6 +77,8 @@ const Products = () => {
     <div className='d-flex'>
       <CategoryWrapper>
         <Categories
+          categorySlug={categorySlug}
+          subCategorySlug={subCategorySlug}
           setCategorySlug={setCategorySlug}
           setSubCategorySlug={setSubCategorySlug}
         />
@@ -174,9 +176,9 @@ export const GridWrapper = styled.section`
   @media (max-width: 960px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (max-width: 576px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
+  /* @media (max-width: 576px) {
+    grid-template-columns: repeat(2, 1fr);
+  } */
 `
 
 const CardContainer = styled.div`

@@ -5,7 +5,12 @@ import Header from "./Header"
 import { categories } from "@/constants/categories"
 import slugify from "slugify"
 
-const Categories = ({ setCategorySlug, setSubCategorySlug }) => {
+const Categories = ({
+  categorySlug,
+  subCategorySlug,
+  setCategorySlug,
+  setSubCategorySlug,
+}) => {
   const [active, setActive] = useState("")
   function reset(value) {
     setActive(value)

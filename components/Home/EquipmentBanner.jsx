@@ -3,8 +3,11 @@ import Image from "next/image"
 import React from "react"
 import styled from "styled-components"
 import PrimaryBtn from "../PrimaryBtn"
+import { useRouter } from "next/router"
 
 const EquipmentBanner = () => {
+  const router = useRouter()
+
   return (
     <Wrapper>
       <ImageBox>
@@ -21,7 +24,11 @@ const EquipmentBanner = () => {
       <TextBox>
         <h1>EQUIPMENT LIFECYCLE REIMAGINED</h1>
         <div>
-          <PrimaryBtn semirounded title={"View Details"} />
+          <PrimaryBtn
+            semirounded
+            title={"View Details"}
+            handleClick={() => router.push("/products")}
+          />
         </div>
       </TextBox>
     </Wrapper>

@@ -5,40 +5,41 @@ import { Card } from "react-bootstrap"
 import styled from "styled-components"
 import Header from "../Header"
 import TertiaryBtn from "../TertiaryBtn"
+import { useGetFeaturedProducts } from "@/hooks/products.hook"
 
-const products = [
-  {
-    title: "Ventilation Accessories",
-    image:
-      "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
-  },
-  {
-    title: "Medical Supply Systems",
-    image:
-      "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
-  },
-  {
-    title: "Patient Monitoring Systems",
-    image:
-      "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
-  },
-  {
-    title: "Neonatal Incubators & Thermoregulation ",
-    image:
-      "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
-  },
-  {
-    title: "Zeiss NC4 OPMI Neuro Spine Surgical Microscope NC-4",
-    image:
-      "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
-  },
-  {
-    title: "Zeiss NC4 OPMI Neuro Spine Surgical Microscope NC-4",
-    image:
-      "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
-  },
-]
-const FeaturedCard = ({ title, image }) => (
+// const products = [
+//   {
+//     title: "Ventilation Accessories",
+//     image:
+//       "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
+//   },
+//   {
+//     title: "Medical Supply Systems",
+//     image:
+//       "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
+//   },
+//   {
+//     title: "Patient Monitoring Systems",
+//     image:
+//       "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
+//   },
+//   {
+//     title: "Neonatal Incubators & Thermoregulation ",
+//     image:
+//       "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
+//   },
+//   {
+//     title: "Zeiss NC4 OPMI Neuro Spine Surgical Microscope NC-4",
+//     image:
+//       "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
+//   },
+//   {
+//     title: "Zeiss NC4 OPMI Neuro Spine Surgical Microscope NC-4",
+//     image:
+//       "https://1.cms.s81c.com/sites/default/files/2021-08-24/ELM_Industries_medical_devices_manage_complexity_video_700x394.jpg",
+//   },
+// ]
+const FeaturedCard = ({ id, title, price, image }) => (
   <CardContainer>
     <div className='border-0 p-2'>
       <ImageContainer>
@@ -55,7 +56,7 @@ const FeaturedCard = ({ title, image }) => (
           <TextBox className='my-1'>
             <h6 className='text-capitalize text-secondary'>{title}</h6>
           </TextBox>
-          <Link href={`/`}>
+          <Link href={`/products/${id}`}>
             <TertiaryBtn title={"Shop"} primary />
           </Link>
         </div>
@@ -64,20 +65,26 @@ const FeaturedCard = ({ title, image }) => (
   </CardContainer>
 )
 const Featured = () => {
+  const { data } = useGetFeaturedProducts()
+  const products = data?.data?.data ?? []
   return (
-    <div className='p-5'>
+    <div className='py-5'>
       <div>
         <div className='text-center'>
           <Header.h4>Featured</Header.h4>
           <div className='mb-3' />
         </div>
-        <div className='row'>
+        <GridWrapper>
           {products.map((product, i) => (
-            <div key={i} className='col-lg-2 col-md-4 mb-3'>
-              <FeaturedCard title={product.title} image={product.image} />
-            </div>
+            <FeaturedCard
+              id={product._id}
+              key={product._id}
+              title={product.name}
+              price={product.price}
+              image={product.images[0].original}
+            />
           ))}
-        </div>
+        </GridWrapper>
       </div>
     </div>
   )
@@ -87,11 +94,27 @@ const CardContainer = styled.div`
   border-radius: 20px;
   overflow: hidden;
 `
+export const GridWrapper = styled.section`
+  display: grid;
+  gap: 1rem;
+  justify-content: justifyContent;
+  align-items: alignItems;
+  grid-template-columns: repeat(5, 1fr);
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (max-width: 960px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* @media (max-width: 576px) {
+    grid-template-columns: repeat(2, 1fr);
+  } */
+`
 const ImageContainer = styled.div`
   position: relative;
   border-radius: 20px;
   overflow: hidden;
-  height: 15rem;
+  height: 12rem;
   width: 100%;
 `
 const TextBox = styled.div`

@@ -5,41 +5,29 @@ import styled from "styled-components";
 import PrimaryBtn from "../PrimaryBtn";
 import Slider from "react-slick";
 import Image from "next/image";
+import { categories } from "@/constants/categories"
+import { useRouter } from "next/router"
+import slugify from "slugify"
 
-const Product = () => {
+const Product = ({ image, category }) => {
+  const router = useRouter()
+  function navigateWithCategory(category) {
+    router.push(
+      {
+        pathname: "/products",
+        query: { category: slugify(category, "-") },
+      },
+      "/products"
+    )
+  }
   return (
-    <ProductWrapper>
-      <Image
-        src={
-          "https://ae01.alicdn.com/kf/H1aa80e9e8d7a46fba3831d790800b64ce/Portable-Single-Head-Stethoscope-Professional-Cardiology-Stethoscope-Doctor-Medical-Equipment-Student-Vet-Nurse-Medical-Device.jpg"
-        }
-        fill
-        // width={100}
-        // height={100}
-        alt={"Product"}
-        style={{ objectFit: "cover" }}
-      />
+    <ProductWrapper onClick={() => navigateWithCategory(category)}>
+      <Image src={image} fill alt={"Product"} style={{ objectFit: "cover" }} />
+      <Overlay />
+      <Text>{category}</Text>
     </ProductWrapper>
-  );
-};
-
-const products = [
-  {
-    name: "Product1",
-  },
-  {
-    name: "Product2",
-  },
-  {
-    name: "Product3",
-  },
-  {
-    name: "Product4",
-  },
-  {
-    name: "Product5",
-  },
-];
+  )
+}
 
 const ProductSlider = () => {
   const settings = {
@@ -48,8 +36,8 @@ const ProductSlider = () => {
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
-    speed: 2000,
+    autoplaySpeed: 1000,
+    speed: 1500,
     centerMode: true,
     responsive: [
       {
@@ -76,7 +64,7 @@ const ProductSlider = () => {
         },
       },
     ],
-  };
+  }
   return (
     <div className='py-5'>
       <div className='text-center mb-3'>
@@ -95,30 +83,58 @@ const ProductSlider = () => {
 
       <Container className='p-5'>
         <Slider {...settings}>
-          {products.map((product, i) => {
-            return <Product key={i} name={product.name} />;
+          {categories.map((category, i) => {
+            return (
+              <Product
+                key={i}
+                image={category.imagePath}
+                category={category.category}
+              />
+            )
           })}
         </Slider>
       </Container>
     </div>
-  );
-};
+  )
+}
 
 const Container = styled.div`
   overflow: hidden;
-  background-color: ${colors.primary};
-`;
+  /* background-color: ${colors.primary}; */
+`
 const ProductWrapper = styled.div`
+  cursor: pointer;
   position: relative;
   height: 14rem;
   width: 14rem;
-  background-color: ${colors.primary};
-  border: 2px solid #dde3ff;
-  border-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   overflow: hidden;
   @media (max-width: 576px) {
     height: 10rem;
     width: 10rem;
   }
-`;
+`
+const Overlay = styled.div`
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(
+    360deg,
+    #4262ff 20%,
+    rgba(217, 217, 217, 0) 51.29%
+  );
+`
+const Text = styled.h5`
+  position: absolute;
+  color: ${colors.white};
+  z-index: 1000;
+  bottom: 10px;
+  left: 20px;
+  transform: translate(50);
+  font-weight: 900;
+  text-transform: capitalize;
+  width: 20px;
+`
+
 export default ProductSlider;

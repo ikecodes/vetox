@@ -22,10 +22,10 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Hero />
-      <Customers />
-      <ProductSlider />
       <Services />
+      <Customers />
       <Solutions />
+      <ProductSlider />
       <EquipmentBanner />
       <Featured />
       <HomeProductAnimation />

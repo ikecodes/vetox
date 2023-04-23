@@ -2,6 +2,7 @@ import colors from "@/constants/colors"
 import React from "react"
 import Header from "../Header"
 import BlogCard from "../BlogCard"
+import { useGetFeaturedArticles } from "@/hooks/articles.hook"
 
 const articles = [
   {
@@ -28,6 +29,9 @@ const articles = [
 ]
 
 const HomeBlog = () => {
+  const { data } = useGetFeaturedArticles()
+
+  const articles = data?.data?.data ?? []
   return (
     <div className='p-5'>
       <div className='container'>
@@ -35,7 +39,7 @@ const HomeBlog = () => {
           <Header.h4 color={colors.black}>From our blog</Header.h4>
           <div className='mb-3' />
         </div>
-        <div className='row'>
+        <div className='row justify-content-center'>
           {articles.map((article, i) => (
             <div key={i} className='col-lg-4 col-md-6 mb-3'>
               <BlogCard article={article} />

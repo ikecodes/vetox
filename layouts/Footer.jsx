@@ -6,7 +6,22 @@ import Link from "next/link"
 import colors from "@/constants/colors"
 import Image from "next/image"
 import PrimaryBtn from "@/components/PrimaryBtn"
+import { categories } from "@/constants/categories"
+import { useRouter } from "next/router"
+import slugify from "slugify"
 const Footer = () => {
+  const router = useRouter()
+
+  function navigateWithCategory(category) {
+    router.push(
+      {
+        pathname: "/products",
+        query: { category: slugify(category, "-") },
+      },
+      "/products"
+    )
+  }
+
   return (
     <Container>
       <div className='container'>
@@ -47,16 +62,21 @@ const Footer = () => {
               </div>
               <p className='pt-4'>
                 3 Grace Ave, Ajah, Lekki 479211, P.O.Box 8196 Lagos, Nigeria
-                info@halomedicals.com
+                info@vetoxmedicals.com
               </p>
             </div>
           </div>
           <div className='col-lg-3'>
             <List className='text-capitalize list-style-none'>
               <li className='mb-3 fw-bold'>products</li>
-              <li className='mb-2'>
-                <Link href='/about'>Laboratory Equipment</Link>
-              </li>
+              {categories.map((value, i) => (
+                <li key={i} className='mb-2'>
+                  <span onClick={() => navigateWithCategory(value.category)}>
+                    {value.category}
+                  </span>
+                </li>
+              ))}
+              {/* 
               <li className='mb-2'>
                 <Link href='/contact-us'>Operating Equipment</Link>
               </li>
@@ -71,7 +91,7 @@ const Footer = () => {
               </li>
               <li className='mb-2'>
                 <Link href='/contact-us'>Operating Room/Theatre Equipment</Link>
-              </li>
+              </li> */}
             </List>
           </div>
           <div className='col-lg-3'>
@@ -121,16 +141,24 @@ const Container = styled.footer`
     ${colors.primary} 200%
   );
 
+  & span {
+    cursor: pointer;
+  }
+  & span:hover {
+    color: ${colors.primary};
+  }
+
   & a,
   a:link {
     color: ${colors.white};
     text-decoration: none;
   }
+
   & a:hover,
   a:active {
     color: ${colors.primary};
   }
-`;
+`
 
 const LogoWrite = styled.div`
   h5,

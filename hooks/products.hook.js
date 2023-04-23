@@ -25,6 +25,18 @@ export function useGetAllProducts() {
   })
 }
 
+export function useGetFeaturedProducts() {
+  return useQuery(
+    ["getFeaturedProducts"],
+    () => API.get(`/products/featured`),
+    {
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+      cacheTime: 1000 * 60 * 20,
+    }
+  )
+}
+
 export function useGetProduct(id) {
   return useQuery(["getProduct", id], () => API.get(`/products/${id}`), {
     refetchOnWindowFocus: false,
@@ -33,9 +45,6 @@ export function useGetProduct(id) {
     cacheTime: 1000 * 60 * 20,
   })
 }
-
-
-
 
 export function useGetProducts() {
   return useQuery(["getAdminProducts"], () => API.get(`/products`), {
@@ -49,7 +58,7 @@ export const useCreateProduct = () => {
   const queryClient = useQueryClient()
   return useMutation((data) => API.post("/products", data), {
     onSuccess: () => {
-      queryClient.invalidateQueries(["getAdminProducts"])
+      queryClient.invalidateQueries(["getAdminProducts", "getFeaturedProducts"])
     },
   })
 }

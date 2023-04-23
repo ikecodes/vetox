@@ -1,14 +1,17 @@
 export const categories = [
   {
     category: "Accessories",
+    imagePath: "/categories/accessories.jpeg",
     subCategory: [],
   },
   {
     category: "Hospital Equipment",
+    imagePath: "/categories/hospitalEquipment.jpeg",
     subCategory: [],
   },
   {
     category: "Laboratory Equipment",
+    imagePath: "/categories/laboratoryEquipment.jpeg",
     subCategory: [
       "Clinical Chemistry",
       "Hematology Unit",
@@ -20,10 +23,12 @@ export const categories = [
   },
   {
     category: "Medical Consumables",
+    imagePath: "/categories/medicalConsumables.jpeg",
     subCategory: [],
   },
   {
     category: "Medical Equipment",
+    imagePath: "/categories/medicalEquipment.png",
     subCategory: [
       "Accident & Emergency",
       "Anesthesiology",
@@ -45,6 +50,7 @@ export const categories = [
   },
   {
     category: "Medical Furniture",
+    imagePath: "/categories/medicalFurniture.jpeg",
     subCategory: [
       "Bed",
       "Examination",
@@ -56,10 +62,12 @@ export const categories = [
   },
   {
     category: "Neurology",
+    imagePath: "/categories/neurology.jpeg",
     subCategory: [],
   },
   {
     category: "Scientific & Medical Education",
+    imagePath: "/categories/scienceEducation.jpeg",
     subCategory: [
       "Biology Experiments",
       "Chemistry Models",
@@ -74,10 +82,12 @@ export const categories = [
   },
   {
     category: "Surgical Hand Instrument",
+    imagePath: "/categories/surgeryEquipment.jpeg",
     subCategory: [],
   },
   {
     category: "Veterinary Medicine",
+    imagePath: "/categories/veterinaryEquipment.jpeg",
     subCategory: [],
   },
 ]

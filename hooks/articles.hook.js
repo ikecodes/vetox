@@ -23,6 +23,14 @@ export function useGetAllArticles() {
   })
 }
 
+export function useGetFeaturedArticles() {
+  return useQuery(["getAdminArticles"], () => API.get(`/articles/featured`), {
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+    cacheTime: 1000 * 60 * 20,
+  })
+}
+
 export function useGetArticle(id) {
   return useQuery(["getArticle", id], () => API.get(`/articles/${id}`), {
     refetchOnWindowFocus: false,
