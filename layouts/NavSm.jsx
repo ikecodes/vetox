@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/router"
 import { toast } from "react-toastify"
 import { setUser } from "@/slices/userSlice"
+import { Accordion } from "react-bootstrap"
+import { categories } from "@/constants/categories"
 const NavSm = () => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -69,20 +71,41 @@ const NavSm = () => {
       >
         <NavContainer onClick={(e) => e.stopPropagation()}>
           {menus.map((menu) => (
-            <div className='ms-4' key={menu.id}>
-              <Heading>
-                <Link href={menu.path}>{menu.name}</Link>
-              </Heading>
+            <>
+              {menu.name === "products" ? (
+                <div className='ms-4' key={menu.id}>
+                  <Heading>
+                    <Link href={menu.path}>{menu.name}</Link>
+                  </Heading>
+                  <Accordion>
+                    {categories.map((value, i) => (
+                      <Accordion.Item key={i} eventKey={i}>
+                        <Accordion.Header>{value.category}</Accordion.Header>
+                        {value.subCategory.length > 0 &&
+                          value.subCategory.map((sub, i) => (
+                            <Accordion.Body key={i}>{sub}</Accordion.Body>
+                          ))}
+                      </Accordion.Item>
+                    ))}
+                  </Accordion>
+                </div>
+              ) : (
+                <div className='ms-4' key={menu.id}>
+                  <Heading>
+                    <Link href={menu.path}>{menu.name}</Link>
+                  </Heading>
 
-              <List>
-                {menu.sub.length > 0 &&
-                  menu.sub.map((item) => (
-                    <li key={item.id}>
-                      <Link href={item.path}>{item.name} </Link>{" "}
-                    </li>
-                  ))}
-              </List>
-            </div>
+                  <List>
+                    {menu.sub.length > 0 &&
+                      menu.sub.map((item) => (
+                        <li key={item.id}>
+                          <Link href={item.path}>{item.name} </Link>{" "}
+                        </li>
+                      ))}
+                  </List>
+                </div>
+              )}
+            </>
           ))}
 
           <CloseIcon onClick={() => setIsAnimating(false)}>
@@ -99,7 +122,7 @@ const OptionsIcon = styled.span`
   top: 1rem;
   z-index: 100;
   font-weight: 700;
-  right: 1rem;
+  right: 0.5rem;
   display: none;
   @media (max-width: 768px) {
     display: block;
@@ -110,7 +133,7 @@ const MenuIcon = styled.span`
   top: 1rem;
   z-index: 100;
   font-weight: 700;
-  right: 3rem;
+  right: 3.5rem;
   display: none;
   @media (max-width: 768px) {
     display: block;
@@ -173,8 +196,10 @@ const AnimatingContainer = styled.div`
 `
 const NavContainer = styled.div`
   position: relative;
+  /* padding-top: 100rem;  */
   width: 100%;
   height: 100vh;
+  overflow-y: scroll;
   background: ${colors.tertiary};
   position: absolute;
   color: ${colors.white};

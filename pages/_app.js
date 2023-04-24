@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 import "@/styles/carousel.css";
+import "@/styles/accordion.css"
 import "@/styles/loader.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "slick-carousel/slick/slick.css"

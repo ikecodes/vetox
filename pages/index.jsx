@@ -8,6 +8,7 @@ import HomeProductAnimation from "@/components/Home/HomeProductAnimation"
 import ProductSlider from "@/components/Home/ProductSlider"
 import Services from "@/components/Home/Services"
 import Solutions from "@/components/Home/Solutions"
+import Testimonials from "@/components/Home/Testimonials"
 import Head from "next/head"
 
 export default function Home() {
@@ -31,6 +32,7 @@ export default function Home() {
       {/* <HomeProductAnimation /> */}
       <HomeBlog />
       <BrandsSlider />
+      <Testimonials />
     </div>
   )
 }

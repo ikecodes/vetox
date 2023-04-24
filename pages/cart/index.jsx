@@ -8,8 +8,6 @@ import { setCartNumber } from "@/slices/userSlice"
 import { currencyFormatter } from "@/utils/helpers"
 import Image from "next/image"
 import React, { useEffect, useMemo, useState } from "react"
-import { BsTrashFill } from "react-icons/bs"
-import { MdOutlineAddCircle, MdRemoveCircle } from "react-icons/md"
 import { useDispatch } from "react-redux"
 import styled from "styled-components"
 
@@ -23,6 +21,7 @@ const Cart = () => {
       setCartItems(data?.data?.data)
       dispatch(setCartNumber(data?.data?.data.length))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   const totalPrice = useMemo(() => {
@@ -74,7 +73,7 @@ const Cart = () => {
                     />
                   ))}
               </div>
-              <div className='col-lg-3 shadow rounded p-3'>
+              <div className='col-lg-3 shadow rounded p-3 align-self-start'>
                 <div className='border-bottom pb-2'>
                   <Header.h4 normal color={colors.grey3}>
                     Cart ({cartItems?.length})
