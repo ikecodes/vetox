@@ -13,6 +13,7 @@ import { toast } from "react-toastify"
 import { setUser } from "@/slices/userSlice"
 import { Accordion } from "react-bootstrap"
 import { categories } from "@/constants/categories"
+import slugify from "slugify"
 const NavSm = () => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -24,6 +25,25 @@ const NavSm = () => {
   }
   const [isAnimating, setIsAnimating] = useState(false)
   const [showOptions, setShowOptions] = useState(false)
+
+  function navigateWithCategory(category) {
+    router.push(
+      {
+        pathname: "/products",
+        query: { category: slugify(category, "-") },
+      },
+      "/products"
+    )
+  }
+  function navigateWithSubCategory(subCategory) {
+    router.push(
+      {
+        pathname: "/products",
+        query: { subCategory: slugify(subCategory, "-") },
+      },
+      "/products"
+    )
+  }
 
   return (
     <>
@@ -80,10 +100,27 @@ const NavSm = () => {
                   <Accordion>
                     {categories.map((value, i) => (
                       <Accordion.Item key={i} eventKey={i}>
-                        <Accordion.Header>{value.category}</Accordion.Header>
+                        <Accordion.Header>
+                          <span
+                            onClick={() => {
+                              if (value.subCategory.length > 0) {
+                                return
+                              } else {
+                                navigateWithCategory(value.category)
+                              }
+                            }}
+                          >
+                            {value.category}
+                          </span>
+                        </Accordion.Header>
                         {value.subCategory.length > 0 &&
                           value.subCategory.map((sub, i) => (
-                            <Accordion.Body key={i}>{sub}</Accordion.Body>
+                            <Accordion.Body
+                              onClick={() => navigateWithSubCategory(sub)}
+                              key={i}
+                            >
+                              {sub}
+                            </Accordion.Body>
                           ))}
                       </Accordion.Item>
                     ))}
@@ -208,7 +245,7 @@ const NavContainer = styled.div`
   justify-content: center;
   text-transform: capitalize;
   transform: translateX(20%);
-  gap: 2rem;
+  gap: 0.5rem;
   & li {
     margin: 1rem 0;
   }
@@ -217,6 +254,7 @@ const Heading = styled.h6`
   color: ${colors.primary};
   text-transform: uppercase;
   font-weight: bold;
+  margin: 0;
   & a,
   a:link {
     color: ${colors.primary};
@@ -225,6 +263,9 @@ const Heading = styled.h6`
 `
 const List = styled.ul`
   padding-left: 10px;
+  & li {
+    margin: 0.5rem 0;
+  }
   & a,
   a:link {
     color: ${colors.white};
