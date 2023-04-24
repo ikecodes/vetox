@@ -56,16 +56,20 @@ const SolutionsCard = ({ title, image }) => (
 )
 const Solutions = () => {
   return (
-    <Container className='p-5'>
+    <Container>
       <div className='container'>
         <Header>More intensive care solutions</Header>
         <div className='mb-3' />
         <div className='row'>
-          {products.map((product, i) => (
-            <div key={i} className='col-lg-3 col-md-6 mb-3'>
-              <SolutionsCard title={product.title} image={product.image} />
-            </div>
-          ))}
+          <GridWrapper>
+            {products.map((product, i) => (
+              <SolutionsCard
+                key={1}
+                title={product.title}
+                image={product.image}
+              />
+            ))}
+          </GridWrapper>
         </div>
       </div>
     </Container>
@@ -74,6 +78,23 @@ const Solutions = () => {
 
 const Container = styled.div`
   background-color: ${colors.grey1};
+`
+
+export const GridWrapper = styled.section`
+  display: grid;
+  gap: 1rem;
+  justify-content: justifyContent;
+  align-items: alignItems;
+  grid-template-columns: repeat(4, 1fr);
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 960px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* @media (max-width: 576px) {
+    grid-template-columns: repeat(2, 1fr);
+  } */
 `
 const CardContainer = styled.div`
   border-radius: 20px;

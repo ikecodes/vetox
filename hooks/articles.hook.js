@@ -32,7 +32,7 @@ export function useGetFeaturedArticles() {
 }
 
 export function useGetArticle(id) {
-  return useQuery(["getArticle", id], () => API.get(`/articles/single/${id}`), {
+  return useQuery(["getArticle", id], () => API.get(`/articles/${id}`), {
     refetchOnWindowFocus: false,
     enabled: !!id,
     staleTime: Infinity,

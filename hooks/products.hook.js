@@ -38,7 +38,7 @@ export function useGetFeaturedProducts() {
 }
 
 export function useGetProduct(id) {
-  return useQuery(["getProduct", id], () => API.get(`/products/single/${id}`), {
+  return useQuery(["getProduct", id], () => API.get(`/products/${id}`), {
     refetchOnWindowFocus: false,
     enabled: !!id,
     staleTime: Infinity,

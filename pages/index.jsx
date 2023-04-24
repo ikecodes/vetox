@@ -28,7 +28,7 @@ export default function Home() {
       <ProductSlider />
       <EquipmentBanner />
       <Featured />
-      <HomeProductAnimation />
+      {/* <HomeProductAnimation /> */}
       <BrandsSlider />
       <HomeBlog />
     </div>
