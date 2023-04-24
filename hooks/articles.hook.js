@@ -14,8 +14,7 @@ export function useGetAllArticles() {
       // filter.categorySlug,
       // filter.subCategorySlug,
     ],
-    queryFn: () =>
-      API.get(`/articles/all-articles?page=${page}&pageSize=${pageSize}`),
+    queryFn: () => API.get(`/articles?page=${page}&pageSize=${pageSize}`),
     keepPreviousData: true,
     refetchOnWindowFocus: true,
     staleTime: Infinity,
@@ -32,7 +31,7 @@ export function useGetFeaturedArticles() {
 }
 
 export function useGetArticle(id) {
-  return useQuery(["getArticle", id], () => API.get(`/articles/single/${id}`), {
+  return useQuery(["getArticle", id], () => API.get(`/articles/${id}`), {
     refetchOnWindowFocus: false,
     enabled: !!id,
     staleTime: Infinity,
