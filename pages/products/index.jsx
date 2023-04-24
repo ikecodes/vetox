@@ -86,7 +86,7 @@ const Products = () => {
 
       <ProductsWrapper>
         <div className='text-center my-5'>
-          <Header.h4 color={colors.black}>Products</Header.h4>
+          <Header.h4 color={colors.black}>Shop</Header.h4>
         </div>
         {isLoading || isFetching ? (
           <LoadingBox>

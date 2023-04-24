@@ -84,7 +84,7 @@ const ProductSlider = () => {
       <div className='text-center mb-3'>
         <Link href={"/products"}>
           <PrimaryBtn
-            title={"Products"}
+            title={"Shop by categories"}
             primary
             icon={
               <MdOutlineArrowRightAlt

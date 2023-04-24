@@ -1,19 +1,68 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import styled from "styled-components";
-// import { RiMenu4Fill } from "react-icons/ri";
-import { FaTimes } from "react-icons/fa";
-import menus from "@/constants/menus";
-import colors from "@/constants/colors";
-import { FiMenu } from "react-icons/fi";
+import styled from "styled-components"
+import { FaTimes } from "react-icons/fa"
+import menus from "@/constants/menus"
+import colors from "@/constants/colors"
+import { TbMenu } from "react-icons/tb"
+import { BsCart, BsThreeDotsVertical } from "react-icons/bs"
+import { BiLogInCircle } from "react-icons/bi"
+import { useDispatch, useSelector } from "react-redux"
+import { useRouter } from "next/router"
+import { toast } from "react-toastify"
+import { setUser } from "@/slices/userSlice"
 const NavSm = () => {
-  const [isAnimating, setIsAnimating] = useState(false);
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const { value, cartNumber } = useSelector((state) => state.user)
+  function logout() {
+    dispatch(setUser(null))
+    toast.success("Signout successful")
+    router.push("/")
+  }
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [showOptions, setShowOptions] = useState(false)
 
   return (
     <>
-      <OpenIcon onClick={() => setIsAnimating(true)}>
-        <FiMenu size={40} color={colors.primary} />
-      </OpenIcon>
+      <div className='position-relative'>
+        <MenuIcon onClick={() => setIsAnimating(true)}>
+          <TbMenu size={30} color={colors.primary} />
+        </MenuIcon>
+        <OptionsIcon onClick={() => setShowOptions((prev) => !prev)}>
+          <BsThreeDotsVertical size={30} color={colors.primary} />
+        </OptionsIcon>
+        <OptionsBox
+          className={showOptions ? "clicked shadow p-3" : "shadow p-3"}
+        >
+          <Link href={"/cart"}>
+            <div className='mb-4 d-flex align-items-center'>
+              <div className='position-relative'>
+                <Cart className='bg-danger'>
+                  <span>{cartNumber ?? 0}</span>
+                </Cart>
+                <BsCart size={25} color={colors.primary} />
+              </div>
+              <h6 className='m-0 ms-2'>Cart</h6>
+            </div>
+          </Link>
+
+          {value ? (
+            <div className='d-flex align-items-center' onClick={logout}>
+              <BiLogInCircle size={25} color={colors.primary} />
+              <h6 className='m-0 ms-2'>Signout</h6>
+            </div>
+          ) : (
+            <Link href={"/sign-in"}>
+              <div className='d-flex align-items-center'>
+                <BiLogInCircle size={25} color={colors.primary} />
+                <h6 className='m-0 ms-2'>SignIn</h6>
+              </div>
+            </Link>
+          )}
+        </OptionsBox>
+      </div>
+
       <AnimatingContainer
         className={isAnimating ? "clicked" : ""}
         onClick={(e) => setIsAnimating(false)}
@@ -42,26 +91,69 @@ const NavSm = () => {
         </NavContainer>
       </AnimatingContainer>
     </>
-  );
-};
+  )
+}
 
-const OpenIcon = styled.span`
+const OptionsIcon = styled.span`
   position: absolute;
   top: 1rem;
   z-index: 100;
   font-weight: 700;
-  right: 1.5rem;
+  right: 1rem;
   display: none;
   @media (max-width: 768px) {
     display: block;
   }
-`;
+`
+const MenuIcon = styled.span`
+  position: absolute;
+  top: 1rem;
+  z-index: 100;
+  font-weight: 700;
+  right: 3rem;
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+`
+
+const OptionsBox = styled.div`
+  position: absolute;
+  right: 2rem;
+  top: 50px;
+  border-radius: 10px;
+  opacity: 0;
+  z-index: 100;
+  background-color: ${colors.white};
+  transition: all 0.3s ease-in;
+  & a {
+    text-decoration: none !important;
+  }
+  & h6 {
+    color: ${colors.black};
+  }
+  &.clicked {
+    opacity: 1;
+  }
+`
+const Cart = styled.span`
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  height: 18px;
+  width: 18px;
+  display: grid;
+  font-size: 1rem;
+  place-content: center;
+  color: ${colors.white};
+  border-radius: 50%;
+`
 const CloseIcon = styled.span`
   position: absolute;
   top: 1.5rem;
   z-index: 100;
   right: 6rem;
-`;
+`
 
 const AnimatingContainer = styled.div`
   display: none;
@@ -78,7 +170,7 @@ const AnimatingContainer = styled.div`
   @media (max-width: 768px) {
     display: block;
   }
-`;
+`
 const NavContainer = styled.div`
   position: relative;
   width: 100%;
@@ -95,7 +187,7 @@ const NavContainer = styled.div`
   & li {
     margin: 1rem 0;
   }
-`;
+`
 const Heading = styled.h6`
   color: ${colors.primary};
   text-transform: uppercase;
@@ -105,12 +197,13 @@ const Heading = styled.h6`
     color: ${colors.primary};
     text-decoration: none;
   }
-`;
+`
 const List = styled.ul`
+  padding-left: 10px;
   & a,
   a:link {
     color: ${colors.white};
     text-decoration: none;
   }
-`;
+`
 export default NavSm;

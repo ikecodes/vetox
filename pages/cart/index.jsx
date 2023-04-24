@@ -4,20 +4,24 @@ import Header from "@/components/Header"
 import Loader from "@/components/Loader"
 import colors from "@/constants/colors"
 import { useGetCarts } from "@/hooks/cart.hook"
+import { setCartNumber } from "@/slices/userSlice"
 import { currencyFormatter } from "@/utils/helpers"
 import Image from "next/image"
 import React, { useEffect, useMemo, useState } from "react"
 import { BsTrashFill } from "react-icons/bs"
 import { MdOutlineAddCircle, MdRemoveCircle } from "react-icons/md"
+import { useDispatch } from "react-redux"
 import styled from "styled-components"
 
 const Cart = () => {
+  const dispatch = useDispatch()
   const { data, isLoading } = useGetCarts()
   const [cartItems, setCartItems] = useState([])
 
   useEffect(() => {
     if (data && data?.data?.data.length > 0) {
       setCartItems(data?.data?.data)
+      dispatch(setCartNumber(data?.data?.data.length))
     }
   }, [data])
 
