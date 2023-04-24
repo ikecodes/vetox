@@ -10,7 +10,7 @@ const Wrapper = ({ children }) => {
   const { asPath, push } = useRouter()
 
   useEffect(() => {
-    if (!value && protectRoutes.includes(asPath)) return () => push("/")
+    // if (!value && protectRoutes.includes(asPath)) return () => push("/")
     if (
       value &&
       asPath !== "/admin/login" &&

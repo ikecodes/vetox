@@ -19,11 +19,18 @@ const Cart = () => {
   useEffect(() => {
     if (data && data?.data?.data.length > 0) {
       setCartItems(data?.data?.data)
-      dispatch(setCartNumber(data?.data?.data.length))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
+  useEffect(() => {
+    loadCartNumber()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems])
+
+  function loadCartNumber() {
+    dispatch(setCartNumber(cartItems.length))
+  }
   const totalPrice = useMemo(() => {
     return cartItems.reduce((acc, cur) => {
       acc = acc + cur.product.price * cur.quantity
