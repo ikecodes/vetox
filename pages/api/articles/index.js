@@ -19,36 +19,15 @@ const handler = nc({
     next()
   })
   .get(async (req, res) => {
-     const { pageSize, page, ...rest } = req.query
-     let filter = {}
-     let sort = { createdAt: 1 }
-
-     const pageNumber = page || 1
-     const limit = parseInt(pageSize)
-     const skip = (pageNumber - 1) * limit
-     try {
-       const articles = await Article.find(filter)
-         .skip(skip)
-         .limit(limit)
-         .sort(sort)
-
-       const count = await Article.countDocuments()
-       const totalPage = Math.ceil(count / pageSize || 1)
-       const hasNextPage = pageNumber < totalPage
-       const hasPrevPage = pageNumber > 1
-
-       res.status(200).json({
-         status: "successful",
-         data: {
-           articles,
-           totalPage,
-           hasNextPage,
-           hasPrevPage,
-         },
-       })
-     } catch (error) {
-       res.status(400).json({ success: false })
-     }
+    try {
+      const articles = await Article.find()
+      res.status(200).json({
+        status: "successful",
+        data: articles,
+      })
+    } catch (error) {
+      res.status(400).json({ success: false })
+    }
   })
   .post(async (req, res) => {
     try {

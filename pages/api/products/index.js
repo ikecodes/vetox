@@ -19,39 +19,11 @@ const handler = nc({
     next()
   })
   .get(async (req, res) => {
-    const { pageSize, page, ...rest } = req.query
-    let filter = {}
-    let sort = { createdAt: 1 }
-
-    if (rest.categorySlug) {
-      filter = { ...filter, categorySlug: rest.categorySlug }
-    }
-    if (rest.subCategorySlug) {
-      filter = { ...filter, subCategorySlug: rest.subCategorySlug }
-    }
-
-    const pageNumber = page || 1
-    const limit = parseInt(pageSize)
-    const skip = (pageNumber - 1) * limit
     try {
-      const products = await Product.find(filter)
-        .skip(skip)
-        .limit(limit)
-        .sort(sort)
-
-      const count = await Product.countDocuments()
-      const totalPage = Math.ceil(count / pageSize || 1)
-      const hasNextPage = pageNumber < totalPage
-      const hasPrevPage = pageNumber > 1
-
+      const products = await Product.find()
       res.status(200).json({
         status: "successful",
-        data: {
-          products,
-          totalPage,
-          hasNextPage,
-          hasPrevPage,
-        },
+        data: products,
       })
     } catch (error) {
       res.status(400).json({ success: false })

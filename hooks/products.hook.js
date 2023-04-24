@@ -16,7 +16,7 @@ export function useGetAllProducts() {
     ],
     queryFn: () =>
       API.get(
-        `/products?page=${page}&pageSize=${pageSize}&${filters.toString()}`
+        `/products/all-products?page=${page}&pageSize=${pageSize}&${filters.toString()}`
       ),
     keepPreviousData: true,
     refetchOnWindowFocus: true,
@@ -38,7 +38,7 @@ export function useGetFeaturedProducts() {
 }
 
 export function useGetProduct(id) {
-  return useQuery(["getProduct", id], () => API.get(`/products/${id}`), {
+  return useQuery(["getProduct", id], () => API.get(`/products/single/${id}`), {
     refetchOnWindowFocus: false,
     enabled: !!id,
     staleTime: Infinity,
