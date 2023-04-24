@@ -1,4 +1,4 @@
-import API, { API2 } from "@/api/api"
+import API, { API2 } from "@/apiService/api"
 import { articlesPagination } from "@/jotai/articles.state"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useAtomValue } from "jotai"
