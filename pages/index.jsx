@@ -23,11 +23,11 @@ export default function Home() {
       </Head>
       <Hero />
       <Services />
-      <Customers />
-      <Solutions />
-      <ProductSlider />
-      <EquipmentBanner />
       <Featured />
+      <Customers />
+      {/* <Solutions /> */}
+      <EquipmentBanner />
+      <ProductSlider />
       {/* <HomeProductAnimation /> */}
       <BrandsSlider />
       <HomeBlog />
