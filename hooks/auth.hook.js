@@ -1,4 +1,4 @@
-import API, { API2 } from "@/api/api"
+import API, { API2 } from "@/apiService/api"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export function useGetMessages() {
