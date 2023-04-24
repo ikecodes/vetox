@@ -7,10 +7,17 @@ import colors from "@/constants/colors"
 import SecondaryBtn from "./SecondaryBtn"
 import convertHtmlToPlainText from "@/utils/converHTMLToText"
 import moment from "moment"
+import { motion } from "framer-motion"
 
 const BlogCard = ({ article }) => {
   return (
-    <CardContainer>
+    <CardContainer
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5 }}
+      viewport={{ once: true }}
+      className='shadow'
+    >
       <Card className='border-0 bg-light'>
         <ImageContainer>
           <Image
@@ -40,7 +47,7 @@ const BlogCard = ({ article }) => {
   )
 }
 
-const CardContainer = styled.div`
+const CardContainer = styled(motion.div)`
   border-radius: 20px;
   overflow: hidden;
 `

@@ -63,11 +63,11 @@ const Services = () => {
             }
           />
         </div>
-        <div className='col-lg-6 d-flex gap-2 justify-content-center align-items-center flex-wrap'>
+        <Box className='col-lg-6 d-flex gap-2 justify-content-center align-items-center flex-wrap'>
           {services.map((services, i) => (
             <Service key={i} name={services.name} image={services.image} />
           ))}
-        </div>
+        </Box>
       </div>
     </div>
   )
@@ -80,19 +80,20 @@ const ServiceWrapper = styled.div`
   border-radius: 20px;
   overflow: hidden;
   @media (max-width: 567px) {
-    width: 80%;
+    width: 100%;
+    margin-bottom: 2rem;
   }
-  /* & div {
-    transform: translateY(50px);
-    @media (max-width: 567px) {
-      transform: translateY(0);
-    }
-  } */
+
   &:nth-child(2) {
     transform: translateY(-50px);
     @media (max-width: 567px) {
       transform: translateY(0);
     }
+  }
+`
+const Box = styled.div`
+  @media (max-width: 567px) {
+    padding: 0;
   }
 `
 const ServiceOverlay = styled.div`

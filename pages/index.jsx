@@ -29,8 +29,8 @@ export default function Home() {
       <EquipmentBanner />
       <ProductSlider />
       {/* <HomeProductAnimation /> */}
-      <BrandsSlider />
       <HomeBlog />
+      <BrandsSlider />
     </div>
   )
 }

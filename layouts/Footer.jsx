@@ -105,7 +105,7 @@ const Footer = () => {
               </li>
             </List>
           </div>
-          <div className='col-lg-3 mb-5'>
+          <Subscribe className='col-lg-3 col-sm-6 mb-5'>
             <h5 className='p-0 m-0 mb-1'>Subscribe to our newsletter</h5>
             <div className='d-flex'>
               <Form.Control
@@ -115,10 +115,10 @@ const Footer = () => {
                 aria-describedby='Input your email'
               />
             </div>
-            <div className='text-end mt-1'>
+            <ButtonWrapper className='mt-1'>
               <PrimaryBtn title='subscribe' primary semirounded />
-            </div>
-          </div>
+            </ButtonWrapper>
+          </Subscribe>
         </div>
       </div>
       <div className='text-center text-capitalize border-top mx-5'>
@@ -167,15 +167,30 @@ const LogoWrite = styled.div`
     margin: 0;
     padding: 0;
   }
-`;
+`
 
 const List = styled.ul`
   list-style: none;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 
   li {
     padding: 0;
     margin: 0;
   }
-`;
+`
+const ButtonWrapper = styled.div`
+  text-align: end;
+  @media (max-width: 768px) {
+    text-align: start;
+  }
+`
+const Subscribe = styled.div`
+  @media (max-width: 768px) {
+    width: 70%;
+  }
+`
 
 export default Footer;

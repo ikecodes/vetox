@@ -75,7 +75,7 @@ const BrandsSlider = () => {
   return (
     <Container className='p-5 my-5'>
       <div className='text-center mb-3'>
-        <Header.h4 color={colors.black}>Shop by Brands</Header.h4>
+        <Header.h4>Shop by Brands</Header.h4>
         <div className='mb-3' />
       </div>
       <Slider {...settings}>
@@ -89,7 +89,7 @@ const BrandsSlider = () => {
 
 const Container = styled.div`
   overflow: hidden;
-  background-color: ${colors.grey1};
+  /* background-color: ${colors.grey1}; */
 `
 const BrandWrapper = styled.div`
   position: relative;

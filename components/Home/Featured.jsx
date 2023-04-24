@@ -6,6 +6,8 @@ import styled from "styled-components"
 import Header from "../Header"
 import TertiaryBtn from "../TertiaryBtn"
 import { useGetFeaturedProducts } from "@/hooks/products.hook"
+import colors from "@/constants/colors"
+import { motion } from "framer-motion"
 
 // const products = [
 //   {
@@ -40,7 +42,12 @@ import { useGetFeaturedProducts } from "@/hooks/products.hook"
 //   },
 // ]
 const FeaturedCard = ({ id, title, price, image }) => (
-  <CardContainer>
+  <CardContainer
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.2 }}
+    viewport={{ once: true }}
+  >
     <div className='border-0 p-2'>
       <ImageContainer>
         <Image
@@ -68,10 +75,11 @@ const Featured = () => {
   const { data } = useGetFeaturedProducts()
   const products = data?.data?.data ?? []
   return (
-    <div className='py-5'>
+    <Container>
       <div>
         <div className='text-center'>
-          <Header.h4>Featured</Header.h4>
+          <Header.h4 color={colors.black}>Featured</Header.h4>
+          {/* <Header.h4>Featured</Header.h4> */}
           <div className='mb-3' />
         </div>
         <GridWrapper>
@@ -86,11 +94,20 @@ const Featured = () => {
           ))}
         </GridWrapper>
       </div>
-    </div>
+    </Container>
   )
 }
 
-const CardContainer = styled.div`
+const Container = styled.div`
+  overflow: hidden;
+  background-color: ${colors.grey1};
+  padding: 5rem;
+  @media (max-width: 567px) {
+    padding: 5rem 0;
+  }
+`
+
+const CardContainer = styled(motion.div)`
   border-radius: 20px;
   overflow: hidden;
 `

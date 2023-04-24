@@ -8,6 +8,7 @@ import Image from "next/image";
 import { categories } from "@/constants/categories"
 import { useRouter } from "next/router"
 import slugify from "slugify"
+import Link from "next/link"
 
 const Product = ({ image, category }) => {
   const router = useRouter()
@@ -67,20 +68,6 @@ const ProductSlider = () => {
   }
   return (
     <div className='py-5'>
-      <div className='text-center mb-3'>
-        <PrimaryBtn
-          title={"Products"}
-          primary
-          icon={
-            <MdOutlineArrowRightAlt
-              color={colors.white}
-              size={20}
-              className='ms-1'
-            />
-          }
-        />
-      </div>
-
       <Container className='p-5'>
         <Slider {...settings}>
           {categories.map((category, i) => {
@@ -94,6 +81,21 @@ const ProductSlider = () => {
           })}
         </Slider>
       </Container>
+      <div className='text-center mb-3'>
+        <Link href={"/products"}>
+          <PrimaryBtn
+            title={"Products"}
+            primary
+            icon={
+              <MdOutlineArrowRightAlt
+                color={colors.white}
+                size={20}
+                className='ms-1'
+              />
+            }
+          />
+        </Link>
+      </div>
     </div>
   )
 }

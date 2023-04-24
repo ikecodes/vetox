@@ -3,6 +3,7 @@ import React from "react"
 import Header from "../Header"
 import BlogCard from "../BlogCard"
 import { useGetFeaturedArticles } from "@/hooks/articles.hook"
+import styled from "styled-components"
 
 const articles = [
   {
@@ -33,7 +34,7 @@ const HomeBlog = () => {
 
   const articles = data?.data?.data ?? []
   return (
-    <div className='p-5'>
+    <Container>
       <div className='container'>
         <div className='text-center'>
           <Header.h4 color={colors.black}>From our blog</Header.h4>
@@ -47,8 +48,17 @@ const HomeBlog = () => {
           ))}
         </div>
       </div>
-    </div>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  overflow: hidden;
+  background-color: ${colors.grey1};
+  padding: 5rem;
+  @media (max-width: 567px) {
+    padding: 5rem 0.5rem;
+  }
+`
 
 export default HomeBlog
