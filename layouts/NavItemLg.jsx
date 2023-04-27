@@ -62,6 +62,17 @@ const NavItemLg = ({ menu }) => {
           <ContainerMenu
             className={` shadow px-3 py-1 ${show ? "hovered" : ""}`}
           >
+            <ContainerItem className='my-3'>
+              <a
+                onClick={() => router.push("/products")}
+                onMouseEnter={() => {
+                  setActiveCategory("All")
+                  setShowSubMenu(true)
+                }}
+              >
+                View all products
+              </a>
+            </ContainerItem>
             {categories.map((item, i) => (
               <ContainerItem className='my-3' key={i}>
                 <a
@@ -78,6 +89,10 @@ const NavItemLg = ({ menu }) => {
             {subCategories.length > 0 && (
               <SubContainerMenu
                 onMouseEnter={() => setShow(true)}
+                onMouseLeave={() => {
+                  setShowSubMenu(false)
+                  setShow(false)
+                }}
                 className={` shadow px-3 py-1 ${showSubMenu ? "hovered" : ""}`}
               >
                 {subCategories.map((value, i) => (
@@ -119,6 +134,7 @@ const NavItemLg = ({ menu }) => {
 const Wrapper = styled.div`
   position: relative;
   height: 100%;
+
   /* width: 100%; */
 `
 const NavItem = styled.li`

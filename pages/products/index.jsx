@@ -65,6 +65,7 @@ const Products = () => {
     setproductFilter((prev) => ({ ...prev, page: event.selected + 1 }))
   }
 
+  console.log(categorySlug, subCategorySlug)
   useEffect(() => {
     setproductFilter((prev) => ({
       ...prev,

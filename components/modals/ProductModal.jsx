@@ -6,7 +6,7 @@ import Toast from "@/utils/Toast"
 import PrimaryBtn from "../PrimaryBtn"
 import Image from "next/image"
 import { toast } from "react-toastify"
-import { useCreateProduct } from "@/hooks/products.hook"
+import { useCreateProduct, useUpdateProduct } from "@/hooks/products.hook"
 import { Editor } from "@tinymce/tinymce-react"
 import { FiUploadCloud } from "react-icons/fi"
 import styled from "styled-components"
@@ -14,15 +14,15 @@ import colors from "@/constants/colors"
 import { categories } from "@/constants/categories"
 
 const ProductModal = (props) => {
-  const dispatch = useDispatch()
   const { mutate, isLoading } = useCreateProduct()
+  const { mutate: updateProduct, isLoading: loading } = useUpdateProduct()
   const [subCategories, setSubCategories] = useState([])
   const [name, setName] = useState("")
   const [category, setCategory] = useState("")
   const [subCategory, setSubCategory] = useState("")
   const [description, setDescription] = useState("")
   const [price, setPrice] = useState("")
-  const [photo, setPhoto] = useState(null)
+  // const [photo, setPhoto] = useState(null)
   const [previewSource, setPreviewSource] = useState(null)
   const [images, setImages] = useState(null)
 
@@ -40,19 +40,21 @@ const ProductModal = (props) => {
     }
   }
 
-  // useEffect(() => {
-  //   if (props?.data) {
-  //     setCode(props?.data.code)
-  //     setDiscount(props?.data.discount)
-  //     setMaxUsage(props?.data.max_usage)
-  //     setExpiry(props?.data.expiry)
-  //   } else {
-  //     setCode("")
-  //     setDiscount("")
-  //     setMaxUsage("")
-  //     setExpiry("")
-  //   }
-  // }, [props?.data])
+  useEffect(() => {
+    if (props?.data) {
+      setName(props?.data.name)
+      setCategory(props?.data.category)
+      setSubCategory(props?.data.subCategory)
+      setDescription(props?.data.description)
+      setPrice(props?.data.price)
+    } else {
+      setName("")
+      setCategory("")
+      setSubCategory("")
+      setDescription("")
+      setPrice("")
+    }
+  }, [props?.data])
 
   useEffect(() => {
     checkForSubCategory()
@@ -77,7 +79,7 @@ const ProductModal = (props) => {
       category === "" ||
       description === "" ||
       price === "" ||
-      !images
+      (!images && !props?.data)
     )
       return toast.error("Please input all fields")
 
@@ -91,10 +93,30 @@ const ProductModal = (props) => {
     )
       return toast.error(`Please select a sub category for ${category}`)
 
+    if (props.data) {
+      const formdata = {
+        productId: props?.data?._id,
+        name,
+        category,
+        subCategory,
+        description,
+        price,
+      }
+      updateProduct(formdata, {
+        onSuccess: () => {
+          toast.success("Product updated successfully")
+          props.onHide()
+        },
+        onError: (e) => {
+          toast.error(e?.response?.data?.message ?? "Something went wrong")
+        },
+      })
+      return
+    }
+
     const formdata = new FormData()
     formdata.append("name", name)
     formdata.append("category", category)
-    formdata.append("photo", photo)
     formdata.append("description", description)
     formdata.append("price", price)
     if (subCategory) {
@@ -104,14 +126,6 @@ const ProductModal = (props) => {
       formdata.append("images", images[i])
     }
 
-    // const formdata = {
-    //   name,
-    //   category,
-    //   images,
-    //   description,
-    //   price,
-    // }
-    // console.log(formdata)
     mutate(formdata, {
       onSuccess: () => {
         toast.success("Product uploaded successfully")
@@ -134,7 +148,7 @@ const ProductModal = (props) => {
         <form className='text-secondary'>
           {props?.data ? (
             <h4 className='text-capitalize mb-4 text-secondary'>
-              update product
+              edit product
             </h4>
           ) : (
             <h4 className='text-capitalize mb-4 text-secondary'>new product</h4>
@@ -215,21 +229,29 @@ const ProductModal = (props) => {
               onEditorChange={(text) => setDescription(text)}
             />
           </Form.Group>
-          <Form.Group className='mb-3'>
-            <Form.Label>Photo</Form.Label>
-            <Upload className='bg-light border'>
-              <div>
-                <FiUploadCloud size={30} color={colors.grey5} />
-              </div>
-              <input
-                type='file'
-                multiple
-                name='images'
-                accept='image/*'
-                onChange={(e) => handleFileChange(e)}
-              />
-            </Upload>
-          </Form.Group>
+          {props?.data ? (
+            <p>
+              If you need to edit this products images, Kindly delete the
+              product and add again with the new images
+            </p>
+          ) : (
+            <Form.Group className='mb-3'>
+              <Form.Label>Image </Form.Label>
+              <Upload className='bg-light border'>
+                <div>
+                  <FiUploadCloud size={30} color={colors.grey5} />
+                </div>
+                <input
+                  type='file'
+                  multiple
+                  name='images'
+                  accept='image/*'
+                  onChange={(e) => handleFileChange(e)}
+                />
+              </Upload>
+              <p className='text-success'>You can select more than one image</p>
+            </Form.Group>
+          )}
 
           {previewSource && (
             <Image
@@ -245,7 +267,7 @@ const ProductModal = (props) => {
               title='submit'
               className='btn-trade'
               primary
-              loading={isLoading}
+              loading={isLoading || loading}
               handleClick={handleSubmit}
             />
           </div>

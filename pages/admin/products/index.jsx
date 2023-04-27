@@ -18,6 +18,7 @@ import convertHtmlToPlainText from "@/utils/converHTMLToText"
 import Image from "next/image"
 import { currencyFormatter } from "@/utils/helpers"
 import { toast } from "react-toastify"
+import { FiEdit, FiTrash } from "react-icons/fi"
 // import colors from "@/constants/colors"
 
 const Index = () => {
@@ -56,6 +57,9 @@ const Index = () => {
       text: "S/n.",
       formatter: (cell, row, rowIndex, formatExtraData) => {
         return rowIndex + 1
+      },
+      headerStyle: (colum, colIndex) => {
+        return { width: "50px" }
       },
     },
     {
@@ -177,24 +181,26 @@ const Index = () => {
       dataField: "details",
       text: "Action",
       formatter: (cellContent, data) => (
-        <div className='d-flex gap-2'>
-          <PrimaryBtn
-            title='remove'
-            handleClick={() => {
+        <div className='d-flex gap-3 align-items-center '>
+          <span
+            role='button'
+            onClick={() => {
+              setEditData(data)
+              setProductModalShow(true)
+            }}
+          >
+            <FiEdit size={20} className='text-success' />
+          </span>
+          <span
+            role='button'
+            onClick={() => {
               setDeleteId(data._id)
               setDeleteType("product")
               setDeleteModalShow(true)
             }}
-            semirounded
-          />
-          {/* <SecondaryBtn
-            color={colors.darkBlue}
-            title='update'
-            handleClick={() => {
-              setEditData(data)
-              setProductModalShow(true)
-            }}
-          /> */}
+          >
+            <FiTrash size={20} title='update' className='text-danger' />
+          </span>
         </div>
       ),
     },

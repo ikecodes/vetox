@@ -118,7 +118,7 @@ const Container = styled.div`
   }
   height: 100vh;
   padding: 2rem 0;
-  background-color: ${colors.tertiary};
+  background-color: ${colors.primary};
 `
 const SubMenu = styled.div`
   display: flex;
@@ -153,6 +153,8 @@ const SubMenu = styled.div`
 `
 const DropLink = styled.a``
 const Menu = styled.ul`
+  margin: 0;
+  padding: 0;
   color: ${colors.white};
   text-transform: capitalize;
   width: 100%;
@@ -175,8 +177,8 @@ const Menu = styled.ul`
       transition: all 0.3s ease-in;
     }
     & a:hover {
-      background-color: ${colors.secondary};
-      color: ${colors.white};
+      background-color: ${colors.white};
+      color: ${colors.primary};
     }
     & a.active {
       background-color: ${colors.primary};

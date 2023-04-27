@@ -1,12 +1,15 @@
 
 
+/* .accordion{
+    margin-left: 10px!important;
+} */
 .accordion-button {
       padding:0.5rem 0 0 10px!important;
     border: none !important;
   box-shadow: none !important;
 }
 .accordion-button:not(.collapsed) {
-        color: #fff !important;
+        color: #000000 !important;
      padding: 0.5rem 0 5px 10px!important;
   border: none !important;
   background-color: transparent !important;
@@ -16,13 +19,13 @@
 }
 .accordion-button:focus {
     background-color: transparent !important;
-    color: #fff !important;
+    color: #000000 !important;
   border-color: none !important;
   box-shadow: none !important;
 }
 
 .accordion-item {
-    color: #fff !important;
+    color: #000000 !important;
     border: none !important;
   margin: 0 !important;
   background-color:  transparent !important;
@@ -31,7 +34,7 @@
 
  .accordion-button.collapsed{
   background-color:  transparent !important;
-    color: #fff !important;
+    color: #000000 !important;
 }
 
 .accordion-body{

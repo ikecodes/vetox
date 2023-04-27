@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Editor } from "@tinymce/tinymce-react"
 import { Form, Modal } from "react-bootstrap"
 import PrimaryBtn from "../PrimaryBtn"
@@ -9,9 +9,11 @@ import styled from "styled-components"
 import colors from "@/constants/colors"
 import { FiUploadCloud } from "react-icons/fi"
 import { useCreateArticle } from "@/hooks/articles.hook"
+import { useUpdateArticle } from "@/hooks/articles.hook"
 
 const ProductModal = (props) => {
   const { mutate, isLoading } = useCreateArticle()
+  const { mutate: updateArticle, isLoading: loading } = useUpdateArticle()
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [description, setDescription] = useState("")
@@ -32,30 +34,46 @@ const ProductModal = (props) => {
     }
   }
 
-  // useEffect(() => {
-  //   if (props?.data) {
-  //     setCode(props?.data.code)
-  //     setDiscount(props?.data.discount)
-  //     setMaxUsage(props?.data.max_usage)
-  //     setExpiry(props?.data.expiry)
-  //   } else {
-  //     setCode("")
-  //     setDiscount("")
-  //     setMaxUsage("")
-  //     setExpiry("")
-  //   }
-  // }, [props?.data])
+  useEffect(() => {
+    if (props?.data) {
+      setTitle(props?.data.title)
+      setAuthor(props?.data.author)
+      setDescription(props?.data.description)
+    } else {
+      setTitle("")
+      setAuthor("")
+      setDescription("")
+    }
+  }, [props?.data])
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (title === "" || author === "" || description === "" || image === "")
+    if (title === "" || author === "" || description === "")
       return toast.error("Please input all fields")
+    if (!image && !props?.data) return toast.error("Please input all fields")
+    if (props?.data) {
+      const formdata = {
+        articleId: props?.data?._id,
+        author,
+        title,
+        description,
+      }
 
+      updateArticle(formdata, {
+        onSuccess: () => {
+          toast.success("Article updated successfully")
+          props.onHide()
+        },
+        onError: (e) => {
+          toast.error(e?.response?.data?.message ?? "Something went wrong")
+        },
+      })
+      return
+    }
     const formdata = new FormData()
     formdata.append("title", title)
     formdata.append("author", author)
     formdata.append("description", description)
     formdata.append("image", image)
-
     mutate(formdata, {
       onSuccess: () => {
         toast.success("Article uploaded successfully")
@@ -65,12 +83,6 @@ const ProductModal = (props) => {
         toast.error(e?.response?.data?.message ?? "Something went wrong")
       },
     })
-    // if (props?.data) {
-    //   const id = props.data?.id
-    //   dispatch(updateCoupon({ formdata, id }))
-    // } else {
-    //   dispatch(createCoupon(formdata))
-    // }
   }
   return (
     <Modal
@@ -131,15 +143,17 @@ const ProductModal = (props) => {
             />
           </Form.Group>
 
-          <Form.Group className='mb-3'>
-            <Form.Label>Image</Form.Label>
-            <Upload className='bg-light border'>
-              <div>
-                <FiUploadCloud size={30} color={colors.grey5} />
-              </div>
-              <input type='file' onChange={(e) => handleFileChange(e)} />
-            </Upload>
-          </Form.Group>
+          {!props?.data && (
+            <Form.Group className='mb-3'>
+              <Form.Label>Image</Form.Label>
+              <Upload className='bg-light border'>
+                <div>
+                  <FiUploadCloud size={30} color={colors.grey5} />
+                </div>
+                <input type='file' onChange={(e) => handleFileChange(e)} />
+              </Upload>
+            </Form.Group>
+          )}
 
           {previewSource && (
             <Image
@@ -155,7 +169,7 @@ const ProductModal = (props) => {
               title='submit'
               className='btn-trade'
               primary
-              loading={isLoading}
+              loading={isLoading || loading}
               handleClick={handleSubmit}
             />
           </div>

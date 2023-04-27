@@ -31,8 +31,8 @@ export default function Home() {
       <ProductSlider />
       {/* <HomeProductAnimation /> */}
       <HomeBlog />
-      <BrandsSlider />
       <Testimonials />
+      <BrandsSlider />
     </div>
   )
 }

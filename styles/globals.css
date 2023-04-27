@@ -113,7 +113,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-  border-color: #4262FF !important;
+  border-color: #6196b2 !important;
   box-shadow: 0 0.5px 0.5px rgba(0, 0, 0, 0.09) !important;
   outline: 0 none !important;
 }

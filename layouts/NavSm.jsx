@@ -97,6 +97,11 @@ const NavSm = () => {
                   <Heading>
                     <Link href={menu.path}>{menu.name}</Link>
                   </Heading>
+                  <List className='m-0'>
+                    <li className='m-0'>
+                      <Link href={"/products"}>All products</Link>
+                    </li>
+                  </List>
                   <Accordion>
                     {categories.map((value, i) => (
                       <Accordion.Item key={i} eventKey={i}>
@@ -233,11 +238,10 @@ const AnimatingContainer = styled.div`
 `
 const NavContainer = styled.div`
   position: relative;
-  /* padding-top: 100rem;  */
   width: 100%;
   height: 100vh;
   overflow-y: scroll;
-  background: ${colors.tertiary};
+  background: ${colors.secondary};
   position: absolute;
   color: ${colors.white};
   display: flex;
@@ -268,7 +272,7 @@ const List = styled.ul`
   }
   & a,
   a:link {
-    color: ${colors.white};
+    color: ${colors.black};
     text-decoration: none;
   }
 `

@@ -21,11 +21,11 @@ const AdminLayout = ({ children }) => {
   }
   return (
     <div className='overflow-hidden'>
-      <div className='row'>
-        <div className='col-lg-2 p-0'>
+      <div className='d-flex'>
+        <SideBarWrapper className='p-0'>
           <Sidebar />
-        </div>
-        <ActionContainer className='col-lg-10  p-0 position-relative'>
+        </SideBarWrapper>
+        <ActionContainer className='p-0 position-relative'>
           <Box>
             <div className='p-2 d-flex align-items-center bg-white rounded shadow'>
               <Image
@@ -51,14 +51,18 @@ const AdminLayout = ({ children }) => {
               </div>
             </div>
           </Box>
-          <Container className='p-5'>{children}</Container>
+          <Container className='ms-2'>{children}</Container>
         </ActionContainer>
       </div>
     </div>
   )
 }
 
+const SideBarWrapper = styled.div`
+  width: 14%;
+`
 const ActionContainer = styled.div`
+  flex: 1;
   overflow: hidden;
   & span {
     font-size: 0.8rem;

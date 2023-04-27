@@ -121,9 +121,9 @@ const Overlay = styled.div`
   position: relative;
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(
+  background: linear-gradient(
     360deg,
-    #4262ff 20%,
+    #6196b2 16.81%,
     rgba(217, 217, 217, 0) 51.29%
   );
 `

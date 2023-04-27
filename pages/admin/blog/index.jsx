@@ -15,6 +15,7 @@ import ArticleModal from "@/components/modals/ArticleModal"
 import { useGetArticles, useUpdateArticle } from "@/hooks/articles.hook"
 import convertHtmlToPlainText from "@/utils/converHTMLToText"
 import Image from "next/image"
+import { FiEdit, FiTrash } from "react-icons/fi"
 
 const Index = () => {
   const { data: allArticles } = useGetArticles()
@@ -126,8 +127,28 @@ const Index = () => {
       dataField: "details",
       text: "Action",
       formatter: (cellContent, data) => (
-        <div className='d-flex gap-2'>
-          <SecondaryBtn
+        <div className='d-flex gap-3 align-items-center'>
+          <span
+            role='button'
+            onClick={() => {
+              setEditData(data)
+              setShowArticleModal(true)
+            }}
+          >
+            <FiEdit size={20} className='text-success' />
+          </span>
+          <span
+            role='button'
+            onClick={() => {
+              setDeleteId(data._id)
+              setDeleteType("article")
+              setDeleteModalShow(true)
+            }}
+          >
+            <FiTrash size={20} title='update' className='text-danger' />
+          </span>
+
+          {/* <SecondaryBtn
             color='#ABA0F3'
             title='remove'
             handleClick={() => {
@@ -135,7 +156,7 @@ const Index = () => {
               setDeleteType("article")
               setDeleteModalShow(true)
             }}
-          />
+          /> */}
           {/* <SecondaryBtn
             color={colors.darkBlue}
             title='update'

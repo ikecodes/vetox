@@ -138,12 +138,7 @@ const ContactUs = () => {
               ></textarea>
             </div>
             <div className='text-start'>
-              <PrimaryBtn
-                primary
-                title='submit'
-                semirounded
-                loading={isLoading}
-              />
+              <PrimaryBtn title='submit' semirounded loading={isLoading} />
             </div>
           </Form>
         </ContactForm>
@@ -165,12 +160,12 @@ const ContactDetails = styled.div`
   flex: 1;
 `
 const ContactForm = styled.div`
-  background-color: ${colors.tertiary};
-  background-image: linear-gradient(
+  background-color: ${colors.primary};
+  /* background-image: linear-gradient(
     to top right,
     ${colors.tertiary},
     ${colors.primary}
-  );
+  ); */
   color: ${colors.white};
   height: 100%;
 `

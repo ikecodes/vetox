@@ -100,12 +100,12 @@ const ServiceOverlay = styled.div`
   position: relative;
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(
+  background: linear-gradient(
     360deg,
-    #4262ff 16.81%,
+    #6196b2 16.81%,
     rgba(217, 217, 217, 0) 51.29%
   );
-`;
+`
 const ServiceText = styled.h5`
   position: absolute;
   color: ${colors.white};

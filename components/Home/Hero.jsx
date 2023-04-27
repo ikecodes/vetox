@@ -74,8 +74,8 @@ const Caption = styled.div`
   }
 `
 const Overlay = styled.div`
-  opacity: 0.2;
-  background-color: ${colors.tertiary};
+  opacity: 0.3;
+  background-color: ${colors.primary};
   height: 100%;
   width: 100%;
   position: absolute;

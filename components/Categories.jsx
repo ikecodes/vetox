@@ -27,6 +27,8 @@ const Categories = ({
     setSubCategorySlug(slugify(value, "-"))
     setCategorySlug("")
   }
+
+  console.log
   return (
     <Container>
       <Header.h5 color={colors.black} normal>
@@ -36,7 +38,8 @@ const Categories = ({
       <h6
         onClick={() => reset("All")}
         style={{
-          color: active === "All" ? colors.primary : colors.black,
+          color:
+            !categorySlug && !subCategorySlug ? colors.primary : colors.black,
           cursor: "pointer",
         }}
       >
@@ -47,7 +50,10 @@ const Categories = ({
           <h6
             onClick={() => onCategoryClick(value.category)}
             style={{
-              color: active === value.category ? colors.primary : colors.black,
+              color:
+                categorySlug === slugify(value.category, "-")
+                  ? colors.primary
+                  : colors.black,
             }}
           >
             {value.category}
@@ -56,7 +62,10 @@ const Categories = ({
             {value.subCategory.map((value, i) => (
               <li
                 style={{
-                  color: active === value ? colors.primary : colors.black,
+                  color:
+                    subCategorySlug === slugify(value, "-")
+                      ? colors.primary
+                      : colors.black,
                 }}
                 onClick={() => onSubCategoryClick(value)}
                 key={i}

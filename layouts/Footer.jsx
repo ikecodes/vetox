@@ -116,7 +116,7 @@ const Footer = () => {
               />
             </div>
             <ButtonWrapper className='mt-1'>
-              <PrimaryBtn title='subscribe' primary semirounded />
+              <PrimaryBtn title='subscribe' semirounded />
             </ButtonWrapper>
           </Subscribe>
         </div>
@@ -134,12 +134,13 @@ const Container = styled.footer`
   margin-top: 4rem;
   padding-top: 5rem;
   color: ${colors.white};
-  background-color: ${colors.tertiary};
-  background-image: linear-gradient(
+  background-color: ${colors.primary};
+  /* background-color: ${colors.tertiary}; */
+  /* background-image: linear-gradient(
     to top right,
     ${colors.tertiary},
     ${colors.primary} 200%
-  );
+  ); */
 
   & span {
     cursor: pointer;
