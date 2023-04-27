@@ -53,9 +53,17 @@ const Testimonials = () => {
   )
 }
 const Container = styled.div`
-  padding: 5rem 0;
-  background-color: ${colors.secondary};
-  color: ${colors.primary};
+  padding: 2rem 0;
+  background-color: ${colors.primary};
+  border-radius: 50px;
+  overflow: hidden;
+  margin: 5rem 10rem;
+  color: ${colors.white};
+
+  @media (max-width: 992px) {
+    margin: 0;
+    border-radius: 0px;
+  }
 `
 
 const SliderContainer = styled.div``

@@ -130,7 +130,7 @@ const ProductDetails = () => {
                     <span>Make Enquiry</span>
                     <span>|</span>
                     <BsWhatsapp
-                      color={colors.white}
+                      color={colors.primary}
                       size={20}
                       className='ms-1'
                     />
@@ -197,7 +197,7 @@ const EnquiryBtn = styled.div`
   display: flex;
   align-items: center;
   border-radius: 10px;
-  color: ${colors.white};
+  color: ${colors.primary};
   justify-content: space-around;
   transition: all 0.3s ease-in;
   text-decoration: none;

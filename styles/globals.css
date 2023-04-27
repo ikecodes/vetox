@@ -117,3 +117,9 @@ input[type="color"]:focus,
   box-shadow: 0 0.5px 0.5px rgba(0, 0, 0, 0.09) !important;
   outline: 0 none !important;
 }
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}

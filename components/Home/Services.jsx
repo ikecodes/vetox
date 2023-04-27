@@ -5,6 +5,7 @@ import { MdOutlineArrowRightAlt } from "react-icons/md";
 import styled from "styled-components";
 import Header from "../Header";
 import PrimaryBtn from "../PrimaryBtn";
+import { useRouter } from "next/router"
 
 const services = [
   {
@@ -35,6 +36,7 @@ const Service = ({ name, image }) => (
   </ServiceWrapper>
 )
 const Services = () => {
+  const router = useRouter()
   return (
     <div className='container p-5 mt-5'>
       <div className='row'>
@@ -61,6 +63,7 @@ const Services = () => {
                 className='ms-1'
               />
             }
+            handleClick={() => router.push("/about-us")}
           />
         </div>
         <Box className='col-lg-6 d-flex gap-2 justify-content-center align-items-center flex-wrap'>
@@ -102,7 +105,7 @@ const ServiceOverlay = styled.div`
   width: 100%;
   background: linear-gradient(
     360deg,
-    #6196b2 16.81%,
+    #30d5c8 16.81%,
     rgba(217, 217, 217, 0) 51.29%
   );
 `

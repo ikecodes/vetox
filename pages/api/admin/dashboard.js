@@ -20,22 +20,26 @@ const handler = nc({
   })
   .get(async (req, res) => {
     try {
-      const productsCountPromise = Product.countDocuments()
+      const inStockCountPromise = Product.countDocuments({ inStock: true })
+      const outOfStockCountPromise = Product.countDocuments({ inStock: false })
       const articlesCountPromise = Article.countDocuments()
       const usersCountPromise = User.countDocuments()
       const messagesCountPromise = Message.countDocuments()
 
-      const [products, articles, users, messages] = await Promise.all([
-        productsCountPromise,
-        articlesCountPromise,
-        usersCountPromise,
-        messagesCountPromise,
-      ])
+      const [inStock, outOfStock, articles, users, messages] =
+        await Promise.all([
+          inStockCountPromise,
+          outOfStockCountPromise,
+          articlesCountPromise,
+          usersCountPromise,
+          messagesCountPromise,
+        ])
 
       return res.status(200).json({
         status: true,
         data: {
-          totalProducts: products,
+          totalInStock: inStock,
+          totalOutOfStock: outOfStock,
           totalArticles: articles,
           totalUsers: users,
           totalMessages: messages,

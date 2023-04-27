@@ -70,10 +70,12 @@ const Footer = () => {
             <List className='text-capitalize list-style-none'>
               <li className='mb-3 fw-bold'>products</li>
               {categories.map((value, i) => (
-                <li key={i} className='mb-2'>
-                  <span onClick={() => navigateWithCategory(value.category)}>
-                    {value.category}
-                  </span>
+                <li
+                  key={i}
+                  className='mb-2'
+                  onClick={() => navigateWithCategory(value.category)}
+                >
+                  {value.category}
                 </li>
               ))}
               {/* 
@@ -135,29 +137,15 @@ const Container = styled.footer`
   padding-top: 5rem;
   color: ${colors.white};
   background-color: ${colors.primary};
-  /* background-color: ${colors.tertiary}; */
-  /* background-image: linear-gradient(
-    to top right,
-    ${colors.tertiary},
-    ${colors.primary} 200%
-  ); */
-
-  & span {
-    cursor: pointer;
-  }
-  & span:hover {
-    color: ${colors.primary};
-  }
 
   & a,
   a:link {
     color: ${colors.white};
     text-decoration: none;
   }
-
   & a:hover,
   a:active {
-    color: ${colors.primary};
+    transform: scale(1.02);
   }
 `
 
@@ -176,10 +164,14 @@ const List = styled.ul`
   @media (max-width: 768px) {
     padding: 0;
   }
-
-  li {
+  & li {
+    transition: all 0.3s ease-in;
     padding: 0;
     margin: 0;
+    cursor: pointer;
+  }
+  & li:hover {
+    transform: scale(1.03);
   }
 `
 const ButtonWrapper = styled.div`
