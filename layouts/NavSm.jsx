@@ -293,7 +293,7 @@ const List = styled.ul`
 const SubList = styled.ul`
   display: none;
   list-style: circle;
-  padding-left: 40px;
+  /* padding-left: 40px; */
   & li {
     color: ${colors.black};
     text-decoration: none;
