@@ -16,6 +16,7 @@ import { categories } from "@/constants/categories"
 import slugify from "slugify"
 
 const NavSm = () => {
+  const [active, setActive] = useState("")
   const router = useRouter()
   const dispatch = useDispatch()
   const { value, cartNumber } = useSelector((state) => state.user)
@@ -99,38 +100,46 @@ const NavSm = () => {
                     <Link href={menu.path}>{menu.name}</Link>
                   </Heading>
                   <List className='m-0'>
-                    <li className='m-0'>
+                    <li>
                       <Link href={"/products"}>All products</Link>
                     </li>
                   </List>
-                  <Accordion>
+                  <div>
                     {categories.map((value, i) => (
-                      <Accordion.Item key={i} eventKey={i}>
-                        <Accordion.Header>
-                          <span
+                      <div key={i}>
+                        <List>
+                          <li
                             onClick={() => {
                               if (value.subCategory.length > 0) {
-                                return
+                                if (active === value.category)
+                                  return setActive("")
+                                setActive(value.category)
                               } else {
                                 navigateWithCategory(value.category)
                               }
                             }}
                           >
                             {value.category}
-                          </span>
-                        </Accordion.Header>
-                        {value.subCategory.length > 0 &&
-                          value.subCategory.map((sub, i) => (
-                            <Accordion.Body
-                              onClick={() => navigateWithSubCategory(sub)}
-                              key={i}
-                            >
-                              {sub}
-                            </Accordion.Body>
-                          ))}
-                      </Accordion.Item>
+                          </li>
+                        </List>
+                        <SubList
+                          className={`${
+                            active === value.category ? "open" : " "
+                          }`}
+                        >
+                          {value.subCategory.length > 0 &&
+                            value.subCategory.map((sub, i) => (
+                              <li
+                                onClick={() => navigateWithSubCategory(sub)}
+                                key={i}
+                              >
+                                {sub}
+                              </li>
+                            ))}
+                        </SubList>
+                      </div>
                     ))}
-                  </Accordion>
+                  </div>
                 </div>
               ) : (
                 <div className='ms-4' key={menu.id}>
@@ -238,16 +247,17 @@ const AnimatingContainer = styled.div`
   }
 `
 const NavContainer = styled.div`
-  position: relative;
+  padding-top: 10rem;
   width: 100%;
   height: 100vh;
   overflow-y: scroll;
   background: ${colors.secondary};
   position: absolute;
   color: ${colors.white};
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; */
+  margin: auto;
   text-transform: capitalize;
   transform: translateX(20%);
   gap: 0.5rem;
@@ -255,7 +265,7 @@ const NavContainer = styled.div`
     margin: 1rem 0;
   }
 `
-const Heading = styled.h6`
+const Heading = styled.h4`
   color: ${colors.primary};
   text-transform: uppercase;
   font-weight: bold;
@@ -269,6 +279,9 @@ const Heading = styled.h6`
 const List = styled.ul`
   padding-left: 10px;
   & li {
+    font-weight: 500;
+    color: ${colors.black};
+    text-decoration: none;
     margin: 0.5rem 0;
   }
   & a,
@@ -277,4 +290,51 @@ const List = styled.ul`
     text-decoration: none;
   }
 `
+const SubList = styled.ul`
+  display: none;
+  list-style: circle;
+  padding-left: 40px;
+  & li {
+    color: ${colors.black};
+    text-decoration: none;
+    margin: 0.5rem 0;
+  }
+  & a,
+  a:link {
+    color: ${colors.black};
+    text-decoration: none;
+  }
+  &.open {
+    display: block;
+  }
+`
 export default NavSm;
+
+  //  <Accordion>
+  //    {categories.map((value, i) => (
+  //      <Accordion.Item key={i} eventKey={i}>
+  //        <Accordion.Header>
+  //          <span
+  //            onClick={() => {
+  //              if (value.subCategory.length > 0) {
+  //                return
+  //              } else {
+  //                navigateWithCategory(value.category)
+  //              }
+  //            }}
+  //          >
+  //            {value.category}
+  //          </span>
+  //        </Accordion.Header>
+  //        {value.subCategory.length > 0 &&
+  //          value.subCategory.map((sub, i) => (
+  //            <Accordion.Body
+  //              onClick={() => navigateWithSubCategory(sub)}
+  //              key={i}
+  //            >
+  //              {sub}
+  //            </Accordion.Body>
+  //          ))}
+  //      </Accordion.Item>
+  //    ))}
+  //  </Accordion>

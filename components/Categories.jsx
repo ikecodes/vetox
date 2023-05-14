@@ -23,7 +23,7 @@ const Categories = ({
     setSubCategorySlug("")
   }
   function onSubCategoryClick(value) {
-    setActive(value)
+    // setActive(value)
     setSubCategorySlug(slugify(value, "-"))
     setCategorySlug("")
   }
