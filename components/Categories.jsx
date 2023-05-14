@@ -27,8 +27,6 @@ const Categories = ({
     setSubCategorySlug(slugify(value, "-"))
     setCategorySlug("")
   }
-
-  console.log
   return (
     <Container>
       <Header.h5 color={colors.black} normal>
@@ -58,22 +56,24 @@ const Categories = ({
           >
             {value.category}
           </h6>
-          <ul>
-            {value.subCategory.map((value, i) => (
-              <li
-                style={{
-                  color:
-                    subCategorySlug === slugify(value, "-")
-                      ? colors.primary
-                      : colors.black,
-                }}
-                onClick={() => onSubCategoryClick(value)}
-                key={i}
-              >
-                {value}
-              </li>
-            ))}
-          </ul>
+          <List className={`${active === value.category ? "open" : " "}`}>
+            <div>
+              {value.subCategory.map((value, i) => (
+                <li
+                  style={{
+                    color:
+                      subCategorySlug === slugify(value, "-")
+                        ? colors.primary
+                        : colors.black,
+                  }}
+                  onClick={() => onSubCategoryClick(value)}
+                  key={i}
+                >
+                  {value}
+                </li>
+              ))}
+            </div>
+          </List>
         </Category>
       ))}
     </Container>
@@ -87,9 +87,6 @@ const Container = styled.div`
   border-radius: 10px;
 `
 const Category = styled.div`
-  & ul {
-    list-style: circle;
-  }
   & h6 {
     cursor: pointer;
     transition: all 0.5s ease-out;
@@ -109,4 +106,12 @@ const Category = styled.div`
   }
 `
 
+const List = styled.ul`
+  list-style: circle;
+  display: none;
+
+  &.open {
+    display: flex;
+  }
+`
 export default Categories

@@ -1,11 +1,9 @@
 import React from "react";
 import NavbarLg from "./NavLg";
-import NavSm from "./NavSm";
-import NavContact from "./NavContact"
+import NavSm from "./NavSm"
 const Nav = () => {
   return (
     <div>
-      <NavContact />
       <NavSm />
       <NavbarLg />
     </div>

@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setUser } from "@/slices/userSlice"
 import { toast } from "react-toastify"
 import { useRouter } from "next/router"
+import NavContact from "./NavContact"
 
 const NavbarLg = () => {
   const router = useRouter()
@@ -29,6 +30,7 @@ const NavbarLg = () => {
   }
   return (
     <NavContainer className='py-2'>
+      <NavContact />
       <div className='container'>
         <div className='row align-items-center'>
           <div className='col-lg-8 d-flex align-items-center'>

@@ -14,6 +14,7 @@ import { setUser } from "@/slices/userSlice"
 import { Accordion } from "react-bootstrap"
 import { categories } from "@/constants/categories"
 import slugify from "slugify"
+
 const NavSm = () => {
   const router = useRouter()
   const dispatch = useDispatch()
