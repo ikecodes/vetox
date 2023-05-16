@@ -18,12 +18,12 @@ const articleSchema = new Schema(
     },
     public_id: {
       type: "String",
-      required: [true, "A product must have a public id"],
+      required: [true, "A article image must have a public id"],
     },
     description: {
       type: String,
       trim: true,
-      required: [true, "A tour must have a description"],
+      required: [true, "A article must have a description"],
     },
     isFeatured: {
       type: Boolean,

@@ -1,5 +1,6 @@
 import { BiMessageRoundedDetail } from "react-icons/bi"
 import { FaBlogger, FaStore } from "react-icons/fa"
+import { MdOutlinePictureInPictureAlt } from "react-icons/md"
 import { RiDashboardFill } from "react-icons/ri"
 
 const menus = [
@@ -62,6 +63,13 @@ export const adminMenu = [
     name: "messages",
     path: "/admin/messages",
     icon: <BiMessageRoundedDetail size={20} />,
+    sub: [],
+  },
+  {
+    id: 5,
+    name: "hero",
+    path: "/admin/hero",
+    icon: <MdOutlinePictureInPictureAlt size={20} />,
     sub: [],
   },
 ]

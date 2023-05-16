@@ -4,18 +4,15 @@ import { Form, Modal } from "react-bootstrap"
 import PrimaryBtn from "../PrimaryBtn"
 import Image from "next/image"
 import { toast } from "react-toastify"
-import { useCreateProduct } from "@/hooks/products.hook"
 import styled from "styled-components"
 import colors from "@/constants/colors"
 import { FiUploadCloud } from "react-icons/fi"
-import { useCreateArticle } from "@/hooks/articles.hook"
-import { useUpdateArticle } from "@/hooks/articles.hook"
+import { useCreateHero, useUpdateHero } from "@/hooks/hero.hook"
 
-const ArticleModal = (props) => {
-  const { mutate, isLoading } = useCreateArticle()
-  const { mutate: updateArticle, isLoading: loading } = useUpdateArticle()
+const HeroModal = (props) => {
+  const { mutate, isLoading } = useCreateHero()
+  const { mutate: updateHero, isLoading: loading } = useUpdateHero()
   const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
   const [description, setDescription] = useState("")
   const [image, setImage] = useState("")
   const [previewSource, setPreviewSource] = useState(null)
@@ -37,30 +34,27 @@ const ArticleModal = (props) => {
   useEffect(() => {
     if (props?.data) {
       setTitle(props?.data.title)
-      setAuthor(props?.data.author)
       setDescription(props?.data.description)
     } else {
       setTitle("")
-      setAuthor("")
       setDescription("")
     }
   }, [props?.data])
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (title === "" || author === "" || description === "")
+    if (title === "" || description === "")
       return toast.error("Please input all fields")
     if (!image && !props?.data) return toast.error("Please input all fields")
     if (props?.data) {
       const formdata = {
-        articleId: props?.data?._id,
-        author,
+        heroId: props?.data?._id,
         title,
         description,
       }
 
-      updateArticle(formdata, {
+      updateHero(formdata, {
         onSuccess: () => {
-          toast.success("Article updated successfully")
+          toast.success("Hero updated successfully")
           props.onHide()
         },
         onError: (e) => {
@@ -71,12 +65,11 @@ const ArticleModal = (props) => {
     }
     const formdata = new FormData()
     formdata.append("title", title)
-    formdata.append("author", author)
     formdata.append("description", description)
     formdata.append("image", image)
     mutate(formdata, {
       onSuccess: () => {
-        toast.success("Article uploaded successfully")
+        toast.success("Hero uploaded successfully")
         props.onHide()
       },
       onError: (e) => {
@@ -95,11 +88,9 @@ const ArticleModal = (props) => {
       <Modal.Body>
         <form className='text-secondary'>
           {props?.data ? (
-            <h4 className='text-capitalize mb-4 text-secondary'>
-              update article
-            </h4>
+            <h4 className='text-capitalize mb-4 text-secondary'>update hero</h4>
           ) : (
-            <h4 className='text-capitalize mb-4 text-secondary'>new article</h4>
+            <h4 className='text-capitalize mb-4 text-secondary'>new hero</h4>
           )}
 
           <Form.Group className='mb-3'>
@@ -108,38 +99,22 @@ const ArticleModal = (props) => {
               type='text'
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder='Name'
-              className='bg-light'
-            />
-          </Form.Group>
-          <Form.Group className='mb-3'>
-            <Form.Label>Author</Form.Label>
-            <Form.Control
-              type='text'
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-              placeholder='Author'
+              placeholder='Title'
               className='bg-light'
             />
           </Form.Group>
 
           <Form.Group className='mb-3'>
             <Form.Label>Description</Form.Label>
-            <Editor
-              apiKey='635vw7fla4lvr9tzuknnjxfngq61h86fjr4dntt7e3ai956i'
-              textareaName='content'
+            <Form.Control
+              //   type='textarea'
+              as={"textarea"}
               value={description}
-              init={{
-                height: 350,
-                toolbar:
-                  "undo redo | formatselect | " +
-                  "bold italic backcolor | alignleft aligncenter " +
-                  "alignright alignjustify | bullist numlist outdent indent | " +
-                  "removeformat | help",
-                content_style:
-                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-              }}
-              onEditorChange={(text) => setDescription(text)}
+              cols='60'
+              rows='5'
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder='Description'
+              className='bg-light'
             />
           </Form.Group>
 
@@ -158,7 +133,7 @@ const ArticleModal = (props) => {
           {previewSource && (
             <Image
               src={previewSource}
-              alt='article img'
+              alt='hero img'
               height={200}
               width={200}
             />
@@ -201,4 +176,4 @@ const Upload = styled.div`
     transform: translate(-50%, -50%);
   }
 `
-export default ArticleModal
+export default HeroModal

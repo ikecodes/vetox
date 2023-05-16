@@ -158,4 +158,14 @@ export const categories = [
       "Reclining Wheelchair",
     ],
   },
+  {
+    category: "Accessories",
+    imagePath: "/categories/accessories.jpeg",
+    subCategory: [],
+  },
+  {
+    category: "Medical Consumables",
+    imagePath: "/categories/medicalConsumables.jpeg",
+    subCategory: [],
+  },
 ]

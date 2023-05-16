@@ -1,4 +1,5 @@
 import { useDeleteArticle } from "@/hooks/articles.hook"
+import { useDeleteHero } from "@/hooks/hero.hook"
 import { useDeleteMessage } from "@/hooks/messages.hook"
 import { useDeleteProduct } from "@/hooks/products.hook"
 import React from "react"
@@ -11,6 +12,7 @@ const DeleteModal = (props) => {
   const { mutate: deleteProduct } = useDeleteProduct()
   const { mutate: deleteArticle } = useDeleteArticle()
   const { mutate: deleteMessage } = useDeleteMessage()
+  const { mutate: deleteHero } = useDeleteHero()
 
   // console.log("PROPS", props)
   return (
@@ -61,6 +63,21 @@ const DeleteModal = (props) => {
                   }
                   if (props.deletetype === "message") {
                     deleteMessage(props.deleteid, {
+                      onSuccess: () => {
+                        toast.success("Delete successful")
+                        props.onHide()
+                      },
+                      onError: (e) => {
+                        toast.error(
+                          e?.response?.data?.message ??
+                            "Something went wrong deleting message"
+                        )
+                        props.onHide()
+                      },
+                    })
+                  }
+                  if (props.deletetype === "hero") {
+                    deleteHero(props.deleteid, {
                       onSuccess: () => {
                         toast.success("Delete successful")
                         props.onHide()

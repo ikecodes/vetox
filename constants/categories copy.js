@@ -5,6 +5,11 @@ export const categories = [
     subCategory: [],
   },
   {
+    category: "Medical Consumables",
+    imagePath: "/categories/medicalConsumables.jpeg",
+    subCategory: [],
+  },
+  {
     category: "Hospital Equipment",
     imagePath: "/categories/hospitalEquipment.jpeg",
     subCategory: [],
@@ -21,11 +26,7 @@ export const categories = [
       "Virology Unit",
     ],
   },
-  {
-    category: "Medical Consumables",
-    imagePath: "/categories/medicalConsumables.jpeg",
-    subCategory: [],
-  },
+
   {
     category: "Medical Equipment",
     imagePath: "/categories/medicalEquipment.png",

@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/router"
 import { toast } from "react-toastify"
 import { setUser } from "@/slices/userSlice"
-import { Accordion } from "react-bootstrap"
 import { categories } from "@/constants/categories"
 import slugify from "slugify"
 
@@ -95,7 +94,7 @@ const NavSm = () => {
           {menus.map((menu) => (
             <>
               {menu.name === "products" ? (
-                <div className='ms-4' key={menu.id}>
+                <div className='ms-2' key={menu.id}>
                   <Heading>
                     <Link href={menu.path}>{menu.name}</Link>
                   </Heading>
@@ -130,6 +129,7 @@ const NavSm = () => {
                           {value.subCategory.length > 0 &&
                             value.subCategory.map((sub, i) => (
                               <li
+                                className='text-wrap'
                                 onClick={() => navigateWithSubCategory(sub)}
                                 key={i}
                               >
@@ -254,9 +254,6 @@ const NavContainer = styled.div`
   background: ${colors.secondary};
   position: absolute;
   color: ${colors.white};
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center; */
   margin: auto;
   text-transform: capitalize;
   transform: translateX(20%);
@@ -296,7 +293,7 @@ const SubList = styled.ul`
   /* padding-left: 40px; */
   & li {
     color: ${colors.black};
-    text-decoration: none;
+    word-break: break-all;
     margin: 0.5rem 0;
   }
   & a,

@@ -5,7 +5,7 @@ import styled from "styled-components"
 
 const NavContact = () => {
   return (
-    <Wrapper className=' mx-4 d-flex justify-content-end align-items-center flex-wrap'>
+    <Wrapper className='mx-4 d-flex'>
       <a href='tel:+2348170990461'>
         <span>
           <BsTelephoneFill size={12} />
@@ -35,13 +35,19 @@ const NavContact = () => {
 }
 
 const Wrapper = styled.div`
-  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-items: center;
   & a {
     color: ${colors.primary};
     font-size: 0.9rem;
   }
   @media (max-width: 768px) {
     margin-top: 2.5rem;
+  }
+  @media (max-width: 576px) {
+    justify-content: flex-start;
   }
 `
 

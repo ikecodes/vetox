@@ -78,10 +78,10 @@ const Container = styled.div`
   }
   &::-webkit-scrollbar-track {
     box-shadow: none;
-    background-color: #999bcb;
+    background-color: ${colors.overlay};
   }
   &::-webkit-scrollbar-thumb {
-    background-color: rgb(96, 99, 173);
+    background-color: ${colors.primary};
     outline: none;
   }
 `
