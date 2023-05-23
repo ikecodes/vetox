@@ -103,9 +103,14 @@ const ServiceOverlay = styled.div`
   position: relative;
   height: 100%;
   width: 100%;
-  background: linear-gradient(
+  /* background: linear-gradient(
     360deg,
     #30d5c8 16.81%,
+    rgba(217, 217, 217, 0) 51.29%
+  ); */
+  background: linear-gradient(
+    360deg,
+    rgba(255, 132, 167, 0.44) 16.81%,
     rgba(217, 217, 217, 0) 51.29%
   );
 `

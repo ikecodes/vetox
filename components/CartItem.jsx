@@ -70,7 +70,7 @@ const CartItem = ({ cartItems, setCartItems, cartId, product, quantity }) => {
           role='button'
           onClick={removeCartItem}
         >
-          <BsTrashFill size={20} color='#FF5454' />
+          <BsTrashFill size={20} color={colors.pink} />
           {/* <span className='m-0'>Remove</span> */}
         </div>
         <div className='text-secondary fw-bold d-flex align-items-center'>

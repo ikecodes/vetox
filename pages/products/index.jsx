@@ -40,7 +40,7 @@ const ProductCard = ({ id, title, category, image, price }) => (
                 {title}
               </Header.h6>
             </TextBox>
-            <Header.h6 color={colors.primary} normal>
+            <Header.h6 color={colors.primary}>
               {currencyFormatter(price)}
             </Header.h6>
           </div>

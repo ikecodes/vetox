@@ -1,4 +1,5 @@
 const colors = {
+  pink: "#FF84A7",
   primary: "#30D5C8",
   secondary: "#B9F1EC",
   tertiary: "#1A2766",

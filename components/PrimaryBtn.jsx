@@ -39,9 +39,9 @@ const B = styled.button`
   align-items: center;
   justify-content: center; */
   background-color: ${(props) =>
-    props.primary ? colors.primary : props.color ? props.color : colors.white};
+    props.primary ? colors.pink : props.color ? props.color : colors.white};
   text-transform: capitalize;
-  color: ${(props) => (props.primary ? colors.white : colors.primary)};
+  color: ${(props) => (props.primary ? colors.white : colors.pink)};
   padding: 5px 20px;
   border-radius: ${({ norounded, semirounded }) =>
     norounded ? "0" : semirounded ? "5px" : "20px"};

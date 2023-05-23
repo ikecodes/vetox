@@ -13,6 +13,7 @@
 .carousel-indicators [data-bs-target]{
   height: 15px !important;
   width: 15px !important;
+    background-color: #FF84A7 !important;
   border-radius: 50% !important;
 }
 .carousel-indicators .active{
@@ -30,6 +31,7 @@
 }
 .carousel-indicators{
   justify-content: end !important;
+
 }
 
 /* ////SPINNER  */

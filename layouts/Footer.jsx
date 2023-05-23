@@ -1,5 +1,5 @@
 import React from "react";
-import { FaLinkedinIn, FaTwitterSquare } from "react-icons/fa"
+import { FaLinkedinIn, FaTwitter } from "react-icons/fa"
 import { Form } from "react-bootstrap"
 import styled from "styled-components"
 import Link from "next/link"
@@ -52,12 +52,12 @@ const Footer = () => {
                 <Link href={"/"}>
                   <FaLinkedinIn
                     size={30}
-                    color={colors.white}
+                    color={colors.pink}
                     className='me-3'
                   />
                 </Link>
                 <Link href={"/"}>
-                  <FaTwitterSquare size={30} color={colors.white} />
+                  <FaTwitter size={30} color={colors.pink} fill={colors.pink} />
                 </Link>
               </div>
               <p className='pt-4'>
@@ -118,19 +118,24 @@ const Footer = () => {
               />
             </div>
             <ButtonWrapper className='mt-1'>
-              <PrimaryBtn title='subscribe' semirounded />
+              <PrimaryBtn title='subscribe' primary semirounded />
             </ButtonWrapper>
           </Subscribe>
         </div>
       </div>
-      <div className='text-center text-capitalize border-top mx-5'>
-        <p className='m-0 pt-5 pb-2 text-capitalize'>
+      <Divider className='mx-5' />
+      <div className='text-center text-capitalize '>
+        <p className='m-0 pt-5 fw-bold pb-2 text-capitalize'>
           Vetox Global Medical Services &copy;2023
         </p>
       </div>
     </Container>
   )
 }
+
+const Divider = styled.div`
+  border-top: 1px solid ${colors.white};
+`
 
 const Container = styled.footer`
   margin-top: 4rem;

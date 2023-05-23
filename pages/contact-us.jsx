@@ -70,7 +70,7 @@ const ContactUs = () => {
             <li className='mb-5 d-flex gap-3 align-items-center'>
               <MdLocationOn
                 size={25}
-                color={colors.primary}
+                color={colors.pink}
                 className='flex-shrink-0'
               />
               <span>
@@ -82,13 +82,13 @@ const ContactUs = () => {
               </span>
             </li>
             <li className='mb-5 d-flex gap-3 align-items-center'>
-              <RiSendPlaneFill size={25} color={colors.primary} />
+              <RiSendPlaneFill size={25} color={colors.pink} />
               <span>
                 Email: <Detail>info@vetoxmedical.com</Detail>
               </span>
             </li>
             <li className='mb-5 d-flex gap-3 align-items-center'>
-              <BsTelephoneFill size={25} color={colors.primary} />
+              <BsTelephoneFill size={25} color={colors.pink} />
               <span>
                 Phone: <Detail>+234 00000000</Detail>
               </span>
@@ -148,7 +148,7 @@ const ContactUs = () => {
 }
 
 const HeaderLine = styled.div`
-  background-color: ${colors.primary};
+  background-color: ${colors.pink};
   height: 0.2rem;
   width: 5rem;
   border-radius: 10px;

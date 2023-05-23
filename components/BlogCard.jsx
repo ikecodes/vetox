@@ -8,6 +8,7 @@ import SecondaryBtn from "./SecondaryBtn"
 import convertHtmlToPlainText from "@/utils/converHTMLToText"
 import moment from "moment"
 import { motion } from "framer-motion"
+import PrimaryBtn from "./PrimaryBtn"
 
 const BlogCard = ({ article }) => {
   return (
@@ -38,7 +39,7 @@ const BlogCard = ({ article }) => {
               {convertHtmlToPlainText(article?.description.slice(0, 120))}...
             </Text>
             <Link href={`/blog/${article?._id}`}>
-              <SecondaryBtn title={"Read more"} primary semirounded underline />
+              <PrimaryBtn title={"Read more"} primary semirounded underline />
             </Link>
           </div>
         </Card.Body>

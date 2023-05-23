@@ -37,7 +37,7 @@ const NavbarLg = () => {
             <Link href='/'>
               <div className='d-flex align-items-center'>
                 <Image
-                  src='/logo1.svg'
+                  src='/logo.svg'
                   alt='Vetox medical logo'
                   height='100'
                   width='100'

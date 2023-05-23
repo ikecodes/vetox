@@ -50,7 +50,7 @@ const MainContainer = styled.div`
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: ${colors.primary};
+    background-color: ${colors.pink};
     color: ${colors.white};
     display: flex;
     justify-content: center;
@@ -60,6 +60,7 @@ const MainContainer = styled.div`
   .pagination_active {
     width: 30px;
     height: 30px;
+    border-radius: 50%;
     background-color: ${colors.secondary};
     text-decoration: none;
     font-weight: 600;
