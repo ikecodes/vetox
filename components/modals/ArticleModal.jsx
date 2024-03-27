@@ -1,133 +1,133 @@
-import React, { useEffect, useState } from "react"
-import { Editor } from "@tinymce/tinymce-react"
-import { Form, Modal } from "react-bootstrap"
-import PrimaryBtn from "../PrimaryBtn"
-import Image from "next/image"
-import { toast } from "react-toastify"
-import { useCreateProduct } from "@/hooks/products.hook"
-import styled from "styled-components"
-import colors from "@/constants/colors"
-import { FiUploadCloud } from "react-icons/fi"
-import { useCreateArticle } from "@/hooks/articles.hook"
-import { useUpdateArticle } from "@/hooks/articles.hook"
+import React, { useEffect, useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { Form, Modal } from "react-bootstrap";
+import PrimaryBtn from "../PrimaryBtn";
+import Image from "next/image";
+import { toast } from "react-toastify";
+import { useCreateProduct } from "@/hooks/products.hook";
+import styled from "styled-components";
+import colors from "@/constants/colors";
+import { FiUploadCloud } from "react-icons/fi";
+import { useCreateArticle } from "@/hooks/articles.hook";
+import { useUpdateArticle } from "@/hooks/articles.hook";
 
 const ArticleModal = (props) => {
-  const { mutate, isLoading } = useCreateArticle()
-  const { mutate: updateArticle, isLoading: loading } = useUpdateArticle()
-  const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
-  const [description, setDescription] = useState("")
-  const [image, setImage] = useState("")
-  const [previewSource, setPreviewSource] = useState(null)
+  const { mutate, isLoading } = useCreateArticle();
+  const { mutate: updateArticle, isLoading: loading } = useUpdateArticle();
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [previewSource, setPreviewSource] = useState(null);
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0]
-    setImage(file)
-    previewFile(file)
-  }
+    const file = e.target.files[0];
+    setImage(file);
+    previewFile(file);
+  };
 
   const previewFile = (file) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setPreviewSource(reader.result)
-    }
-  }
+      setPreviewSource(reader.result);
+    };
+  };
 
   useEffect(() => {
     if (props?.data) {
-      setTitle(props?.data.title)
-      setAuthor(props?.data.author)
-      setDescription(props?.data.description)
+      setTitle(props?.data.title);
+      setAuthor(props?.data.author);
+      setDescription(props?.data.description);
     } else {
-      setTitle("")
-      setAuthor("")
-      setDescription("")
+      setTitle("");
+      setAuthor("");
+      setDescription("");
     }
-  }, [props?.data])
+  }, [props?.data]);
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (title === "" || author === "" || description === "")
-      return toast.error("Please input all fields")
-    if (!image && !props?.data) return toast.error("Please input all fields")
+      return toast.error("Please input all fields");
+    if (!image && !props?.data) return toast.error("Please input all fields");
     if (props?.data) {
       const formdata = {
         articleId: props?.data?._id,
         author,
         title,
         description,
-      }
+      };
 
       updateArticle(formdata, {
         onSuccess: () => {
-          toast.success("Article updated successfully")
-          props.onHide()
+          toast.success("Article updated successfully");
+          props.onHide();
         },
         onError: (e) => {
-          toast.error(e?.response?.data?.message ?? "Something went wrong")
+          toast.error(e?.response?.data?.message ?? "Something went wrong");
         },
-      })
-      return
+      });
+      return;
     }
-    const formdata = new FormData()
-    formdata.append("title", title)
-    formdata.append("author", author)
-    formdata.append("description", description)
-    formdata.append("image", image)
+    const formdata = new FormData();
+    formdata.append("title", title);
+    formdata.append("author", author);
+    formdata.append("description", description);
+    formdata.append("image", image);
     mutate(formdata, {
       onSuccess: () => {
-        toast.success("Article uploaded successfully")
-        props.onHide()
+        toast.success("Article uploaded successfully");
+        props.onHide();
       },
       onError: (e) => {
-        toast.error(e?.response?.data?.message ?? "Something went wrong")
+        toast.error(e?.response?.data?.message ?? "Something went wrong");
       },
-    })
-  }
+    });
+  };
   return (
     <Modal
       {...props}
-      size='lg'
-      aria-labelledby='contained-modal-title-vcenter'
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
       centered
     >
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body>
-        <form className='text-secondary'>
+        <form className="text-secondary">
           {props?.data ? (
-            <h4 className='text-capitalize mb-4 text-secondary'>
+            <h4 className="text-capitalize mb-4 text-secondary">
               update article
             </h4>
           ) : (
-            <h4 className='text-capitalize mb-4 text-secondary'>new article</h4>
+            <h4 className="text-capitalize mb-4 text-secondary">new article</h4>
           )}
 
-          <Form.Group className='mb-3'>
+          <Form.Group className="mb-3">
             <Form.Label>Title</Form.Label>
             <Form.Control
-              type='text'
+              type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder='Name'
-              className='bg-light'
+              placeholder="Name"
+              className="bg-light"
             />
           </Form.Group>
-          <Form.Group className='mb-3'>
+          <Form.Group className="mb-3">
             <Form.Label>Author</Form.Label>
             <Form.Control
-              type='text'
+              type="text"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
-              placeholder='Author'
-              className='bg-light'
+              placeholder="Author"
+              className="bg-light"
             />
           </Form.Group>
 
-          <Form.Group className='mb-3'>
+          <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
             <Editor
-              apiKey='635vw7fla4lvr9tzuknnjxfngq61h86fjr4dntt7e3ai956i'
-              textareaName='content'
+              apiKey="e50lo9r0erydcyinvgbalc6p5352jhepdnwspkj7j1n689it"
+              textareaName="content"
               value={description}
               init={{
                 height: 350,
@@ -144,13 +144,13 @@ const ArticleModal = (props) => {
           </Form.Group>
 
           {!props?.data && (
-            <Form.Group className='mb-3'>
+            <Form.Group className="mb-3">
               <Form.Label>Image</Form.Label>
-              <Upload className='bg-light border'>
+              <Upload className="bg-light border">
                 <div>
                   <FiUploadCloud size={30} color={colors.grey5} />
                 </div>
-                <input type='file' onChange={(e) => handleFileChange(e)} />
+                <input type="file" onChange={(e) => handleFileChange(e)} />
               </Upload>
             </Form.Group>
           )}
@@ -158,16 +158,16 @@ const ArticleModal = (props) => {
           {previewSource && (
             <Image
               src={previewSource}
-              alt='article img'
+              alt="article img"
               height={200}
               width={200}
             />
           )}
 
-          <div className='text-center mt-5 mb-2'>
+          <div className="text-center mt-5 mb-2">
             <PrimaryBtn
-              title='submit'
-              className='btn-trade'
+              title="submit"
+              className="btn-trade"
               primary
               loading={isLoading || loading}
               handleClick={handleSubmit}
@@ -176,8 +176,8 @@ const ArticleModal = (props) => {
         </form>
       </Modal.Body>
     </Modal>
-  )
-}
+  );
+};
 
 const Upload = styled.div`
   position: relative;
@@ -200,5 +200,5 @@ const Upload = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
   }
-`
-export default ArticleModal
+`;
+export default ArticleModal;
