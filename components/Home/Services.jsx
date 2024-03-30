@@ -5,7 +5,7 @@ import { MdOutlineArrowRightAlt } from "react-icons/md";
 import styled from "styled-components";
 import Header from "../Header";
 import PrimaryBtn from "../PrimaryBtn";
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 
 const services = [
   {
@@ -20,7 +20,7 @@ const services = [
     name: "Affordable Prices",
     image: "/services/affordablePrices.png",
   },
-]
+];
 const Service = ({ name, image }) => (
   <ServiceWrapper>
     <Image
@@ -34,24 +34,31 @@ const Service = ({ name, image }) => (
     <ServiceOverlay />
     <ServiceText>{name}</ServiceText>
   </ServiceWrapper>
-)
+);
 const Services = () => {
-  const router = useRouter()
+  const router = useRouter();
   return (
-    <div className='container p-5 mt-5'>
-      <div className='row'>
-        <div className='col-lg-6 mb-3'>
+    <div className="container p-5 mt-5">
+      <div className="row">
+        <div className="col-lg-6 mb-3">
           <Header.h1>Our Services</Header.h1>
-          <div className='mb-3' />
+          <div className="mb-3" />
 
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste
-            officia pariatur impedit itaque nulla placeat laborum, omnis in,
-            totam praesentium neque enim vero quasi debitis iure aspernatur
-            laudantium tempora sint? Lorem ipsum, dolor sit amet consectetur
-            adipisicing elit. Pariatur repellendus nam sequi totam asperiores
-            molestiae fuga in, unde assumenda, culpa accusantium, vel omnis eum
-            fugit deleniti iste nesciunt deserunt? Aspernatur.
+            At VGM, our passion for excellence drives us to redefine the
+            healthcare landscape by providing top-quality medical equipment to
+            healthcare facilities nationwide.
+          </p>
+          <p>
+            We understand that delivering exceptional patient care requires
+            cutting-edge technology and reliable support, which is why we strive
+            to be the trusted partner you can rely on.
+          </p>
+          <p>
+            By working closely with industry professionals, we have a
+            comprehensive range of medical devices that cater to the specific
+            needs of each facility, ensuring optimal patient care and
+            streamlined workflows.
           </p>
           <PrimaryBtn
             title={"Learn more"}
@@ -60,21 +67,21 @@ const Services = () => {
               <MdOutlineArrowRightAlt
                 color={colors.white}
                 size={20}
-                className='ms-1'
+                className="ms-1"
               />
             }
             handleClick={() => router.push("/about-us")}
           />
         </div>
-        <Box className='col-lg-6 d-flex gap-2 justify-content-center align-items-center flex-wrap'>
+        <Box className="col-lg-6 d-flex gap-2 justify-content-center align-items-center flex-wrap">
           {services.map((services, i) => (
             <Service key={i} name={services.name} image={services.image} />
           ))}
         </Box>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const ServiceWrapper = styled.div`
   position: relative;
@@ -93,12 +100,12 @@ const ServiceWrapper = styled.div`
       transform: translateY(0);
     }
   }
-`
+`;
 const Box = styled.div`
   @media (max-width: 567px) {
     padding: 0;
   }
-`
+`;
 const ServiceOverlay = styled.div`
   position: relative;
   height: 100%;
@@ -113,7 +120,7 @@ const ServiceOverlay = styled.div`
     rgba(255, 132, 167, 0.44) 16.81%,
     rgba(217, 217, 217, 0) 51.29%
   );
-`
+`;
 const ServiceText = styled.h5`
   position: absolute;
   color: ${colors.white};
