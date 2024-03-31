@@ -22,21 +22,23 @@ const ProductModal = (props) => {
   const [subCategory, setSubCategory] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  // const [photo, setPhoto] = useState(null)
-  const [previewSource, setPreviewSource] = useState(null);
+  const [previewSource, setPreviewSource] = useState([]);
   const [images, setImages] = useState(null);
 
   const handleFileChange = (e) => {
+    setPreviewSource([]);
     setImages(e.target.files);
-    const file = e.target.files[0];
-    previewFile(file);
+    const files = e.target.files;
+    for (let index = 0; index < files.length; index++) {
+      previewFile(files[index]);
+    }
   };
 
   const previewFile = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setPreviewSource(reader.result);
+      setPreviewSource((prev) => [...prev, reader.result]);
     };
   };
 
@@ -249,18 +251,29 @@ const ProductModal = (props) => {
                   onChange={(e) => handleFileChange(e)}
                 />
               </Upload>
-              <p className="text-success">You can select more than one image</p>
+              {previewSource.length > 0 ? (
+                <p className="text-success">
+                  You selected {previewSource.length} images for this product
+                </p>
+              ) : (
+                <p className="text-success">
+                  You can select more than one image
+                </p>
+              )}
             </Form.Group>
           )}
 
-          {previewSource && (
-            <Image
-              src={previewSource}
-              alt="product img"
-              height={200}
-              width={200}
-            />
-          )}
+          {previewSource &&
+            previewFile.length > 0 &&
+            previewSource.map((preview, i) => (
+              <Image
+                key={i}
+                src={preview}
+                alt="product img"
+                height={100}
+                width={100}
+              />
+            ))}
 
           <div className="text-center mt-5 mb-2">
             <PrimaryBtn
