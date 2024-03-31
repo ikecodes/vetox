@@ -1,50 +1,50 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import paginationFactory, {
   PaginationListStandalone,
   PaginationProvider,
-} from "react-bootstrap-table2-paginator"
+} from "react-bootstrap-table2-paginator";
 import ToolkitProvider, {
   Search,
-} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit"
-import BootstrapTable from "react-bootstrap-table-next"
-import { Row, Col } from "react-bootstrap"
-import { useDispatch } from "react-redux"
-import ProductModal from "@/components/modals/ProductModal"
-import DeleteModal from "@/components/modals/DeleteModal"
-import PrimaryBtn from "@/components/PrimaryBtn"
-import SecondaryBtn from "@/components/SecondaryBtn"
-import { useGetProducts, useUpdateProduct } from "@/hooks/products.hook"
-import convertHtmlToPlainText from "@/utils/converHTMLToText"
-import Image from "next/image"
-import { currencyFormatter } from "@/utils/helpers"
-import { toast } from "react-toastify"
-import { FiEdit, FiTrash } from "react-icons/fi"
+} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
+import BootstrapTable from "react-bootstrap-table-next";
+import { Row, Col } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import ProductModal from "@/components/modals/ProductModal";
+import DeleteModal from "@/components/modals/DeleteModal";
+import PrimaryBtn from "@/components/PrimaryBtn";
+import SecondaryBtn from "@/components/SecondaryBtn";
+import { useGetProducts, useUpdateProduct } from "@/hooks/products.hook";
+import convertHtmlToPlainText from "@/utils/converHTMLToText";
+import Image from "next/image";
+import { currencyFormatter } from "@/utils/helpers";
+import { toast } from "react-toastify";
+import { FiEdit, FiTrash } from "react-icons/fi";
 // import colors from "@/constants/colors"
 
 const Index = () => {
-  const { data: allProducts } = useGetProducts()
-  const { mutate } = useUpdateProduct()
-  const [deleteModalShow, setDeleteModalShow] = useState(false)
-  const [productModalShow, setProductModalShow] = useState(false)
-  const [deletetype, setDeleteType] = useState("")
-  const [deleteid, setDeleteId] = useState(null)
-  const [editdata, setEditData] = useState(null)
+  const { data: allProducts } = useGetProducts();
+  const { mutate } = useUpdateProduct();
+  const [deleteModalShow, setDeleteModalShow] = useState(false);
+  const [productModalShow, setProductModalShow] = useState(false);
+  const [deletetype, setDeleteType] = useState("");
+  const [deleteid, setDeleteId] = useState(null);
+  const [editdata, setEditData] = useState(null);
 
-  const data = allProducts?.data?.data ?? []
-  const dispatch = useDispatch()
-  const { SearchBar } = Search
-  const sizePerPage = 10
+  const data = allProducts?.data?.data ?? [];
+  const dispatch = useDispatch();
+  const { SearchBar } = Search;
+  const sizePerPage = 10;
   const pageOptions = {
     sizePerPage: sizePerPage,
     totalSize: data?.length, // replace later with size(users),
     custom: true,
-  }
+  };
   const defaultSorted = [
     {
       dataField: "_id", // if dataField is not match to any column you defined, it will be ignored.
       order: "desc", // desc or asc
     },
-  ]
+  ];
   const dataListColumns = [
     {
       text: "_id",
@@ -56,10 +56,10 @@ const Index = () => {
       dataField: "sl.no",
       text: "S/n.",
       formatter: (cell, row, rowIndex, formatExtraData) => {
-        return rowIndex + 1
+        return rowIndex + 1;
       },
       headerStyle: (colum, colIndex) => {
-        return { width: "50px" }
+        return { width: "50px" };
       },
     },
     {
@@ -89,7 +89,7 @@ const Index = () => {
           src={data.images[0].original}
           width={70}
           height={70}
-          alt='Image'
+          alt="Image"
         />
       ),
     },
@@ -104,29 +104,29 @@ const Index = () => {
             const formdata = {
               productId: data._id,
               inStock: !data.inStock,
-            }
+            };
             const successMsg = data.inStock
               ? "Product is now out of stock"
-              : "Product is now in stock"
+              : "Product is now in stock";
 
             mutate(formdata, {
               onSuccess: () => {
-                toast.success(successMsg)
+                toast.success(successMsg);
               },
               onError: (e) => {
                 toast.error(
                   e?.response?.data?.message ?? "Something went wrong"
-                )
+                );
               },
-            })
+            });
           }}
         >
           {data.inStock ? (
-            <span className='badge bg-info' role='button'>
+            <span className="badge bg-info" role="button">
               In stock
             </span>
           ) : (
-            <span className='badge bg-secondary' role='button'>
+            <span className="badge bg-secondary" role="button">
               Out of stock
             </span>
           )}
@@ -148,29 +148,29 @@ const Index = () => {
             const formdata = {
               productId: data._id,
               isFeatured: !data.isFeatured,
-            }
+            };
             const successMsg = data.isFeatured
               ? "Product is no longer featured"
-              : "Product is now featured on your website"
+              : "Product is now featured on your website";
 
             mutate(formdata, {
               onSuccess: () => {
-                toast.success(successMsg)
+                toast.success(successMsg);
               },
               onError: (e) => {
                 toast.error(
                   e?.response?.data?.message ?? "Something went wrong"
-                )
+                );
               },
-            })
+            });
           }}
         >
           {data.isFeatured ? (
-            <span className='badge bg-success' role='button'>
+            <span className="badge bg-success" role="button">
               featured
             </span>
           ) : (
-            <span className='badge bg-danger' role='button'>
+            <span className="badge bg-danger" role="button">
               not featured
             </span>
           )}
@@ -181,47 +181,47 @@ const Index = () => {
       dataField: "details",
       text: "Action",
       formatter: (cellContent, data) => (
-        <div className='d-flex gap-3 align-items-center '>
+        <div className="d-flex gap-3 align-items-center ">
           <span
-            role='button'
+            role="button"
             onClick={() => {
-              setEditData(data)
-              setProductModalShow(true)
+              setEditData(data);
+              setProductModalShow(true);
             }}
           >
-            <FiEdit size={20} className='text-success' />
+            <FiEdit size={20} className="text-success" />
           </span>
           <span
-            role='button'
+            role="button"
             onClick={() => {
-              setDeleteId(data._id)
-              setDeleteType("product")
-              setDeleteModalShow(true)
+              setDeleteId(data._id);
+              setDeleteType("product");
+              setDeleteModalShow(true);
             }}
           >
-            <FiTrash size={20} title='update' className='text-danger' />
+            <FiTrash size={20} title="update" className="text-danger" />
           </span>
         </div>
       ),
     },
-  ]
+  ];
 
-  const keyField = "id"
+  const keyField = "id";
   return (
-    <div className='w-100 mt-5'>
-      <div className='d-flex  justify-content-end'>
+    <div className="w-100 mt-5">
+      <div className="d-flex  justify-content-end">
         <PrimaryBtn
-          title='add product'
+          title="add product"
           primary
           handleClick={() => {
-            setEditData(null)
-            setProductModalShow(true)
+            setEditData(null);
+            setProductModalShow(true);
           }}
         />
       </div>
 
-      <h6 className='text-uppercase'>PRODUCTS</h6>
-      <div className='bg-white p-3'>
+      <h6 className="text-uppercase">PRODUCTS</h6>
+      <div className="bg-white p-3">
         <PaginationProvider
           pagination={paginationFactory(pageOptions)}
           keyField={keyField}
@@ -239,17 +239,20 @@ const Index = () => {
               >
                 {(toolkitProps) => (
                   <div style={{ fontSize: "0.8rem" }}>
-                    <div className='row mb-2'>
-                      <div className='col-lg-6'>
-                        <div className='search-box ms-2 mb-2 d-inline-block'>
-                          <div className='position-relative'>
+                    <div className="row mb-2">
+                      <div className="col-lg-6">
+                        <div className="search-box ms-2 mb-2 d-inline-block">
+                          <div className="position-relative">
                             <SearchBar {...toolkitProps.searchProps} />
-                            <i className='bx bx-search-alt search-icon' />
+                            <i className="bx bx-search-alt search-icon" />
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className='table-responsive'>
+                    <div
+                      className="table-responsive"
+                      style={{ maxHeight: "400px", overflowY: "auto" }}
+                    >
                       <BootstrapTable
                         keyField={keyField}
                         {...toolkitProps.baseProps}
@@ -276,20 +279,20 @@ const Index = () => {
                         onHide={() => setProductModalShow(false)}
                       />
                     </div>
-                    <Row className='align-items-md-center mt-30'>
-                      <Col className='pagination pagination-rounded justify-content-end mb-2'>
+                    <Row className="align-items-md-center mt-30">
+                      <Col className="pagination pagination-rounded justify-content-end mb-2">
                         <PaginationListStandalone {...paginationProps} />
                       </Col>
                     </Row>
                   </div>
                 )}
               </ToolkitProvider>
-            )
+            );
           }}
         </PaginationProvider>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Index
+export default Index;
